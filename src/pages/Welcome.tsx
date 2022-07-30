@@ -79,6 +79,7 @@ const InfoCard: React.FC<{
 };
 
 const Welcome: React.FC = () => {
+  console.log('welcome');
   return (
     <PageContainer>
       <Card
