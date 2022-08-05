@@ -5,13 +5,17 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV } = process.env;
+const { REACT_APP_ENV, API_URL } = process.env;
 
 export default defineConfig({
   hash: true,
   antd: {},
   dva: {
     hmr: true,
+  },
+  define: {
+    REACT_APP_ENV: REACT_APP_ENV || 'dev',
+    API_URL: API_URL || 'http://localhost:3000',
   },
   layout: {
     locale: true,
