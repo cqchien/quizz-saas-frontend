@@ -51,7 +51,7 @@ const HeaderSearch: React.FC<HeaderSearchProps> = (props) => {
       className={classNames(className, styles.headerSearch)}
       onClick={() => {
         setSearchMode(true);
-        if (inputRef.current) {
+        if (searchMode && inputRef.current) {
           inputRef.current.focus();
         }
       }}

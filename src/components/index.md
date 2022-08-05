@@ -18,6 +18,7 @@ sidemenu: false
  * background: '#f0f2f5'
  */
 import Footer from '@/components/Footer';
+import React from 'react';
 
 export default () => <Footer />;
 ```
@@ -32,6 +33,7 @@ HeaderDropdown 是 antd Dropdown 的封装，但是增加了移动端的特殊�
  */
 import HeaderDropdown from '@/components/HeaderDropdown';
 import { Button, Menu } from 'antd';
+import React from 'react';
 
 export default () => {
   const menuHeaderDropdown = (
@@ -59,6 +61,7 @@ export default () => {
  * background: '#f0f2f5'
  */
 import HeaderSearch from '@/components/HeaderSearch';
+import React from 'react';
 
 export default () => {
   return (
@@ -110,6 +113,7 @@ export default () => {
  */
 import NoticeIcon from '@/components/NoticeIcon/NoticeIcon';
 import { message } from 'antd';
+import React from 'react';
 
 export default () => {
   const list = [
@@ -206,7 +210,7 @@ export default () => {
 ### NoticeIconData
 
 ```tsx | pure
-export type NoticeIconData {
+export interface NoticeIconData {
   id: string;
   key: string;
   avatar: string;
