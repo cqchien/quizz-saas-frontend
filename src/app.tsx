@@ -14,16 +14,16 @@ export const initialStateConfig = {
 
 export async function getInitialState(): Promise<{
   settings?: Partial<LayoutSettings>;
-  currentUser?: API.CurrentUser;
+  currentUser?: API.User;
   loading?: boolean;
-  fetchUserInfo?: () => Promise<API.CurrentUser | undefined>;
+  fetchUserInfo?: () => Promise<API.User | undefined>;
 }> {
   const fetchUserInfo = async () => {
     try {
       const response = await getCurrentUser();
 
       if (response.success) {
-        return response.data as API.CurrentUser;
+        return response.data as API.User;
       }
 
       notification.error({

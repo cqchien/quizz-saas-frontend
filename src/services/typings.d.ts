@@ -2,22 +2,33 @@
 /* eslint-disable */
 
 declare namespace API {
-  type CurrentUser = {
-    id?: string;
+  type ApiResponse<T> = {
+    data: T;
+    statusCode?: string;
+    message?: string;
+    success?: boolean;
+  };
+
+  type LoginResponse = {
+    token: Token;
+    user: User;
+  };
+
+  type Token = {
+    expiresIn: number;
+    accessToken: string;
+  };
+
+  type User = {
+    id: string;
     name: string;
     role: string;
     email: string;
-    password: string;
-    phone?: string;
+    password?: string;
     avatar?: string;
+    phone?: string;
     updatedAt?: Date;
     createdAt?: Date;
-  };
-
-  type LoginResult = {
-    status?: string;
-    type?: string;
-    currentAuthority?: string;
   };
 
   type PageParams = {
@@ -25,66 +36,52 @@ declare namespace API {
     pageSize?: number;
   };
 
-  type RuleListItem = {
-    key?: number;
-    disabled?: boolean;
-    href?: string;
-    avatar?: string;
-    name?: string;
-    owner?: string;
-    desc?: string;
-    callNo?: number;
-    status?: number;
-    updatedAt?: string;
-    createdAt?: string;
-    progress?: number;
-  };
+  // type RuleListItem = {
+  //   key?: number;
+  //   disabled?: boolean;
+  //   href?: string;
+  //   avatar?: string;
+  //   name?: string;
+  //   owner?: string;
+  //   desc?: string;
+  //   callNo?: number;
+  //   status?: number;
+  //   updatedAt?: string;
+  //   createdAt?: string;
+  //   progress?: number;
+  // };
 
-  type RuleList = {
-    data?: RuleListItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
-
-  type FakeCaptcha = {
-    code?: number;
-    status?: string;
-  };
+  // type RuleList = {
+  //   data?: RuleListItem[];
+  //   /** 列表的内容总数 */
+  //   total?: number;
+  //   success?: boolean;
+  // };
 
   type LoginParams = {
-    username?: string;
+    email?: string;
     password?: string;
-    autoLogin?: boolean;
-    type?: string;
   };
 
-  type ApiResponse = {
-    data: CurrentUser;
-    statusCode?: string;
-    message?: string;
-    success?: boolean;
-  };
+  // type NoticeIconList = {
+  //   data?: NoticeIconItem[];
+  //   /** 列表的内容总数 */
+  //   total?: number;
+  //   success?: boolean;
+  // };
 
-  type NoticeIconList = {
-    data?: NoticeIconItem[];
-    /** 列表的内容总数 */
-    total?: number;
-    success?: boolean;
-  };
+  // type NoticeIconItemType = 'notification' | 'message' | 'event';
 
-  type NoticeIconItemType = 'notification' | 'message' | 'event';
-
-  type NoticeIconItem = {
-    id?: string;
-    extra?: string;
-    key?: string;
-    read?: boolean;
-    avatar?: string;
-    title?: string;
-    status?: string;
-    datetime?: string;
-    description?: string;
-    type?: NoticeIconItemType;
-  };
+  // type NoticeIconItem = {
+  //   id?: string;
+  //   extra?: string;
+  //   key?: string;
+  //   read?: boolean;
+  //   avatar?: string;
+  //   title?: string;
+  //   status?: string;
+  //   datetime?: string;
+  //   description?: string;
+  //   type?: NoticeIconItemType;
+  // };
 }

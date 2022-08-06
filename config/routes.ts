@@ -3,6 +3,7 @@
     name: 'login',
     path: '/login',
     layout: false,
+    hideInMenu: true,
     component: './Login',
   },
   {
@@ -12,6 +13,14 @@
     access: 'canAdmin',
     component: './Admin',
   },
+
+  {
+    path: '/welcome',
+    name: 'welcome',
+    icon: 'crown',
+    component: './Admin',
+  },
+
   {
     name: 'list.table-list',
     icon: 'table',
@@ -20,7 +29,7 @@
   },
   {
     path: '/',
-    redirect: '/login',
+    redirect: '/welcome',
   },
   {
     component: './404',

@@ -16,9 +16,6 @@ export const errorHandler = (error: ResponseError) => {
   }
 
   if (data) {
-    if (data.data) {
-      return { ...data.data, success: true };
-    }
     return { ...data, success: false };
   }
 
