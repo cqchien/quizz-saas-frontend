@@ -1,19 +1,23 @@
 export default {
-  'menu.welcome': 'Welcome',
+  // Auth
   'menu.more-blocks': 'More Blocks',
   'menu.home': 'Home',
-  'menu.admin': 'Admin',
-  'menu.admin.sub-page': 'Sub-Page',
   'menu.login': 'Login',
   'menu.register': 'Register',
   'menu.register-result': 'Register Result',
+
+  // Dashboard
   'menu.dashboard': 'Dashboard',
-  'menu.dashboard.analysis': 'Analysis',
-  'menu.dashboard.monitor': 'Monitor',
-  'menu.dashboard.workplace': 'Workplace',
+
+  // Admin - Question Management
+  'menu.questions': 'Questions',
+  'menu.questions.questions-list': 'Questions List',
+
+  // exception
   'menu.exception.403': '403',
   'menu.exception.404': '404',
   'menu.exception.500': '500',
+
   'menu.form': 'Form',
   'menu.form.basic-form': 'Basic Form',
   'menu.form.step-form': 'Step Form',

@@ -4,32 +4,34 @@
     path: '/login',
     layout: false,
     hideInMenu: true,
-    component: './Login',
+    component: './auth/login',
   },
   {
     path: '/admin',
-    name: 'admin',
-    icon: 'crown',
-    access: 'canAdmin',
-    component: './Admin',
+    name: 'dashboard',
+    access: 'admin',
+    icon: 'dashboard',
+    component: './admin/dashboard',
   },
-
   {
-    path: '/welcome',
-    name: 'welcome',
-    icon: 'crown',
-    component: './Admin',
-  },
-
-  {
-    name: 'list.table-list',
-    icon: 'table',
-    path: '/list',
-    component: './TableList',
+    path: '/questions',
+    name: 'questions',
+    access: 'admin',
+    icon: 'container',
+    routes: [
+      {
+        path: '/questions/list',
+        name: 'questions-list',
+        component: './admin/questions/questions-list',
+      },
+      {
+        redirect: '/questions/list',
+      },
+    ],
   },
   {
     path: '/',
-    redirect: '/welcome',
+    redirect: '/login',
   },
   {
     component: './404',

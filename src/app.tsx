@@ -3,7 +3,7 @@ import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
 import { notification } from 'antd';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
-import defaultSettings from '../config/defaultSettings';
+import GlobalHeaderRight from './components/RightContent';
 import { getCurrentUser } from './services/user';
 
 const loginPath = '/login';
@@ -41,12 +41,10 @@ export async function getInitialState(): Promise<{
     return {
       fetchUserInfo,
       currentUser,
-      settings: defaultSettings,
     };
   }
   return {
     fetchUserInfo,
-    settings: defaultSettings,
   };
 }
 
@@ -57,6 +55,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     waterMarkProps: {
       content: initialState?.currentUser?.name,
     },
+    rightContentRender: () => <GlobalHeaderRight />,
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login

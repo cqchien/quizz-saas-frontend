@@ -1,9 +1,9 @@
-/**
- * @see https://umijs.org/zh-CN/plugins/plugin-access
- * */
-export default function access(initialState: { currentUser?: API.CurrentUser } | undefined) {
+import { ROLES } from './utils/constant';
+
+export default function access(initialState: { currentUser?: API.User } | undefined) {
   const { currentUser } = initialState ?? {};
   return {
-    canAdmin: currentUser && currentUser.access === 'admin',
+    admin: currentUser && currentUser.role === ROLES.ADMIN,
+    user: currentUser && currentUser.role === ROLES.USER,
   };
 }
