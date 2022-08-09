@@ -31,6 +31,27 @@ declare namespace API {
     createdAt?: Date;
   };
 
+  type Question = {
+    id: string;
+    question: string;
+    type: string;
+    heuristicLevel: string;
+    status: string;
+    level: number;
+    topic: string;
+    options: {
+      order: number;
+      option: string;
+      value: any;
+    }[];
+    tags: string[];
+    attachment?: string[];
+    language: string;
+    isPrivate: boolean;
+    updatedAt?: Date;
+    createdAt?: Date;
+  };
+
   type PageParams = {
     current?: number;
     pageSize?: number;

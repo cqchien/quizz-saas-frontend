@@ -15,6 +15,18 @@ export default {
   'pages.login.loginWith': 'Login with :',
   'pages.login.registerAccount': 'Register Account',
 
+  // Questions table
+  'pages.questionsTable.title': 'Questions List',
+  'pages.questionsTable.column.question.questionLabel': 'Question',
+  'pages.questionsTable.column.type.typeLabel': 'Type',
+  'pages.questionsTable.column.heuristicLevel.heuristicLevelLabel': 'Heuristic Level',
+  'pages.questionsTable.column.level.levelLabel': 'Level',
+  'pages.questionsTable.column.topic.topicLabel': 'Topic',
+  'pages.questionsTable.column.tag.tagLabel': 'Tags',
+  'pages.questionsTable.column.status.statusLabel': 'Status',
+  'pages.questionsTable.column.action.actionLabel': 'Action',
+  'pages.questionsTable.column.action.createLabel': 'Add Question',
+
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':
     'Umi ui is now released, welcome to use npm run ui to start the experience.',

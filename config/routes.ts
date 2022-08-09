@@ -18,11 +18,17 @@
     name: 'questions',
     access: 'admin',
     icon: 'container',
+    hideChildrenInMenu: true,
     routes: [
       {
         path: '/questions/list',
         name: 'questions-list',
         component: './admin/questions/questions-list',
+      },
+      {
+        path: '/questions/create',
+        name: 'questions-create',
+        component: './admin/questions/questions-create',
       },
       {
         redirect: '/questions/list',

@@ -1,22 +1,151 @@
-import { PageHeaderWrapper } from '@ant-design/pro-components';
-import { useIntl } from 'umi';
+import { ColumnsState, PageContainer, ProColumns } from '@ant-design/pro-components';
+import { ProTable } from '@ant-design/pro-components';
+import { Button, Space, Tag } from 'antd';
+import { useState } from 'react';
+import { FormattedMessage, useIntl } from 'umi';
+
+const tableListDataSource: API.Question[] = [
+  {
+    id: '1',
+    question: 'Quốc gia nào có dân số lớn thứ hai trên thế giới?',
+    type: 'FIB',
+    heuristicLevel: 'KNOWLEDGE',
+    status: 'PENDING',
+    level: 6,
+    topic: 'Quốc Gia',
+    options: [
+      {
+        order: 1,
+        option: 'Việt Nam',
+        value: false,
+      },
+    ],
+    tags: ['Địa Lý', 'Quốc Gia', 'Dân Số'],
+    language: 'vi-VI',
+    isPrivate: false,
+    updatedAt: new Date(),
+    createdAt: new Date(),
+  },
+];
+
+const columns: ProColumns<API.Question>[] = [
+  {
+    dataIndex: 'index',
+    valueType: 'indexBorder',
+    width: 48,
+  },
+  {
+    title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,
+    dataIndex: 'type',
+    initialValue: 'all',
+    filters: true,
+    onFilter: true,
+    valueType: 'select',
+  },
+  {
+    title: <FormattedMessage id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel" />,
+    dataIndex: 'heuristicLevel',
+    initialValue: 'all',
+    filters: true,
+    onFilter: true,
+    valueType: 'select',
+  },
+  {
+    title: <FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />,
+    key: 'topic',
+    dataIndex: 'topic',
+  },
+  {
+    title: <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" />,
+    dataIndex: 'tags',
+    search: false,
+    renderFormItem: (_, { defaultRender }) => {
+      return defaultRender(_);
+    },
+    render: (_, record) => (
+      <Space>
+        {(record.tags || []).map((tag) => (
+          <Tag color="cyan" key={tag}>
+            {tag}
+          </Tag>
+        ))}
+      </Space>
+    ),
+  },
+  {
+    title: <FormattedMessage id="pages.questionsTable.column.question.questionLabel" />,
+    dataIndex: 'question',
+    key: 'question',
+  },
+  {
+    title: <FormattedMessage id="pages.questionsTable.column.status.statusLabel" />,
+    dataIndex: 'status',
+    initialValue: 'all',
+    filters: true,
+    onFilter: true,
+    valueType: 'select',
+    valueEnum: {
+      all: { text: '全部', status: 'Default' },
+      close: { text: '关闭', status: 'Default' },
+      PENDING: { text: 'Pending', status: 'Processing' },
+      online: { text: '已上线', status: 'Success' },
+      error: { text: '异常', status: 'Error' },
+    },
+  },
+  {
+    title: <FormattedMessage id="pages.questionsTable.column.action.actionLabel" />,
+    key: 'action',
+    valueType: 'option',
+    render: (text, record) => [<Button icon="edit" key={record.id} type="link" />],
+  },
+];
 
 const QuestionsList: React.FC = () => {
+  const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
+    name: {
+      show: false,
+      order: 2,
+    },
+  });
+
   const intl = useIntl();
+
   return (
-    <PageHeaderWrapper
-      content={intl.formatMessage({
-        id: 'pages.admin.subPage.title',
-      })}
-    >
-      <p style={{ textAlign: 'center', marginTop: 24 }}>
-        Want to add more pages? Please refer to{' '}
-        <a href="https://pro.ant.design/docs/block-cn" target="_blank" rel="noopener noreferrer">
-          use block
-        </a>
-        。
-      </p>
-    </PageHeaderWrapper>
+    <PageContainer>
+      <ProTable<API.Question, { keyWord?: string }>
+        dataSource={tableListDataSource}
+        headerTitle={intl.formatMessage({
+          id: 'pages.questionsTable.title',
+        })}
+        columns={columns}
+        options={{
+          search: false,
+          setting: false,
+          fullScreen: false,
+          reload: false,
+          density: false,
+        }}
+        toolbar={{
+          search: {
+            onSearch: (value) => {
+              alert(value);
+            },
+          },
+          actions: [
+            <Button key="primary" type="primary" href="/questions/create">
+              <FormattedMessage id="pages.questionsTable.column.action.createLabel" />
+            </Button>,
+          ],
+        }}
+        rowKey="key"
+        columnsState={{
+          value: columnsStateMap,
+          onChange: setColumnsStateMap,
+        }}
+        search={false}
+        dateFormatter="string"
+      />
+    </PageContainer>
   );
 };
 
