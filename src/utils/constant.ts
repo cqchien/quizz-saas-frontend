@@ -3,4 +3,15 @@ const ROLES: Record<string, string> = {
   USER: 'USER',
 };
 
-export { ROLES };
+const EditorOptionConfiguration = {
+  toolbar: ["bold", "italic"],
+};
+
+const QuestionTypeAlias = {
+  MultipleChoiceQuestion: "MCQ",
+  FillInBlanks: "FIB",
+  MatchTheFollowing: "MTF",
+  OrderingSequence: "ORD",
+};
+
+export { ROLES, EditorOptionConfiguration, QuestionTypeAlias };
