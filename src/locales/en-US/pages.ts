@@ -27,6 +27,13 @@ export default {
   'pages.questionsTable.column.action.actionLabel': 'Action',
   'pages.questionsTable.column.action.createLabel': 'Add Question',
 
+  // Options table
+  'pages.optionsTable.title': 'Options List',
+  'pages.optionsTable.column.option.optionLabel': 'Option',
+  'pages.optionsTable.column.value.valueLabel': 'Value',
+  'pages.optionsTable.column.order.orderLabel': 'Order',
+  'pages.optionsTable.column.action.actionLabel': 'Action',
+
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':
     'Umi ui is now released, welcome to use npm run ui to start the experience.',

@@ -14,4 +14,26 @@ const QuestionTypeAlias = {
   OrderingSequence: "ORD",
 };
 
-export { ROLES, EditorOptionConfiguration, QuestionTypeAlias };
+const HeuristicLevel = [
+    'Knowledge',
+    'Comprehension',
+    'Application',
+    'Analysis',
+    'Synthesis',
+    'Evaluation',
+  ];
+
+  const Topic = [
+    'Maths',
+    'Music',
+    'Geography',
+    'History',
+    'Science',
+    'Literature',
+    'Biology',
+    'IT',
+    'Physics',
+    'Chemistry',
+  ];
+
+export { ROLES, EditorOptionConfiguration, QuestionTypeAlias ,Topic, HeuristicLevel};
