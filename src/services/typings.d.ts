@@ -39,11 +39,7 @@ declare namespace API {
     status: string;
     level: number;
     topic: string;
-    options: {
-      order: number;
-      option: string;
-      value: any;
-    }[];
+    options: Option[];
     tags: string[];
     attachment?: string[];
     language: string;
@@ -56,6 +52,12 @@ declare namespace API {
     current?: number;
     pageSize?: number;
   };
+
+  type Option={
+      order: number;
+      option: string;
+      value: any;
+    }
 
   // type RuleListItem = {
   //   key?: number;

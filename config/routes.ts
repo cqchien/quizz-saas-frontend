@@ -31,6 +31,11 @@
         component: './admin/questions/questions-create',
       },
       {
+        path: '/questions/edit/:id',
+        name: 'questions-edit',
+        component: './admin/questions/questions-edit',
+      },
+      {
         redirect: '/questions/list',
       },
     ],

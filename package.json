@@ -53,6 +53,7 @@
     "@ckeditor/ckeditor5-build-classic": "^35.0.1",
     "@ckeditor/ckeditor5-build-decoupled-document": "^35.0.1",
     "@ckeditor/ckeditor5-react": "^5.0.2",
+    "@tinymce/tinymce-react": "^4.2.0",
     "@types/ckeditor": "^4.9.10",
     "@types/ckeditor__ckeditor5-core": "^33.0.3",
     "@umijs/route-utils": "^2.0.0",
@@ -68,6 +69,8 @@
     "react-dev-inspector": "^1.7.0",
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.2.0",
+    "react-router-config": "^5.1.1",
+    "react-router-dom": "^5.2.0",
     "umi": "^3.5.0"
   },
   "devDependencies": {

@@ -21,21 +21,23 @@ const tableListDataSource: API.Question[] = [
       },
     ],
     tags: ['Địa Lý', 'Quốc Gia', 'Dân Số'],
-    language: 'vi-VI',
+    language: 'vi-VN',
     isPrivate: false,
     updatedAt: new Date(),
     createdAt: new Date(),
   },
 ];
 
-const columns: ProColumns<API.Question>[] = [
+const questionTableColumns: ProColumns<API.Question>[] = [
   {
     dataIndex: 'index',
     valueType: 'indexBorder',
     width: 48,
   },
   {
-    title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,
+    title: (
+      <FormattedMessage id="pages.questionsTable.column.type.typeLabel" defaultMessage="Type" />
+    ),
     dataIndex: 'type',
     initialValue: 'all',
     filters: true,
@@ -43,7 +45,12 @@ const columns: ProColumns<API.Question>[] = [
     valueType: 'select',
   },
   {
-    title: <FormattedMessage id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel" />,
+    title: (
+      <FormattedMessage
+        id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel"
+        defaultMessage="Heuristic Level"
+      />
+    ),
     dataIndex: 'heuristicLevel',
     initialValue: 'all',
     filters: true,
@@ -51,12 +58,14 @@ const columns: ProColumns<API.Question>[] = [
     valueType: 'select',
   },
   {
-    title: <FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />,
+    title: (
+      <FormattedMessage id="pages.questionsTable.column.topic.topicLabel" defaultMessage="Topic" />
+    ),
     key: 'topic',
     dataIndex: 'topic',
   },
   {
-    title: <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" />,
+    title: <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" defaultMessage="Tags" />,
     dataIndex: 'tags',
     search: false,
     renderFormItem: (_, { defaultRender }) => {
@@ -73,12 +82,22 @@ const columns: ProColumns<API.Question>[] = [
     ),
   },
   {
-    title: <FormattedMessage id="pages.questionsTable.column.question.questionLabel" />,
+    title: (
+      <FormattedMessage
+        id="pages.questionsTable.column.question.questionLabel"
+        defaultMessage="Question"
+      />
+    ),
     dataIndex: 'question',
     key: 'question',
   },
   {
-    title: <FormattedMessage id="pages.questionsTable.column.status.statusLabel" />,
+    title: (
+      <FormattedMessage
+        id="pages.questionsTable.column.status.statusLabel"
+        defaultMessage="Status"
+      />
+    ),
     dataIndex: 'status',
     initialValue: 'all',
     filters: true,
@@ -93,10 +112,17 @@ const columns: ProColumns<API.Question>[] = [
     },
   },
   {
-    title: <FormattedMessage id="pages.questionsTable.column.action.actionLabel" />,
+    title: (
+      <FormattedMessage
+        id="pages.questionsTable.column.action.actionLabel"
+        defaultMessage="Action"
+      />
+    ),
     key: 'action',
     valueType: 'option',
-    render: (text, record) => [<Button icon="edit" key={record.id} type="link" />],
+    render: (text, record) => [
+      <Button icon="edit" key={record.id} type="link" href={`/questions/edit/${record.id}`} />,
+    ],
   },
 ];
 
@@ -116,8 +142,9 @@ const QuestionsList: React.FC = () => {
         dataSource={tableListDataSource}
         headerTitle={intl.formatMessage({
           id: 'pages.questionsTable.title',
+          defaultMessage: 'Questions List',
         })}
-        columns={columns}
+        columns={questionTableColumns}
         options={{
           search: false,
           setting: false,
@@ -133,7 +160,10 @@ const QuestionsList: React.FC = () => {
           },
           actions: [
             <Button key="primary" type="primary" href="/questions/create">
-              <FormattedMessage id="pages.questionsTable.column.action.createLabel" />
+              <FormattedMessage
+                id="pages.questionsTable.column.action.createLabel"
+                defaultMessage="Create"
+              />
             </Button>,
           ],
         }}
