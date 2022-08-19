@@ -54,6 +54,7 @@ const MultipleChoiceQuestionForm: React.FC<Props> = ({ currentOptions, setCurren
       filters: true,
       onFilter: true,
       valueType: 'select',
+      render: (text, record) => [<p dangerouslySetInnerHTML={{ __html: record.option }} />],
     },
     {
       title: (

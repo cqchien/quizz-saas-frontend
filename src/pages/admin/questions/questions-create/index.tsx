@@ -120,7 +120,7 @@ const QuestionCreationPage: React.FC = () => {
       ),
       dataIndex: 'question',
       key: 'question',
-      render: (text, record) => [<p>{record.question}</p>],
+      render: (text, record) => [<p dangerouslySetInnerHTML={{ __html: record.question }} />],
     },
     {
       title: (
