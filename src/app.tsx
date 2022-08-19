@@ -52,9 +52,6 @@ export async function getInitialState(): Promise<{
 export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) => {
   return {
     disableContentMargin: false,
-    waterMarkProps: {
-      content: initialState?.currentUser?.name,
-    },
     rightContentRender: () => <GlobalHeaderRight />,
     onPageChange: () => {
       const { location } = history;

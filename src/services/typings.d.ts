@@ -31,10 +31,33 @@ declare namespace API {
     createdAt?: Date;
   };
 
+  type Question = {
+    id: string;
+    question: string;
+    type: string;
+    heuristicLevel: string;
+    status: string;
+    level: number;
+    topic: string;
+    options: Option[];
+    tags: string[];
+    attachment?: string[];
+    language: string;
+    isPrivate: boolean;
+    updatedAt?: Date;
+    createdAt?: Date;
+  };
+
   type PageParams = {
     current?: number;
     pageSize?: number;
   };
+
+  type Option={
+      order: number;
+      option: string;
+      value: any;
+    }
 
   // type RuleListItem = {
   //   key?: number;

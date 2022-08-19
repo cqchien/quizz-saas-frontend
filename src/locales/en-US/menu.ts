@@ -12,6 +12,7 @@ export default {
   // Admin - Question Management
   'menu.questions': 'Questions',
   'menu.questions.questions-list': 'Questions List',
+  'menu.questions.questions-create': 'Create A Question',
 
   // exception
   'menu.exception.403': '403',
