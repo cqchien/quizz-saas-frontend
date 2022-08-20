@@ -1,6 +1,5 @@
-import { ProCard } from '@ant-design/pro-components';
 import { Editor } from '@tinymce/tinymce-react';
-import { Button, Checkbox, Col, Row, Space } from 'antd';
+import { Button, Checkbox, notification, Space } from 'antd';
 import React, { useEffect } from 'react';
 
 interface Props {
@@ -24,25 +23,32 @@ const MultipleChoiceOptionForm: React.FC<Props> = ({
   }, [currentOptions]);
 
   const handleSaveOptionClick = () => {
-    if (
-      currentOptions.some((obj) => {
-        if (obj.order === currentOption.order) {
-          return true;
-        }
-
-        return false;
-      })
-    ) {
-      const newState = currentOptions.map((obj) => {
-        if (obj.order === currentOption.order) {
-          return { ...currentOption };
-        }
-        return obj;
+    if (currentOption.option.length === 0) {
+      notification.error({
+        message: `Option content is empty`,
+        placement: 'bottomRight',
       });
-
-      setCurrentOptions(newState);
     } else {
-      setCurrentOptions((currentOptions) => [...currentOptions, currentOption]);
+      if (
+        currentOptions.some((obj) => {
+          if (obj.order === currentOption.order) {
+            return true;
+          }
+
+          return false;
+        })
+      ) {
+        const newState = currentOptions.map((obj) => {
+          if (obj.order === currentOption.order) {
+            return { ...currentOption };
+          }
+          return obj;
+        });
+
+        setCurrentOptions(newState);
+      } else {
+        setCurrentOptions((currentOptions) => [...currentOptions, currentOption]);
+      }
     }
   };
 
