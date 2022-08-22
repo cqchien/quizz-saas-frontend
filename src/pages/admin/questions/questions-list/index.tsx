@@ -1,33 +1,13 @@
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-components';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { ProTable } from '@ant-design/pro-components';
 import { Button, Space, Tag } from 'antd';
 import { useState } from 'react';
 import { FormattedMessage, useIntl } from 'umi';
-
-const tableListDataSource: API.Question[] = [
-  {
-    id: '1',
-    question: 'Quốc gia nào có dân số lớn thứ hai trên thế giới?',
-    type: 'FIB',
-    heuristicLevel: 'KNOWLEDGE',
-    status: 'PENDING',
-    level: 6,
-    topic: 'Quốc Gia',
-    options: [
-      {
-        order: 1,
-        option: 'Việt Nam',
-        value: false,
-      },
-    ],
-    tags: ['Địa Lý', 'Quốc Gia', 'Dân Số'],
-    language: 'vi-VN',
-    isPrivate: false,
-    updatedAt: new Date(),
-    createdAt: new Date(),
-  },
-];
+import mapStateToProps from '../mapStateToProps';
+import { connect } from 'dva';
 
 const questionTableColumns: ProColumns<API.Question>[] = [
   {
@@ -127,7 +107,13 @@ const questionTableColumns: ProColumns<API.Question>[] = [
   },
 ];
 
-const QuestionsList: React.FC = () => {
+interface IQuestionListProps {
+  dispatch: any;
+  questionList: API.Question[];
+  loading: boolean;
+}
+
+const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading }) => {
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
     name: {
       show: false,
@@ -137,10 +123,16 @@ const QuestionsList: React.FC = () => {
 
   const intl = useIntl();
 
+  useEffect(() => {
+    dispatch({
+      type: 'questions/fetch',
+    });
+  }, [dispatch]);
+
   return (
     <PageContainer>
       <ProTable<API.Question, { keyWord?: string }>
-        dataSource={tableListDataSource}
+        dataSource={questionList}
         headerTitle={intl.formatMessage({
           id: 'pages.questionsTable.title',
           defaultMessage: 'Questions List',
@@ -173,6 +165,7 @@ const QuestionsList: React.FC = () => {
           value: columnsStateMap,
           onChange: setColumnsStateMap,
         }}
+        loading={loading}
         search={false}
         dateFormatter="string"
       />
@@ -180,4 +173,4 @@ const QuestionsList: React.FC = () => {
   );
 };
 
-export default QuestionsList;
+export default connect(mapStateToProps)(QuestionsList);
