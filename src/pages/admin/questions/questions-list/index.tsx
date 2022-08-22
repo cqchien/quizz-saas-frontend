@@ -1,4 +1,5 @@
-import { ColumnsState, PageContainer, ProColumns } from '@ant-design/pro-components';
+import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
+import { PageContainer } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { Button, Space, Tag } from 'antd';
 import { useState } from 'react';

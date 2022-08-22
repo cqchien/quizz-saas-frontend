@@ -17,8 +17,11 @@ const Login: React.FC = () => {
 
   useEffect(() => {
     const fetchUserInfo = async () => {
+      setLoading(true);
+
       const userInfo = await initialState?.fetchUserInfo?.();
-      
+      setLoading(false);
+
       if (userInfo) {
         await setInitialState((state) => ({
           ...state,
@@ -26,11 +29,8 @@ const Login: React.FC = () => {
         }));
       }
     };
-
-    setLoading(true);
     fetchUserInfo();
-    setLoading(false);
-    
+
     if (initialState?.currentUser) {
       if (!history) return;
       const { query } = history.location;

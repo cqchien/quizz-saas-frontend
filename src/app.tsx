@@ -1,6 +1,5 @@
 import type { Settings as LayoutSettings } from '@ant-design/pro-components';
 import { PageLoading, SettingDrawer } from '@ant-design/pro-components';
-import { notification } from 'antd';
 import type { RunTimeLayoutConfig } from 'umi';
 import { history } from 'umi';
 import GlobalHeaderRight from './components/RightContent';
@@ -25,11 +24,6 @@ export async function getInitialState(): Promise<{
       if (response.success) {
         return response.data as API.User;
       }
-
-      notification.error({
-        description: response.message,
-        message: undefined,
-      });
     } catch (error) {
       history.push(loginPath);
     }
