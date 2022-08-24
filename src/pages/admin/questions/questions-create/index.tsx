@@ -3,48 +3,26 @@ import {
   PageContainer,
   ProCard,
   ProColumns,
-  ProForm,
   ProFormRadio,
-  ProFormSelect,
-  ProFormText,
   ProTable,
 } from '@ant-design/pro-components';
-import { Button, Card, Col, Modal, Popconfirm, Row, Space, Tabs, Tag } from 'antd';
+import { Button, Card, Modal, notification, Popconfirm, Space, Tabs, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
 import MultipleChoiceQuestionForm from './components/MultipleChoiceQuestion';
-import { HeuristicLevel, QuestionTypeAlias, Topic } from '@/utils/constant';
-import FillInBlankQuestionForm from './components/FillInBlankQuestion';
-import MatchTheFollowingForm from './components/MatchTheFollowingQuestion';
-import OrderingSequenceForm from './components/OrderingSequenceQuestion';
+import { InitialQuestion, QuestionTypeAlias } from '@/utils/constant';
 import { FormattedMessage, useIntl } from 'umi';
 import { PlusCircleOutlined, SaveOutlined } from '@ant-design/icons';
+import AdditionInformationForm from './components/AdditionInformationForm';
 
 const { TabPane } = Tabs;
-const initialQuestion = {
-  id: '0',
-  question: '',
-  type: 'MCQ',
-  heuristicLevel: '',
-  status: 'PENDING',
-  level: 0,
-  topic: '',
-  options: [],
-  tags: [],
-  language: 'vi-VN',
-  isPrivate: true,
-  updatedAt: new Date(),
-  createdAt: new Date(),
-};
 
 const QuestionCreationPage: React.FC = () => {
   const intl = useIntl();
-  const heuristiclevelOptions: any[] = [];
-  const topicOptions: any[] = [];
   const [isEditQuestion, setIsEditQuestion] = useState(false);
   const [newQuestionFormDisplay, setNewQuestionFormDisplay] = useState(false);
   const [selectedType, setSelectedType] = useState(QuestionTypeAlias.MultipleChoiceQuestion);
-  const [currentQuestion, setCurrentQuestion] = useState<API.Question>(initialQuestion);
+  const [currentQuestion, setCurrentQuestion] = useState<API.Question>(InitialQuestion);
   const [currentQuestions, setCurrentQuestions] = useState<API.Question[]>([]);
   const [currentOptions, setCurrentOptions] = useState<API.Option[]>([]);
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
@@ -167,30 +145,32 @@ const QuestionCreationPage: React.FC = () => {
       type="primary"
       icon={<PlusCircleOutlined />}
       onClick={() => {
-        if (
-          currentQuestions.some((obj) => {
-            if (obj.id === currentQuestion.id) {
-              return true;
-            }
+        if (IsValidData()) {
+          if (
+            currentQuestions.some((obj) => {
+              if (obj.id === currentQuestion.id) {
+                return true;
+              }
 
-            return false;
-          })
-        ) {
-          const newState = currentQuestions.map((obj) => {
-            if (obj.id === currentQuestion.id) {
-              return { ...currentQuestion };
-            }
-            return obj;
-          });
+              return false;
+            })
+          ) {
+            const newState = currentQuestions.map((obj) => {
+              if (obj.id === currentQuestion.id) {
+                return { ...currentQuestion };
+              }
+              return obj;
+            });
 
-          setCurrentQuestions(newState);
-        } else {
-          setCurrentQuestions((tableListDataSource) => [...tableListDataSource, currentQuestion]);
-        }
+            setCurrentQuestions(newState);
+          } else {
+            setCurrentQuestions((tableListDataSource) => [...tableListDataSource, currentQuestion]);
+          }
 
-        setNewQuestionFormDisplay(false);
-        if (isEditQuestion) {
-          setIsEditQuestion(false);
+          setNewQuestionFormDisplay(false);
+          if (isEditQuestion) {
+            setIsEditQuestion(false);
+          }
         }
       }}
     >
@@ -198,18 +178,12 @@ const QuestionCreationPage: React.FC = () => {
     </Button>
   );
 
-  HeuristicLevel.forEach((value) => {
-    heuristiclevelOptions.push({ label: value, value: value });
-  });
-  Topic.forEach((value) => {
-    topicOptions.push({ label: value, value: value });
-  });
-
   useEffect(() => {
     setCurrentQuestion({ ...currentQuestion, options: currentOptions });
   }, [currentOptions]);
+
   useEffect(() => {
-    setCurrentQuestion({ ...initialQuestion, id: currentQuestions.length.toString() });
+    setCurrentQuestion({ ...InitialQuestion, id: currentQuestions.length.toString() });
     setCurrentOptions([]);
   }, [currentQuestions]);
 
@@ -227,15 +201,35 @@ const QuestionCreationPage: React.FC = () => {
       });
     setCurrentQuestions(newState);
   };
-  const handleValueChange = (changeValue: any) => {
-    if (changeValue.tags) {
-      changeValue.tags = changeValue.tags.split(',');
-    }
-    setCurrentQuestion({ ...currentQuestion, ...changeValue });
-  };
 
   const handleSubmitListQuestion = () => {
+    // Call API to save questions
     console.log(currentQuestions);
+  };
+
+  const IsValidData = () => {
+    if (currentQuestion.question.length === 0) {
+      notification.error({
+        message: `Question content is empty`,
+        placement: 'bottomRight',
+      });
+      return false;
+    }
+    if (currentQuestion.options.length === 0) {
+      notification.error({
+        message: `No options have been created yet`,
+        placement: 'bottomRight',
+      });
+      return false;
+    }
+    if (currentQuestion.options.filter((option) => option.value === true).length === 0) {
+      notification.error({
+        message: `Must have at least one correct answer`,
+        placement: 'bottomRight',
+      });
+      return false;
+    }
+    return true;
   };
 
   return (
@@ -353,46 +347,10 @@ const QuestionCreationPage: React.FC = () => {
                   )}
                 </TabPane>
                 <TabPane tab="Addition information" key="2">
-                  <ProForm
-                    onValuesChange={(changeValues) => handleValueChange(changeValues)}
-                    submitter={false}
-                  >
-                    <Row>
-                      <Col span={8}>
-                        <ProFormSelect
-                          options={heuristiclevelOptions}
-                          width={300}
-                          name="heuristicLevel"
-                          label="Heuristic level"
-                          fieldProps={{
-                            value: currentQuestion.heuristicLevel,
-                          }}
-                        />
-                      </Col>
-                      <Col span={8}>
-                        <ProFormSelect
-                          width={300}
-                          name="topic"
-                          label="Topic"
-                          options={topicOptions}
-                          fieldProps={{
-                            value: currentQuestion.topic,
-                          }}
-                        />
-                      </Col>
-                      <Col span={8}>
-                        <ProFormText
-                          width={300}
-                          name="tags"
-                          label="Tags"
-                          tooltip="Each tag is separated by ','"
-                          fieldProps={{
-                            value: currentQuestion.tags ? currentQuestion.tags.join(',') : '',
-                          }}
-                        />
-                      </Col>
-                    </Row>
-                  </ProForm>
+                  <AdditionInformationForm
+                    currentQuestion={currentQuestion}
+                    setCurrentQuestion={setCurrentQuestion}
+                  />
                 </TabPane>
               </Tabs>
             </>

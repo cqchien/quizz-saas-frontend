@@ -1,7 +1,7 @@
-import { DownOutlined, UpOutlined } from '@ant-design/icons';
+import { DownOutlined } from '@ant-design/icons';
 import { ColumnsState, ProCard, ProColumns, ProTable } from '@ant-design/pro-components';
 import { Button, Card, Checkbox, ConfigProvider, Empty, Popconfirm, Space } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { FormattedMessage } from 'umi';
 import MultipleChoiceOptionForm from './MultipleChoiceOption';
 
