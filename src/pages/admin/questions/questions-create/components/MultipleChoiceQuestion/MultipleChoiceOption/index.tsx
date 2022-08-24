@@ -20,7 +20,7 @@ const MultipleChoiceOptionForm: React.FC<Props> = ({
       option: '',
       order: currentOptions.length,
     });
-  }, [currentOptions]);
+  }, [currentOptions, setCurrentOption]);
 
   const handleSaveOptionClick = () => {
     if (currentOption.option.length === 0) {
@@ -47,7 +47,7 @@ const MultipleChoiceOptionForm: React.FC<Props> = ({
 
         setCurrentOptions(newState);
       } else {
-        setCurrentOptions((currentOptions) => [...currentOptions, currentOption]);
+        setCurrentOptions((opts) => [...opts, currentOption]);
       }
     }
   };
@@ -57,7 +57,7 @@ const MultipleChoiceOptionForm: React.FC<Props> = ({
       Please enter option content here (*)
       <Editor
         value={currentOption?.option}
-        onEditorChange={(newValue, editor) =>
+        onEditorChange={(newValue) =>
           setCurrentOption({ ...currentOption, option: newValue })
         }
         init={{
