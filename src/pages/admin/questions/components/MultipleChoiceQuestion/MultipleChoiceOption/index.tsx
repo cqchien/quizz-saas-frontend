@@ -21,7 +21,7 @@ const MultipleChoiceOptionForm: React.FC<Props> = ({
       option: '',
       order: currentOptions.length,
     });
-  }, [currentOptions]);
+  }, [currentOptions, setCurrentOption]);
 
   const handleSaveOptionClick = () => {
     if (currentOption.option.length === 0) {

@@ -9,11 +9,11 @@ import {
 import { Button, Card, Modal, notification, Popconfirm, Space, Tabs, Tag } from 'antd';
 import { useEffect, useState } from 'react';
 import { Editor } from '@tinymce/tinymce-react';
-import MultipleChoiceQuestionForm from './components/MultipleChoiceQuestion';
+import MultipleChoiceQuestionForm from '../components/MultipleChoiceQuestion';
 import { InitialQuestion, QuestionTypeAlias } from '@/utils/constant';
 import { FormattedMessage, useIntl } from 'umi';
 import { PlusCircleOutlined, SaveOutlined } from '@ant-design/icons';
-import AdditionInformationForm from './components/AdditionInformationForm';
+import AdditionInformationForm from '../components/AdditionInformationForm';
 
 const { TabPane } = Tabs;
 

@@ -1,13 +1,23 @@
 import { DefaultQuestionObject } from '@/utils/constant';
 import { PlusOutlined } from '@ant-design/icons';
 import { ColumnsState, PageContainer, ProColumns } from '@ant-design/pro-components';
+import type { FC } from 'react';
+import { useEffect } from 'react';
 import { ProTable } from '@ant-design/pro-components';
 import { Button, notification, Popconfirm, Space, Tag } from 'antd';
 import { useState } from 'react';
-import { FormattedMessage, useIntl } from 'umi';
+import { FormattedMessage, Link, useIntl } from 'umi';
 import ImportQuestionModal from './ImportQuestion';
+import mapStateToProps from '../mapStateToProps';
+import { connect } from 'dva';
+import { EditTwoTone } from '@ant-design/icons';
+interface IQuestionListProps {
+  dispatch: any;
+  questionList: API.Question[];
+  loading: boolean;
+}
 
-const QuestionsList: React.FC = () => {
+const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading }) => {
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
     name: {
       show: false,
@@ -135,16 +145,25 @@ const QuestionsList: React.FC = () => {
             Delete
           </Button>
         </Popconfirm>,
+        <Link to={`/questions/edit/${record.id}`} key={record.id}>
+          <Button type="link" icon={<EditTwoTone />} />
+        </Link>,
       ],
     },
   ];
 
   const intl = useIntl();
 
+  useEffect(() => {
+    dispatch({
+      type: 'questions/fetch',
+    });
+  }, [dispatch]);
+
   return (
     <PageContainer>
       <ProTable<API.Question, { keyWord?: string }>
-        dataSource={tableListDataSource}
+        dataSource={questionList}
         headerTitle={intl.formatMessage({
           id: 'pages.questionsTable.title',
         })}
@@ -181,6 +200,7 @@ const QuestionsList: React.FC = () => {
           value: columnsStateMap,
           onChange: setColumnsStateMap,
         }}
+        loading={loading}
         search={false}
         dateFormatter="string"
       />
@@ -188,4 +208,4 @@ const QuestionsList: React.FC = () => {
   );
 };
 
-export default QuestionsList;
+export default connect(mapStateToProps)(QuestionsList);
