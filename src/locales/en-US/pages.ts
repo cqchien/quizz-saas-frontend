@@ -26,6 +26,18 @@ export default {
   'pages.questionsTable.column.status.statusLabel': 'Status',
   'pages.questionsTable.column.action.actionLabel': 'Action',
   'pages.questionsTable.column.action.createLabel': 'Add Question',
+  'pages.questionsTable.column.action.importLabel': 'Import Question',
+  'pages.questionsTable.column.action.confirmDeleteQuestionMessage':
+    'Are you sure to delete this question?',
+  'pages.information.deleteQuestionFail': 'Delete question was failed',
+  'pages.information.deleteQuestionSuccess': 'Question was deleted successfully',
+
+  // Import question
+  'pages.importQuestion.information.importQuestionSuccess': 'Questions was imported successfully',
+  'pages.importQuestion.dragger.draggerText': 'Click or drag file to this area to upload',
+  'pages.importQuestion.dragger.draggerHint':
+    'Support for a single or bulk upload. Strictly prohibit from uploading company data',
+  'pages.importQuestion.dragger.downloadTemplate.downloadTemplateText': 'Template Import Question',
 
   // Options table
   'pages.optionsTable.title': 'Options List',
@@ -33,6 +45,28 @@ export default {
   'pages.optionsTable.column.value.valueLabel': 'Value',
   'pages.optionsTable.column.order.orderLabel': 'Order',
   'pages.optionsTable.column.action.actionLabel': 'Action',
+  'pages.optionsTable.column.action.confirmDeleteOptionMessage':
+    'Are you sure to delete this option?',
+  'pages.optionsTable.emptyContent': 'Have no options',
+
+  // Input option
+  'pages.optionInput.notification.error.emptyContent': 'Option content is empty',
+
+  // Create question
+  'pages.createQuestionForm.popup.warning.title': 'Data transformation is taking place',
+  'pages.createQuestionForm.popup.warning.content':
+    'We need to save the question data before pressing the edit button',
+  'pages.createQuestion.notification.error.atLeastOneCorrectAnswer':
+    'Must have at least one correct answer',
+  'pages.createQuestion.notification.error.noOptionsHaveBeenCreated':
+    'No options have been created yet',
+  'pages.createQuestion.notification.error.questionContentEmpty': 'Question content is empty',
+  'pages.createQuestion.tab.tabName.questionInformation': 'Question information',
+  'pages.createQuestion.tab.tabName.additionInformation': 'Addition information',
+  'pages.createQuestion.tooltip.addTags': "Each tag is separated by ','",
+  'pages.createQuestion.tooltip.enterQuestionContent': 'Please enter question content here (*)',
+  'pages.createQuestion.tooltip.enterOptionContent': 'Please enter option content here (*)',
+  'pages.createQuestion.tooltip.typeOfQuestion': 'Please choose type of question',
 
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':

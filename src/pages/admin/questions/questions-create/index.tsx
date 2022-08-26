@@ -31,6 +31,47 @@ const QuestionCreationPage: React.FC = () => {
       order: 2,
     },
   });
+
+  const handleRemoveQuestion = (questionId: string) => {
+    const newState = currentQuestions
+      .filter((question) => question.id !== questionId)
+      .map((obj, index) => {
+        return { ...obj, order: index };
+      });
+    setCurrentQuestions(newState);
+  };
+
+  const IsValidData = () => {
+    if (currentQuestion.question.length === 0) {
+      notification.error({
+        message: (
+          <FormattedMessage id="pages.createQuestion.notification.error.questionContentEmpty" />
+        ),
+        placement: 'bottomRight',
+      });
+      return false;
+    }
+    if (currentQuestion.options.length === 0) {
+      notification.error({
+        message: (
+          <FormattedMessage id="pages.createQuestion.notification.error.noOptionsHaveBeenCreated" />
+        ),
+        placement: 'bottomRight',
+      });
+      return false;
+    }
+    if (currentQuestion.options.filter((option) => option.value === true).length === 0) {
+      notification.error({
+        message: (
+          <FormattedMessage id="pages.createQuestion.notification.error.atLeastOneCorrectAnswer" />
+        ),
+        placement: 'bottomRight',
+      });
+      return false;
+    }
+    return true;
+  };
+
   const questionTableColumns: ProColumns<API.Question>[] = [
     {
       dataIndex: 'index',
@@ -38,9 +79,7 @@ const QuestionCreationPage: React.FC = () => {
       width: 48,
     },
     {
-      title: (
-        <FormattedMessage id="pages.questionsTable.column.type.typeLabel" defaultMessage="Type" />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,
       dataIndex: 'type',
       initialValue: 'all',
       filters: true,
@@ -49,10 +88,7 @@ const QuestionCreationPage: React.FC = () => {
     },
     {
       title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel"
-          defaultMessage="Heuristic Level"
-        />
+        <FormattedMessage id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel" />
       ),
       dataIndex: 'heuristicLevel',
       initialValue: 'all',
@@ -61,19 +97,12 @@ const QuestionCreationPage: React.FC = () => {
       valueType: 'select',
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.topic.topicLabel"
-          defaultMessage="Topic"
-        />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />,
       key: 'topic',
       dataIndex: 'topic',
     },
     {
-      title: (
-        <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" defaultMessage="Tags" />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" />,
       dataIndex: 'tags',
       search: false,
       renderFormItem: (_, { defaultRender }) => {
@@ -90,27 +119,20 @@ const QuestionCreationPage: React.FC = () => {
       ),
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.question.questionLabel"
-          defaultMessage="Question"
-        />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.question.questionLabel" />,
       dataIndex: 'question',
       key: 'question',
-      render: (text, record) => [<p dangerouslySetInnerHTML={{ __html: record.question }} />],
+      render: (text, record) => [
+        <p key={record.id} dangerouslySetInnerHTML={{ __html: record.question }} />,
+      ],
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.action.actionLabel"
-          defaultMessage="Action"
-        />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.action.actionLabel" />,
       key: 'action',
       valueType: 'option',
       render: (text, record) => [
         <Button
+          key={record.id}
           icon="Edit"
           type="link"
           onClick={() => {
@@ -119,8 +141,8 @@ const QuestionCreationPage: React.FC = () => {
 
             if (isEditQuestion) {
               Modal.warning({
-                title: 'Data transformation is taking place',
-                content: 'We need to save the question data before pressing the edit button',
+                title: <FormattedMessage id="pages.createQuestionForm.popup.warning.title" />,
+                content: <FormattedMessage id="pages.createQuestionForm.popup.warning.content" />,
               });
             } else {
               setIsEditQuestion(true);
@@ -128,7 +150,10 @@ const QuestionCreationPage: React.FC = () => {
           }}
         />,
         <Popconfirm
-          title="Are you sure to delete this question?"
+          key={record.id}
+          title={
+            <FormattedMessage id="pages.questionsTable.column.action.confirmDeleteQuestionMessage" />
+          }
           onConfirm={() => {
             handleRemoveQuestion(record.id);
           }}
@@ -146,15 +171,11 @@ const QuestionCreationPage: React.FC = () => {
       icon={<PlusCircleOutlined />}
       onClick={() => {
         if (IsValidData()) {
-          if (
-            currentQuestions.some((obj) => {
-              if (obj.id === currentQuestion.id) {
-                return true;
-              }
+          const checkExistingQuestion = currentQuestions.some((obj) => {
+            return obj.id === currentQuestion.id ? true : false;
+          });
 
-              return false;
-            })
-          ) {
+          if (checkExistingQuestion) {
             const newState = currentQuestions.map((obj) => {
               if (obj.id === currentQuestion.id) {
                 return { ...currentQuestion };
@@ -168,7 +189,7 @@ const QuestionCreationPage: React.FC = () => {
           }
 
           setNewQuestionFormDisplay(false);
-          if (isEditQuestion) {
+          if (checkExistingQuestion) {
             setIsEditQuestion(false);
           }
         }
@@ -193,43 +214,9 @@ const QuestionCreationPage: React.FC = () => {
     }
   }, [isEditQuestion]);
 
-  const handleRemoveQuestion = (questionId: string) => {
-    const newState = currentQuestions
-      .filter((question) => question.id !== questionId)
-      .map((obj, index) => {
-        return { ...obj, order: index };
-      });
-    setCurrentQuestions(newState);
-  };
-
   const handleSubmitListQuestion = () => {
     // Call API to save questions
     console.log(currentQuestions);
-  };
-
-  const IsValidData = () => {
-    if (currentQuestion.question.length === 0) {
-      notification.error({
-        message: `Question content is empty`,
-        placement: 'bottomRight',
-      });
-      return false;
-    }
-    if (currentQuestion.options.length === 0) {
-      notification.error({
-        message: `No options have been created yet`,
-        placement: 'bottomRight',
-      });
-      return false;
-    }
-    if (currentQuestion.options.filter((option) => option.value === true).length === 0) {
-      notification.error({
-        message: `Must have at least one correct answer`,
-        placement: 'bottomRight',
-      });
-      return false;
-    }
-    return true;
   };
 
   return (
@@ -239,7 +226,6 @@ const QuestionCreationPage: React.FC = () => {
           dataSource={currentQuestions}
           headerTitle={intl.formatMessage({
             id: 'pages.questionsTable.title',
-            defaultMessage: 'Questions List',
           })}
           columns={questionTableColumns}
           options={{
@@ -286,8 +272,13 @@ const QuestionCreationPage: React.FC = () => {
           ) : (
             <>
               <Tabs tabBarExtraContent={operations}>
-                <TabPane tab="Question information" key="1">
-                  Please choose type of question
+                <TabPane
+                  tab={
+                    <FormattedMessage id="pages.createQuestion.tab.tabName.questionInformation" />
+                  }
+                  key="1"
+                >
+                  <FormattedMessage id="pages.createQuestion.tooltip.typeOfQuestion" />
                   <ProFormRadio.Group
                     style={{
                       margin: 16,
@@ -316,10 +307,10 @@ const QuestionCreationPage: React.FC = () => {
                       },
                     ]}
                   />
-                  Please enter question content here (*)
+                  <FormattedMessage id="pages.createQuestion.tooltip.enterQuestionContent" />
                   <Editor
                     value={currentQuestion.question}
-                    onEditorChange={(newValue, editor) =>
+                    onEditorChange={(newValue) =>
                       setCurrentQuestion({ ...currentQuestion, question: newValue })
                     }
                     init={{
@@ -346,7 +337,12 @@ const QuestionCreationPage: React.FC = () => {
                     />
                   )}
                 </TabPane>
-                <TabPane tab="Addition information" key="2">
+                <TabPane
+                  tab={
+                    <FormattedMessage id="pages.createQuestion.tab.tabName.additionInformation" />
+                  }
+                  key="2"
+                >
                   <AdditionInformationForm
                     currentQuestion={currentQuestion}
                     setCurrentQuestion={setCurrentQuestion}

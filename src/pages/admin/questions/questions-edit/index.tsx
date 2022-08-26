@@ -1,11 +1,11 @@
 import EditorCustom from '@/components/Editor';
-import { DefaultQuestionObject, InitQuestionEditor, QuestionTypeAlias } from '@/utils/constant';
+import { DefaultQuestionObject, QuestionTypeAlias } from '@/utils/constant';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
-import { Editor } from '@tinymce/tinymce-react';
 import { Button, Card, notification, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { connect } from 'umi';
+import { FormattedMessage } from 'umi';
+import { connect } from 'dva';
 import AdditionInformationForm from '../components/AdditionInformationForm';
 import MultipleChoiceQuestionForm from '../components/MultipleChoiceQuestion';
 
@@ -51,8 +51,6 @@ const QuestionUpdationPage: React.FC<IQuestionUpdationPage> = ({
     ]);
   }, []);
 
-
-
   const IsValidData = () => {
     if (currentQuestion.question.length === 0) {
       notification.error({
@@ -83,7 +81,6 @@ const QuestionUpdationPage: React.FC<IQuestionUpdationPage> = ({
     </Button>
   );
 
-
   useEffect(() => {
     setCurrentQuestion({ ...currentQuestion, options: currentOptions });
   }, [currentOptions]);
@@ -95,14 +92,16 @@ const QuestionUpdationPage: React.FC<IQuestionUpdationPage> = ({
           <>
             <Tabs tabBarExtraContent={operations}>
               <TabPane tab="Question information" key="1">
-                Please enter question content here (*)
-                <EditorCustom 
+                <FormattedMessage id="pages.createQuestion.tooltip.enterQuestionContent" />
+                <EditorCustom
                   question={question.question}
-                  handleEditorChange={(newValue: any) => setCurrentQuestion({ ...currentQuestion, question: newValue })}
+                  handleEditorChange={(newValue: any) =>
+                    setCurrentQuestion({ ...currentQuestion, question: newValue })
+                  }
                 />
                 {/* <Editor
                   value={currentQuestion.question}
-                  onEditorChange={(newValue, editor) =>
+                  onEditorChange={(newValue) =>
                     setCurrentQuestion({ ...currentQuestion, question: newValue })
                   }
                   init={InitQuestionEditor}
@@ -137,4 +136,3 @@ export default connect(({ loading, questions }: any, { match }: any) => {
     question: dictionary[id] || {},
   };
 })(QuestionUpdationPage);
-

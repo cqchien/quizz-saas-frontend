@@ -2,6 +2,7 @@ import { HeuristicLevel, Topic } from '@/utils/constant';
 import { ProForm, ProFormSelect, ProFormText } from '@ant-design/pro-components';
 import { Col, Row } from 'antd';
 import React from 'react';
+import { FormattedMessage } from 'umi';
 
 interface Props {
   currentQuestion: API.Question;
@@ -34,7 +35,9 @@ const AdditionInformationForm: React.FC<Props> = ({ currentQuestion, setCurrentQ
             options={heuristiclevelOptions}
             width={300}
             name="heuristicLevel"
-            label="Heuristic level"
+            label={
+              <FormattedMessage id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel" />
+            }
             fieldProps={{
               value: currentQuestion.heuristicLevel,
             }}
@@ -44,7 +47,7 @@ const AdditionInformationForm: React.FC<Props> = ({ currentQuestion, setCurrentQ
           <ProFormSelect
             width={300}
             name="topic"
-            label="Topic"
+            label={<FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />}
             options={topicOptions}
             fieldProps={{
               value: currentQuestion.topic,
@@ -55,8 +58,8 @@ const AdditionInformationForm: React.FC<Props> = ({ currentQuestion, setCurrentQ
           <ProFormText
             width={300}
             name="tags"
-            label="Tags"
-            tooltip="Each tag is separated by ','"
+            label={<FormattedMessage id="pages.questionsTable.column.tag.tagLabel" />}
+            tooltip={<FormattedMessage id="pages.createQuestion.tooltip.addTags" />}
             fieldProps={{
               value: currentQuestion.tags ? currentQuestion.tags.join(',') : '',
             }}

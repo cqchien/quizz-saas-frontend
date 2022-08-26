@@ -1,11 +1,13 @@
+import { DefaultQuestionObject } from '@/utils/constant';
+import { PlusOutlined } from '@ant-design/icons';
+import { ColumnsState, PageContainer, ProColumns } from '@ant-design/pro-components';
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
-import { PageContainer } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Space, Tag } from 'antd';
+import { Button, notification, Popconfirm, Space, Tag } from 'antd';
 import { useState } from 'react';
 import { FormattedMessage, Link, useIntl } from 'umi';
+import ImportQuestionModal from './ImportQuestion';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
@@ -23,6 +25,37 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
     },
   });
 
+  const [tableListDataSource, setTableListDataSource] = useState<API.Question[]>([
+    {
+      ...DefaultQuestionObject,
+    },
+  ]);
+
+  const handleRemoveQuestion = (questionId: string) => {
+    // Call API to remove by questionId
+
+    // Display message base on result
+    if (true) {
+      notification.success({
+        message: <FormattedMessage id="pages.information.deleteQuestionSuccess" />,
+        placement: 'bottomRight',
+      });
+
+      const newState = tableListDataSource
+        .filter((question) => question.id !== questionId)
+        .map((obj, index) => {
+          return { ...obj, order: index };
+        });
+
+      setTableListDataSource(newState);
+    } else {
+      notification.error({
+        message: <FormattedMessage id="pages.information.deleteQuestionFail" />,
+        placement: 'bottomRight',
+      });
+    }
+  };
+
   const questionTableColumns: ProColumns<API.Question>[] = [
     {
       dataIndex: 'index',
@@ -30,9 +63,7 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
       width: 48,
     },
     {
-      title: (
-        <FormattedMessage id="pages.questionsTable.column.type.typeLabel" defaultMessage="Type" />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,
       dataIndex: 'type',
       initialValue: 'all',
       filters: true,
@@ -41,10 +72,7 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
     },
     {
       title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel"
-          defaultMessage="Heuristic Level"
-        />
+        <FormattedMessage id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel" />
       ),
       dataIndex: 'heuristicLevel',
       initialValue: 'all',
@@ -53,26 +81,19 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
       valueType: 'select',
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.topic.topicLabel"
-          defaultMessage="Topic"
-        />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />,
       key: 'topic',
       dataIndex: 'topic',
     },
     {
-      title: (
-        <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" defaultMessage="Tags" />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" />,
       dataIndex: 'tags',
       search: false,
       renderFormItem: (_, { defaultRender }) => {
         return defaultRender(_);
       },
       render: (_, record) => (
-        <Space>
+        <Space key={record.id}>
           {(record.tags || []).map((tag) => (
             <Tag color="cyan" key={tag}>
               {tag}
@@ -82,22 +103,12 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
       ),
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.question.questionLabel"
-          defaultMessage="Question"
-        />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.question.questionLabel" />,
       dataIndex: 'question',
       key: 'question',
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.status.statusLabel"
-          defaultMessage="Status"
-        />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.status.statusLabel" />,
       dataIndex: 'status',
       initialValue: 'all',
       filters: true,
@@ -112,15 +123,28 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
       },
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.questionsTable.column.action.actionLabel"
-          defaultMessage="Action"
-        />
-      ),
+      title: <FormattedMessage id="pages.questionsTable.column.action.actionLabel" />,
       key: 'action',
       valueType: 'option',
       render: (text, record) => [
+        <Button key={record.id} type="link" href={`/questions/edit/${record.id}`}>
+          Edit
+        </Button>,
+        <Popconfirm
+          key={record.id}
+          title={
+            <FormattedMessage id="pages.questionsTable.column.action.confirmDeleteQuestionMessage" />
+          }
+          onConfirm={() => {
+            handleRemoveQuestion(record.id);
+          }}
+          okText="Yes"
+          cancelText="No"
+        >
+          <Button key={record.id} type="link" danger>
+            Delete
+          </Button>
+        </Popconfirm>,
         <Link to={`/questions/edit/${record.id}`} key={record.id}>
           <Button type="link" icon={<EditTwoTone />} />
         </Link>,
@@ -142,7 +166,6 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
         dataSource={questionList}
         headerTitle={intl.formatMessage({
           id: 'pages.questionsTable.title',
-          defaultMessage: 'Questions List',
         })}
         columns={questionTableColumns}
         options={{
@@ -159,12 +182,17 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
             },
           },
           actions: [
-            <Button key="primary" type="primary" href="/questions/create">
-              <FormattedMessage
-                id="pages.questionsTable.column.action.createLabel"
-                defaultMessage="Create"
-              />
+            <Button
+              key="createButton"
+              type="primary"
+              href="/questions/create"
+              icon={<PlusOutlined />}
+            >
+              <span>
+                <FormattedMessage id="pages.questionsTable.column.action.createLabel" />
+              </span>
             </Button>,
+            <ImportQuestionModal />,
           ],
         }}
         rowKey="key"

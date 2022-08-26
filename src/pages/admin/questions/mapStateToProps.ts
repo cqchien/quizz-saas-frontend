@@ -6,6 +6,6 @@ export default (state: { questions: any; loading: any }) => {
   const questionList = ids.map((id: string) => dictionary[id]);
   return {
     questionList: orderBy(questionList, 'createdAt', 'desc'),
-    loadingQuestionList: loading.effects['questions/fetch'],
+    loading: loading.effects['questions/fetch'],
   };
 };

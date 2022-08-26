@@ -24,7 +24,7 @@ export default defineConfig({
     ...defaultSettings,
   },
   locale: {
-    default: 'en-Us',
+    default: 'en-US',
     antd: true,
     baseNavigator: true,
   },

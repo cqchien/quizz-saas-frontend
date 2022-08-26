@@ -53,11 +53,17 @@ declare namespace API {
     pageSize?: number;
   };
 
-  type Option={
-      order: number;
-      option: string;
-      value: any;
-    }
+  type Option = {
+    order: number;
+    option: string;
+    value: any;
+  };
+
+  type SheetData = {
+    category: any;
+    data: any;
+    json?: any;
+  };
 
   // type RuleListItem = {
   //   key?: number;
