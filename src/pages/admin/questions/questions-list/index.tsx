@@ -1,14 +1,14 @@
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { DefaultQuestionObject } from '@/utils/constant';
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, notification, Popconfirm, Space, Tag } from 'antd';
+import { Button, Space, Tag } from 'antd';
 import { useState } from 'react';
-import { FormattedMessage, useIntl } from 'umi';
+import { FormattedMessage, Link, useIntl } from 'umi';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
+import { EditTwoTone } from '@ant-design/icons';
 interface IQuestionListProps {
   dispatch: any;
   questionList: API.Question[];
@@ -22,37 +22,6 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
       order: 2,
     },
   });
-
-  const [tableListDataSource, setTableListDataSource] = useState<API.Question[]>([
-    {
-      ...DefaultQuestionObject,
-    },
-  ]);
-
-  const handleRemoveQuestion = (questionId: string) => {
-    // Call API to remove by questionId
-
-    // Display message base on result
-    if (true) {
-      notification.success({
-        message: `Question was deleted successfully`,
-        placement: 'bottomRight',
-      });
-
-      const newState = tableListDataSource
-        .filter((question) => question.id !== questionId)
-        .map((obj, index) => {
-          return { ...obj, order: index };
-        });
-
-      setTableListDataSource(newState);
-    } else {
-      notification.error({
-        message: `Delete question was failed`,
-        placement: 'bottomRight',
-      });
-    }
-  };
 
   const questionTableColumns: ProColumns<API.Question>[] = [
     {
@@ -152,18 +121,9 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
       key: 'action',
       valueType: 'option',
       render: (text, record) => [
-        <Button icon="Edit" key={record.id} type="link" href={`/questions/edit/${record.id}`} />,
-        <Popconfirm
-          title="Are you sure to delete this option?"
-          key={record.id}
-          onConfirm={() => {
-            handleRemoveQuestion(record.id);
-          }}
-          okText="Yes"
-          cancelText="No"
-        >
-          <Button icon="Delete" type="link" danger />
-        </Popconfirm>,
+        <Link to={`/questions/edit/${record.id}`} key={record.id}>
+          <Button type="link" icon={<EditTwoTone />} />
+        </Link>,
       ],
     },
   ];

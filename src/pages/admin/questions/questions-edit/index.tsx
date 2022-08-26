@@ -1,20 +1,57 @@
+import EditorCustom from '@/components/Editor';
 import { DefaultQuestionObject, InitQuestionEditor, QuestionTypeAlias } from '@/utils/constant';
 import { PlusCircleOutlined } from '@ant-design/icons';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { Editor } from '@tinymce/tinymce-react';
 import { Button, Card, notification, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import AdditionInformationForm from '../questions-create/components/AdditionInformationForm';
-import MultipleChoiceQuestionForm from '../questions-create/components/MultipleChoiceQuestion';
+import { connect } from 'umi';
+import AdditionInformationForm from '../components/AdditionInformationForm';
+import MultipleChoiceQuestionForm from '../components/MultipleChoiceQuestion';
 
 const { TabPane } = Tabs;
+interface IQuestionUpdationPage {
+  id: string;
+  dispatch: any;
+  loadingInfo: boolean;
+  question: API.Question;
+}
 
-const QuestionUpdationPage: React.FC = () => {
-  let history = useHistory();
+const QuestionUpdationPage: React.FC<IQuestionUpdationPage> = ({
+  id,
+  dispatch,
+  loadingInfo = true,
+  question,
+}) => {
   const [selectedType, setSelectedType] = useState(QuestionTypeAlias.MultipleChoiceQuestion);
   const [currentQuestion, setCurrentQuestion] = useState<API.Question>(DefaultQuestionObject);
   const [currentOptions, setCurrentOptions] = useState<API.Option[]>([]);
+
+  useEffect(() => {
+    // Call API to get question by Id
+    dispatch({
+      type: 'questions/getDetail',
+      payload: {
+        questionId: id,
+      },
+    });
+    // Set question
+    setCurrentQuestion(DefaultQuestionObject);
+
+    // Set question.type
+    setSelectedType('MCQ');
+
+    // Set question.options
+    setCurrentOptions([
+      {
+        order: 0,
+        option: 'Việt Nam',
+        value: false,
+      },
+    ]);
+  }, []);
+
+
 
   const IsValidData = () => {
     if (currentQuestion.question.length === 0) {
@@ -39,21 +76,6 @@ const QuestionUpdationPage: React.FC = () => {
       onClick={() => {
         if (IsValidData()) {
           // Call API save question
-          // Display message base on result
-          if (true) {
-            notification.success({
-              message: `Question was saved successfully`,
-              placement: 'bottomRight',
-            });
-            setTimeout(() => {
-              history.push('/questions/list');
-            }, 2000);
-          } else {
-            notification.error({
-              message: `Save question was failed`,
-              placement: 'bottomRight',
-            });
-          }
         }
       }}
     >
@@ -61,24 +83,6 @@ const QuestionUpdationPage: React.FC = () => {
     </Button>
   );
 
-  useEffect(() => {
-    // Call API to get question by Id
-
-    // Set question
-    setCurrentQuestion(DefaultQuestionObject);
-
-    // Set question.type
-    setSelectedType('MCQ');
-
-    // Set question.options
-    setCurrentOptions([
-      {
-        order: 0,
-        option: 'Việt Nam',
-        value: false,
-      },
-    ]);
-  }, []);
 
   useEffect(() => {
     setCurrentQuestion({ ...currentQuestion, options: currentOptions });
@@ -92,13 +96,17 @@ const QuestionUpdationPage: React.FC = () => {
             <Tabs tabBarExtraContent={operations}>
               <TabPane tab="Question information" key="1">
                 Please enter question content here (*)
-                <Editor
+                <EditorCustom 
+                  question={question.question}
+                  handleEditorChange={(newValue: any) => setCurrentQuestion({ ...currentQuestion, question: newValue })}
+                />
+                {/* <Editor
                   value={currentQuestion.question}
                   onEditorChange={(newValue, editor) =>
                     setCurrentQuestion({ ...currentQuestion, question: newValue })
                   }
                   init={InitQuestionEditor}
-                />
+                /> */}
                 {selectedType === QuestionTypeAlias.MultipleChoiceQuestion && (
                   <MultipleChoiceQuestionForm
                     currentOptions={currentOptions}
@@ -120,4 +128,13 @@ const QuestionUpdationPage: React.FC = () => {
   );
 };
 
-export default QuestionUpdationPage;
+export default connect(({ loading, questions }: any, { match }: any) => {
+  const { id } = match.params;
+  const { dictionary } = questions;
+  return {
+    id,
+    loadingInfo: loading.effects['communities/getById'],
+    question: dictionary[id] || {},
+  };
+})(QuestionUpdationPage);
+

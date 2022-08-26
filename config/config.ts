@@ -5,7 +5,7 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
-const { REACT_APP_ENV, API_URL } = process.env;
+const { REACT_APP_ENV, API_URL, TINY_API_KEY } = process.env;
 
 export default defineConfig({
   hash: true,
@@ -16,6 +16,7 @@ export default defineConfig({
   define: {
     REACT_APP_ENV: REACT_APP_ENV || 'dev',
     API_URL: API_URL || 'http://localhost:3000',
+    TINY_API_KEY: TINY_API_KEY,
   },
   layout: {
     locale: true,

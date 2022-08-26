@@ -5,3 +5,9 @@ export async function getAll() {
     method: 'GET',
   });
 }
+
+export async function getById(id: string) {
+  return request<API.ApiResponse<API.Question>>(`/questions/${id}`, {
+    method: 'GET',
+  });
+}
