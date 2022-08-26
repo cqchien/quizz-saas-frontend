@@ -5,13 +5,14 @@ import { Editor } from '@tinymce/tinymce-react';
 import { Button, Card, notification, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import { FormattedMessage } from 'umi';
 import AdditionInformationForm from '../questions-create/components/AdditionInformationForm';
 import MultipleChoiceQuestionForm from '../questions-create/components/MultipleChoiceQuestion';
 
 const { TabPane } = Tabs;
 
 const QuestionUpdationPage: React.FC = () => {
-  let history = useHistory();
+  const history = useHistory();
   const [selectedType, setSelectedType] = useState(QuestionTypeAlias.MultipleChoiceQuestion);
   const [currentQuestion, setCurrentQuestion] = useState<API.Question>(DefaultQuestionObject);
   const [currentOptions, setCurrentOptions] = useState<API.Option[]>([]);
@@ -91,10 +92,10 @@ const QuestionUpdationPage: React.FC = () => {
           <>
             <Tabs tabBarExtraContent={operations}>
               <TabPane tab="Question information" key="1">
-                Please enter question content here (*)
+                <FormattedMessage id="pages.createQuestion.tooltip.enterQuestionContent" />
                 <Editor
                   value={currentQuestion.question}
-                  onEditorChange={(newValue, editor) =>
+                  onEditorChange={(newValue) =>
                     setCurrentQuestion({ ...currentQuestion, question: newValue })
                   }
                   init={InitQuestionEditor}

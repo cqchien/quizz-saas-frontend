@@ -26,6 +26,15 @@ const MultipleChoiceQuestionForm: React.FC<Props> = ({ currentOptions, setCurren
     },
   });
 
+  const handleRemoveOption = (optionOrder: number) => {
+    const newState = currentOptions
+      .filter((option) => option.order !== optionOrder)
+      .map((obj, index) => {
+        return { ...obj, order: index };
+      });
+    setCurrentOptions(newState);
+  };
+
   const optionTableColumns: ProColumns<API.Option>[] = [
     {
       dataIndex: 'index',
@@ -33,9 +42,7 @@ const MultipleChoiceQuestionForm: React.FC<Props> = ({ currentOptions, setCurren
       width: 48,
     },
     {
-      title: (
-        <FormattedMessage id="pages.optionsTable.column.order.orderLabel" defaultMessage="Order" />
-      ),
+      title: <FormattedMessage id="pages.optionsTable.column.order.orderLabel" />,
       dataIndex: 'order',
       initialValue: 'all',
       filters: true,
@@ -43,41 +50,32 @@ const MultipleChoiceQuestionForm: React.FC<Props> = ({ currentOptions, setCurren
       valueType: 'select',
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.optionsTable.column.option.optionLabel"
-          defaultMessage="Option content"
-        />
-      ),
+      title: <FormattedMessage id="pages.optionsTable.column.option.optionLabel" />,
       dataIndex: 'option',
       initialValue: 'all',
       filters: true,
       onFilter: true,
       valueType: 'select',
-      render: (text, record) => [<p dangerouslySetInnerHTML={{ __html: record.option }} />],
+      render: (text, record) => [
+        <p key={record.order} dangerouslySetInnerHTML={{ __html: record.option }} />,
+      ],
     },
     {
-      title: (
-        <FormattedMessage id="pages.optionsTable.column.value.valueLabel" defaultMessage="Value" />
-      ),
+      title: <FormattedMessage id="pages.optionsTable.column.value.valueLabel" />,
       dataIndex: 'value',
       initialValue: 'all',
       filters: true,
       onFilter: true,
       valueType: 'checkbox',
-      render: (text, record) => [<Checkbox checked={record.value} />],
+      render: (text, record) => [<Checkbox key={record.order} checked={record.value} />],
     },
     {
-      title: (
-        <FormattedMessage
-          id="pages.optionsTable.column.action.actionLabel"
-          defaultMessage="Action"
-        />
-      ),
+      title: <FormattedMessage id="pages.optionsTable.column.action.actionLabel" />,
       key: 'action',
       valueType: 'option',
       render: (text, record) => [
         <Button
+          key={record.order}
           icon="Edit"
           type="link"
           onClick={async () => {
@@ -89,7 +87,10 @@ const MultipleChoiceQuestionForm: React.FC<Props> = ({ currentOptions, setCurren
           }}
         />,
         <Popconfirm
-          title="Are you sure to delete this option?"
+          key={record.order}
+          title={
+            <FormattedMessage id="pages.optionsTable.column.action.confirmDeleteOptionMessage" />
+          }
           onConfirm={() => {
             handleRemoveOption(record.order);
           }}
@@ -102,18 +103,13 @@ const MultipleChoiceQuestionForm: React.FC<Props> = ({ currentOptions, setCurren
     },
   ];
 
-  const handleRemoveOption = (optionOrder: number) => {
-    const newState = currentOptions
-      .filter((option) => option.order !== optionOrder)
-      .map((obj, index) => {
-        return { ...obj, order: index };
-      });
-    setCurrentOptions(newState);
-  };
-
   return (
     <Card style={{ marginTop: 24 }}>
-      <ConfigProvider renderEmpty={() => <Empty description="Have no options" />}>
+      <ConfigProvider
+        renderEmpty={() => (
+          <Empty description={<FormattedMessage id="pages.optionsTable.emptyContent" />} />
+        )}
+      >
         <ProTable<API.Option, { keyWord?: string }>
           // locale={{ emptyText: 'Have no options' }}
           dataSource={currentOptions}

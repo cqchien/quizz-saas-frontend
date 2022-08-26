@@ -49,4 +49,8 @@ declare namespace API {
     type?: string;
     message?: string;
   };
+
+  type RuleListItem = {
+    name: string;
+  };
 }

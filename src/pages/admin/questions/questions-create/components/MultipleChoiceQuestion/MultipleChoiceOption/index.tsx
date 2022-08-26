@@ -1,6 +1,7 @@
 import { Editor } from '@tinymce/tinymce-react';
 import { Button, Checkbox, notification, Space } from 'antd';
 import React, { useEffect } from 'react';
+import { FormattedMessage } from 'umi';
 
 interface Props {
   currentOptions: API.Option[];
@@ -25,19 +26,15 @@ const MultipleChoiceOptionForm: React.FC<Props> = ({
   const handleSaveOptionClick = () => {
     if (currentOption.option.length === 0) {
       notification.error({
-        message: `Option content is empty`,
+        message: <FormattedMessage id="pages.optionInput.notification.error.emptyContent" />,
         placement: 'bottomRight',
       });
     } else {
-      if (
-        currentOptions.some((obj) => {
-          if (obj.order === currentOption.order) {
-            return true;
-          }
+      const isEditOption = currentOptions.some((obj) => {
+        return obj.order === currentOption.order ? true : false;
+      });
 
-          return false;
-        })
-      ) {
+      if (isEditOption) {
         const newState = currentOptions.map((obj) => {
           if (obj.order === currentOption.order) {
             return { ...currentOption };
@@ -47,19 +44,17 @@ const MultipleChoiceOptionForm: React.FC<Props> = ({
 
         setCurrentOptions(newState);
       } else {
-        setCurrentOptions((currentOptions) => [...currentOptions, currentOption]);
+        setCurrentOptions([...currentOptions, currentOption]);
       }
     }
   };
 
   return (
     <>
-      Please enter option content here (*)
+      <FormattedMessage id="pages.createQuestion.tooltip.enterOptionContent" />
       <Editor
         value={currentOption?.option}
-        onEditorChange={(newValue, editor) =>
-          setCurrentOption({ ...currentOption, option: newValue })
-        }
+        onEditorChange={(newValue) => setCurrentOption({ ...currentOption, option: newValue })}
         init={{
           height: 150,
           menubar: false,
