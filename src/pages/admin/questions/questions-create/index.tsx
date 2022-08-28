@@ -1,8 +1,9 @@
-import {
+import type {
   ColumnsState,
+  ProColumns} from '@ant-design/pro-components';
+import {
   PageContainer,
   ProCard,
-  ProColumns,
   ProFormRadio,
   ProTable,
 } from '@ant-design/pro-components';

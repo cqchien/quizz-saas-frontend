@@ -37,7 +37,6 @@ request.interceptors.request.use(
         ...options,
         headers: {
           timezone,
-          'Content-Type': 'application/json; charset=utf-8',
           Authorization: authority && `Bearer ${authority}`,
         },
       },

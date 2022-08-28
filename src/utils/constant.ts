@@ -3,6 +3,8 @@ const ROLES: Record<string, string> = {
   USER: 'USER',
 };
 
+const ACCEPT_EXCEL_FILE = ".csv, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet, application/vnd.ms-excel";
+
 const EditorOptionConfiguration = {
   toolbar: ["bold", "italic"],
 };
@@ -103,5 +105,6 @@ export {
   HeuristicLevel, 
   InitQuestionEditor, 
   DefaultQuestionObject, 
-  InitialQuestion
+  InitialQuestion,
+  ACCEPT_EXCEL_FILE
 };

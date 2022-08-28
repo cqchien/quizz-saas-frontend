@@ -1,9 +1,9 @@
-import { getAll, getById } from '@/services/question';
+import { notification } from 'antd';
+import { getAll, getById, importListQuestions } from '@/services/question';
 import { mapBuilder } from '@/utils/function';
 import type { Effect, Reducer } from 'umi';
 
 const NAMESPACE = 'questions';
-
 export interface IQuestionState {
   dictionary: Record<string, any>;
   ids: string[];
@@ -15,6 +15,7 @@ interface IQuestionModel {
   effects: {
     fetch: Effect;
     getDetail: Effect;
+    import: Effect;
   };
   reducers: {
     updateDictionary: Reducer;
@@ -41,26 +42,19 @@ const QuestionModel: IQuestionModel = {
             type: 'updateDictionary',
             payload: { data: dic },
           });
-          return response.data;
+          return true;
         }
 
-        yield put({
-          type: 'ui/showSnackbar',
-          payload: {
-            type: 'error',
-            content: 'Something went wrong',
-          },
-        });
+        notification.error({
+          message: response.message || 'Something went wrong'
+        })
+
         return false;
       } catch (err) {
         console.error(`Error when trying to get questions:`, err);
-        yield put({
-          type: 'ui/showSnackbar',
-          payload: {
-            type: 'error',
-            content: 'Error when trying to get questions',
-          },
-        });
+        notification.error({
+          message: 'Something went wrong'
+        })
         return false;
       }
     },
@@ -70,6 +64,7 @@ const QuestionModel: IQuestionModel = {
         const { questionId } = payload;
 
         const response = yield call(getById, questionId);
+
         if (response.success) {
           yield put({
             type: 'updateDictionaryItem',
@@ -82,23 +77,44 @@ const QuestionModel: IQuestionModel = {
           return response.data;
         }
 
-        yield put({
-          type: 'ui/showSnackbar',
-          payload: {
-            type: 'error',
-            content: 'Something went wrong',
-          },
-        });
+        notification.error({
+          message: response.message || 'Something went wrong'
+        })
+
         return false;
       } catch (err) {
         console.error(`Error when trying to get the detailed question:`, err);
-        yield put({
-          type: 'ui/showSnackbar',
-          payload: {
-            type: 'error',
-            content: 'Error when trying to get the detailed question',
-          },
-        });
+        notification.error({
+          message: 'Something went wrong'
+        })
+        return false;
+      }
+    },
+
+    *import({ payload }, { call, put }) {
+      try {
+        const response = yield call(importListQuestions, payload);
+        if (Array.isArray(response.data) && response.success) {
+          const { mapping: dic } = mapBuilder(response.data, 'id');
+
+          yield put({
+            type: 'updateDictionary',
+            payload: { data: dic },
+          });
+          return response.data;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong'
+        })
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to get the detailed question:`, err);
+
+        notification.error({
+          message: 'Something went wrong'
+        })
         return false;
       }
     },

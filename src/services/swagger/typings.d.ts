@@ -34,6 +34,10 @@ declare namespace API {
     name?: string;
   };
 
+  type File = {
+    
+  }
+
   type Pet = {
     id?: number;
     category?: Category;

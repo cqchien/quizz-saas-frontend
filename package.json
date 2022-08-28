@@ -54,14 +54,10 @@
     "@ckeditor/ckeditor5-build-decoupled-document": "^35.0.1",
     "@ckeditor/ckeditor5-react": "^5.0.2",
     "@tinymce/tinymce-react": "^4.2.0",
-    "@types/ckeditor": "^4.9.10",
-    "@types/ckeditor__ckeditor5-core": "^33.0.3",
     "@umijs/route-utils": "^2.0.0",
-    "@wiris/mathtype-tinymce5": "^7.31.0",
     "antd": "^4.20.0",
     "ckeditor": "^4.12.1",
     "classnames": "^2.3.0",
-    "file-saver": "^2.0.5",
     "lodash": "^4.17.0",
     "moment": "^2.29.0",
     "omit.js": "^2.0.2",
@@ -73,8 +69,7 @@
     "react-helmet-async": "^1.2.0",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
-    "umi": "^3.5.0",
-    "xlsx": "^0.18.5"
+    "umi": "^3.5.0"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.0",
