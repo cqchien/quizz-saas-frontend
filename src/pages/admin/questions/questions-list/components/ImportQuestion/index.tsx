@@ -1,4 +1,6 @@
+import ButtonDownload from '@/components/ButtonDownload/ButtonDownload';
 import { ACCEPT_EXCEL_FILE } from '@/utils/constant';
+import { download } from '@/utils/utils';
 import { UploadOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormUploadDragger } from '@ant-design/pro-components';
 import type { UploadProps } from 'antd';
@@ -7,7 +9,7 @@ import React from 'react';
 import { FormattedMessage } from 'umi';
 
 interface IImportQuestionsModal {
-  handleImport: any,
+  handleImport: any;
 }
 
 const ImportQuestionModal: React.FC<IImportQuestionsModal> = ({ handleImport }) => {
@@ -20,6 +22,12 @@ const ImportQuestionModal: React.FC<IImportQuestionsModal> = ({ handleImport }) 
       }
       return isExcel || Upload.LIST_IGNORE;
     },
+  };
+
+  const onDownLoadTemplate = (e: any) => {
+    e.preventDefault();
+    e.stopPropagation();
+    download('/template-import-questions.xlsx');
   };
 
   return (
@@ -40,15 +48,21 @@ const ImportQuestionModal: React.FC<IImportQuestionsModal> = ({ handleImport }) 
       onFinish={async (value) => handleImport(value)}
     >
       <Space direction="horizontal">
-        <a type="primary" href='/template-import-question.xlsx' target="_blank" download>
+        <ButtonDownload
+          download
+          style={{ padding: 0 }}
+          size="small"
+          type="link"
+          onClick={onDownLoadTemplate}
+        >
           <FormattedMessage id="pages.importQuestion.dragger.downloadTemplate.downloadTemplateText" />
-        </a>
+        </ButtonDownload>
       </Space>
       <ProFormUploadDragger
         {...props}
         max={1}
         accept={ACCEPT_EXCEL_FILE}
-        title={"Click or drag file to this area to upload"}
+        title={'Click or drag file to this area to upload'}
         description="Upload excel file"
       />
     </ModalForm>
