@@ -51,7 +51,16 @@ declare namespace API {
   type PageParams = {
     current?: number;
     pageSize?: number;
+    total?: number;
   };
+
+  type PageQuery = {
+    order?: string;
+    page?: number;
+    take?: number;
+    searchField?: string;
+    searchValue?: string;
+  }
 
   type Option = {
     order: number;

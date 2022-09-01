@@ -1,9 +1,10 @@
 import { API_IMPORT_QUESTIONS } from '@/utils/api-routes';
 import request from '@/utils/request';
 
-export async function getAll() {
+export async function getAll(params: API.PageQuery) {
   return request<API.ApiResponse<API.Question[]>>('/questions', {
     method: 'GET',
+    params: params,
   });
 }
 

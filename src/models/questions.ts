@@ -7,6 +7,7 @@ const NAMESPACE = 'questions';
 export interface IQuestionState {
   dictionary: Record<string, any>;
   ids: string[];
+  pagingParams: API.PageParams;
 }
 
 interface IQuestionModel {
@@ -19,7 +20,7 @@ interface IQuestionModel {
   };
   reducers: {
     updateDictionary: Reducer;
-    updateDictionaryItem: Reducer
+    updateDictionaryItem: Reducer;
   };
 }
 
@@ -29,18 +30,25 @@ const QuestionModel: IQuestionModel = {
   state: {
     dictionary: {},
     ids: [],
+    pagingParams:{},
   },
 
   effects: {
-    *fetch(_, { call, put }) {
+    *fetch({ payload }, { call, put }) {
       try {
-        const response = yield call(getAll);
+        const {params} = payload;
+        const response = yield call(getAll, params);
+
         if (Array.isArray(response.data) && response.success) {
           const { mapping: dic } = mapBuilder(response.data, 'id');
-
+          const newPagingParams = {
+            current: response.meta.page,
+            pageSize: response.meta.take,
+            total: response.meta.itemCount,
+          }
           yield put({
             type: 'updateDictionary',
-            payload: { data: dic },
+            payload: { data: dic, pagingParams: newPagingParams},
           });
           return true;
         }
@@ -121,7 +129,7 @@ const QuestionModel: IQuestionModel = {
   },
 
   reducers: {
-    updateDictionary(state, { payload: { data } }) {
+    updateDictionary(state, { payload: { data, pagingParams} }) {
       return {
         ...state,
         dictionary: {
@@ -129,6 +137,7 @@ const QuestionModel: IQuestionModel = {
           ...data,
         },
         ids: Object.keys(data),
+        pagingParams: pagingParams,
       };
     },
 
