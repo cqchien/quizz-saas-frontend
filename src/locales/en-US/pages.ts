@@ -31,6 +31,7 @@ export default {
     'Are you sure to delete this question?',
   'pages.information.deleteQuestionFail': 'Delete question was failed',
   'pages.information.deleteQuestionSuccess': 'Question was deleted successfully',
+  'pages.questionsTable.toolbar.search.searchPlaceholder': 'Search...',
 
   // Import question
   'pages.importQuestion.information.importQuestionSuccess': 'Questions was imported successfully',
