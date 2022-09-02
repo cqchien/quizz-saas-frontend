@@ -1,4 +1,4 @@
-import { API_IMPORT_QUESTIONS } from '@/utils/api-routes';
+import { API_IMPORT_QUESTIONS, API_CREATE } from '@/utils/api-routes';
 import request from '@/utils/request';
 
 export async function getAll() {
@@ -18,5 +18,13 @@ export async function importListQuestions(file: FormData) {
     method: 'POST',
     data: file,
     requestType: 'form'
+  });
+}
+
+export async function createQuestion(data: any) {
+  return request<API.ApiResponse<API.Question>>(API_CREATE, {
+    method: 'POST',
+    data,
+    requestType: 'json'
   });
 }

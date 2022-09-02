@@ -15,3 +15,11 @@ export function mapBuilder(
     listing: dataNotUndefined.map((d) => d[field]),
   };
 }
+
+export function calculateSize(size: number) {
+  if (size) {
+    return Number(size * 4);
+  }
+
+  return 0;
+}

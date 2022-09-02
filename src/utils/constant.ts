@@ -16,7 +16,7 @@ const QuestionTypeAlias = {
   OrderingSequence: "ORD",
 };
 
-const HeuristicLevel = [
+const HEURISTIC_LEVEL = [
   'Knowledge',
   'Comprehension',
   'Application',
@@ -25,7 +25,7 @@ const HeuristicLevel = [
   'Evaluation',
 ];
 
-const Topic = [
+const TOPIC = [
   'Maths',
   'Music',
   'Geography',
@@ -101,8 +101,8 @@ export {
   ROLES, 
   EditorOptionConfiguration, 
   QuestionTypeAlias ,
-  Topic, 
-  HeuristicLevel, 
+  TOPIC, 
+  HEURISTIC_LEVEL, 
   InitQuestionEditor, 
   DefaultQuestionObject, 
   InitialQuestion,
