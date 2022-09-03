@@ -31,7 +31,7 @@
         component: './admin/questions/questions-create',
       },
       {
-        path: '/questions/edit/:id',
+        path: '/questions/:id/edit',
         name: 'questions-edit',
         component: './admin/questions/questions-edit',
       },

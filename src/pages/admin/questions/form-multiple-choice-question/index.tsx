@@ -5,6 +5,7 @@ import { useHistory, useParams } from 'react-router-dom';
 import { useSetForm } from "@/context/FormContext";
 import TemplateFormFieldMultipleChoiceQuestion from "../components/TemplateFormFieldMultipleChoiceQuestion";
 import formSchema from '../schemas/questionSchema';
+import { getInitialValue } from "../schemas/getInitialValues";
 
 const MultipleChoiceQuestionForm: FC = () => {
   const { formField } = formSchema;
@@ -15,24 +16,29 @@ const MultipleChoiceQuestionForm: FC = () => {
   const [form] = Form.useForm();
   useSetForm(form);
 
+  const handleConfirmCancel = () => {
+    history.push('/questions');
+  }
+
+  function handleViewQuestion(id: string) {
+    history.push(`/questions/${id}/edit`);
+  }
 
   const handleSubmitCreate = (value: any) => {
+    const cb = (id: string) => {
+      form.resetFields();
+
+      handleViewQuestion(id);
+    }
+
     const question: API.Question = {
       ...value,
-      language: 'vi',
-      status: 'active',
-      type: 'multiple_choice_question',
-      mode: 'pulic',
     }
 
     dispatch({
       type: 'questions/create',
-      payload: { ...question }
+      payload: { question, cb }
     })
-  }
-
-  const handleConfirmCancel = () => {
-    history.push('/questions');
   }
 
   return (
@@ -45,6 +51,7 @@ const MultipleChoiceQuestionForm: FC = () => {
         <TemplateFormFieldMultipleChoiceQuestion
           formField={formField}
           formRef={form}
+          initialValues={getInitialValue()}
           onSubmit={handleSubmitCreate}
           onCancel={handleConfirmCancel}
         />

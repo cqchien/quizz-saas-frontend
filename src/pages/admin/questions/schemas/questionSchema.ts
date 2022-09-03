@@ -18,6 +18,36 @@ export default {
       required: true,
     },
 
+    heuristicLevel: {
+      name: 'heuristicLevel',
+      label: 'Level',
+    },
+
+    topic: {
+      name: 'topic',
+      label: 'Topic',
+    },
+
+    language: {
+      name: 'language',
+      label: 'Language',
+    },
+
+    status: {
+      name: 'status',
+      label: 'Status',
+    },
+
+    mode: {
+      name: 'mode',
+      label: 'Mode',
+    },
+
+    tags: {
+      name: 'tags',
+      label: 'Tags',
+    },
+
     value: {
       name: 'value',
       label: 'Correct Option',

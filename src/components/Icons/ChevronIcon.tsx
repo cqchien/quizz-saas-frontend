@@ -1,4 +1,3 @@
-import React from 'react';
 import type { IconInterface } from './icon';
 
 function ChevronIcon({ color, size }: IconInterface) {

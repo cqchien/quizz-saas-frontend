@@ -122,7 +122,8 @@ const QuestionModel: IQuestionModel = {
 
     *create({ payload }, { call, put }) {
       try {
-        const response = yield call(createQuestion, payload);
+        const { question, cb } = payload
+        const response = yield call(createQuestion, question);
         if (response.success) {
           const { mapping: dic } = mapBuilder(response.data, 'id');
 
@@ -130,6 +131,8 @@ const QuestionModel: IQuestionModel = {
             type: 'updateDictionary',
             payload: { data: dic },
           });
+
+          cb(response.data.id);
           return response.data;
         }
 

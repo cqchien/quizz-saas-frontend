@@ -9,7 +9,7 @@ import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
 import type { CheckboxChangeEvent } from "antd/lib/checkbox";
 import { FormattedMessage } from "umi";
 import { ProFormSelect } from "@ant-design/pro-components";
-import { HEURISTIC_LEVEL, TOPIC } from "@/utils/constant";
+import { MAP_HEURISTIC_LEVEL, MAP_LANGUAGES, MAP_MODE, MAP_STATUS, MAP_TOPIC } from "@/utils/constant";
 import AntTagInput from "@/components/AntTagInput";
 
 interface Props {
@@ -28,14 +28,29 @@ const TemplateFormFieldMultipleChoiceQuestion: FC<Props> = ({
   onCancel,
 }) => {
 
-  const mapHeuristicLevel = HEURISTIC_LEVEL.map((level: string) => ({
-    label: level,
-    value: level.toLocaleLowerCase(),
+  const mapHeuristicLevelOptions = Object.keys(MAP_HEURISTIC_LEVEL).map((level: string) => ({
+    label: MAP_HEURISTIC_LEVEL[level],
+    value: level,
   }))
 
-  const mapTopic = TOPIC.map((topic: string) => ({
-    label: topic,
-    value: topic.toLocaleLowerCase(),
+  const mapTopicOptions = Object.keys(MAP_TOPIC).map((topic: string) => ({
+    label: MAP_TOPIC[topic],
+    value: topic,
+  }))
+
+  const mapLanguageOptions = Object.keys(MAP_LANGUAGES).map((language: string) => ({
+    label: MAP_LANGUAGES[language],
+    value: language,
+  }))
+
+  const mapStatusOptions = Object.keys(MAP_STATUS).map((status: string) => ({
+    label: MAP_STATUS[status],
+    value: status,
+  }))
+
+  const mapModeOptions = Object.keys(MAP_MODE).map((mode: string) => ({
+    label: MAP_MODE[mode],
+    value: mode,
   }))
 
   const handlechangeQuestionContent = (value: any) => {
@@ -86,44 +101,61 @@ const TemplateFormFieldMultipleChoiceQuestion: FC<Props> = ({
           </Form.Item>
         </Col>
         <Col span={8}>
-          <ProFormSelect
-            name="heuristicLevel"
-            label={
-              <FormattedMessage id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel" />
-            }
-            rules={[
-              { required: true, message: 'Input the heuristic level for the question' }
-            ]}
-            options={mapHeuristicLevel}
-          />
-          <ProFormSelect
-            name="topic"
-            label={<FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />}
-            rules={[
-              { required: true, message: 'Input the topic of the question' }
-            ]}
-            options={mapTopic}
-          />
-          <Form.Item
-            name="tags"
-            label="Tags"
-            rules={[
-              { required: true, message: 'Input the tags for the question' }
-            ]}
-            initialValue={[]}
-          >
-            <AntTagInput handleInputTags={handleInputTags} />
-          </Form.Item>
+          <Row gutter={[24, 8]}>
+            <Col span={12}>
+              <ProFormSelect
+                name={formField.heuristicLevel.name}
+                label={formField.heuristicLevel.label}
+                options={mapHeuristicLevelOptions}
+              />
+            </Col>
+            <Col span={12}>
+              <ProFormSelect
+                name={formField.topic.name}
+                label={formField.topic.label}
+                options={mapTopicOptions}
+              />
+            </Col>
+            <Col span={12}>
+              <ProFormSelect
+                name={formField.language.name}
+                label={formField.language.label}
+                options={mapLanguageOptions}
+              />
+            </Col>
+            <Col span={12}>
+              <ProFormSelect
+                name={formField.status.name}
+                label={formField.status.label}
+                options={mapStatusOptions}
+              />
+            </Col>
+            <Col span={12}>
+              <ProFormSelect
+                name={formField.mode.name}
+                label={formField.mode.label}
+                options={mapModeOptions}
+              />
+            </Col>
+            <Col span={24}>
+              <Form.Item
+                name={formField.tags.name}
+                label={formField.tags.label}
+              >
+                <AntTagInput handleInputTags={handleInputTags} />
+              </Form.Item>
+            </Col>
+          </Row>
         </Col>
       </Row>
 
       <Divider className="my-5 bg-gray-200" plain={true} >
-        Options
+        <FormattedMessage id="component.form.createQuestion.option" />
       </Divider>
 
-      <Row gutter={[32, 24]}>
+      <Row gutter={[48, 24]}>
         <Col span={24}>
-          <Form.List name={formField.options.name} initialValue={[]}>
+          <Form.List name={formField.options.name}>
             {(fields, { add, remove }) => (
               <>
                 {fields.map((field, index) => (

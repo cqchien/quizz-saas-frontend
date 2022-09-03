@@ -8,4 +8,5 @@ export default {
   'component.form.createQuestion.cancel': 'Cancel',
   'component.form.createQuestion.update': 'Update',
   'component.form.createQuestion.create': 'Create',
+  'component.form.createQuestion.option': 'Options',
 };

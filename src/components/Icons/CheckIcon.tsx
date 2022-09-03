@@ -1,17 +1,14 @@
 import React from 'react';
 import type { IconInterface } from './icon';
 
-import styles from './styles';
-
 const CheckIcon: React.FC<IconInterface> = ({ size, color, className }) => {
-  const classes: any = styles({ size, color });
   return (
     <svg
       width={size}
       height={size}
       viewBox="0 0 14 10"
       fill="none"
-      className={`${classes.Icon} ${className || ''}`}
+      className={`${className || ''}`}
     >
       <path
         fillRule="evenodd"
