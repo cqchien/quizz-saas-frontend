@@ -14,6 +14,12 @@ export async function getById(id: string) {
   });
 }
 
+export async function deleteById(id: string) {
+  return request<API.ApiResponse<API.Question>>(`/questions/${id}`, {
+    method: 'DELETE',
+  });
+}
+
 export async function importListQuestions(file: FormData) {
   return request<API.ApiResponse<API.Question>>(API_IMPORT_QUESTIONS, {
     method: 'POST',

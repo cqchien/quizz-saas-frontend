@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { getAll, getById, importListQuestions } from '@/services/question';
+import { deleteById, getAll, getById, importListQuestions } from '@/services/question';
 import { mapBuilder } from '@/utils/function';
 import type { Effect, Reducer } from 'umi';
 
@@ -16,6 +16,7 @@ interface IQuestionModel {
   effects: {
     fetch: Effect;
     getDetail: Effect;
+    delete: Effect;
     import: Effect;
   };
   reducers: {
@@ -92,6 +93,29 @@ const QuestionModel: IQuestionModel = {
         return false;
       } catch (err) {
         console.error(`Error when trying to get the detailed question:`, err);
+        notification.error({
+          message: 'Something went wrong'
+        })
+        return false;
+      }
+    },
+
+    *delete({ payload }, { call }) {
+      try {
+        const { questionId } = payload;
+
+        const response = yield call(deleteById, questionId);
+        if (response.success) {
+          return true;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong'
+        })
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to delete a question:`, err);
         notification.error({
           message: 'Something went wrong'
         })

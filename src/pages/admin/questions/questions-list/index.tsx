@@ -34,7 +34,24 @@ const QuestionsList: FC<IQuestionListProps> = ({
   });
 
   const handleRemoveQuestion = (questionId: string) => {
-    console.log(questionId);
+    dispatch({
+      type: 'questions/delete',
+      payload: { questionId: questionId },
+    }).then((res: any) => {
+      if (res) {
+        dispatch({
+          type: 'questions/fetch',
+          payload: { params: { page: 1, take: 5 } },
+        });
+      }
+    });
+  };
+
+  const handleSearch = (value: string) => {
+    dispatch({
+      type: 'questions/fetch',
+      payload: { params: { page: 1, take: 5, searchField: 'question', searchValue: value } },
+    });
   };
 
   const handleImport = (data: any) => {
@@ -172,9 +189,9 @@ const QuestionsList: FC<IQuestionListProps> = ({
           id: 'pages.questionsTable.title',
         })}
         pagination={{
-          pageSize: pagingParams ? pagingParams.pageSize : 5,
+          defaultPageSize: pagingParams ? pagingParams.pageSize : 5,
           total: pagingParams ? pagingParams.total : 0,
-          current: pagingParams ? pagingParams.current : 1,
+          defaultCurrent: pagingParams ? pagingParams.current : 1,
           showSizeChanger: true,
           onChange: paginationChange,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
@@ -190,7 +207,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
         toolbar={{
           search: {
             onSearch: (value) => {
-              alert(value);
+              handleSearch(value);
             },
             placeholder: 'Search...',
           },
