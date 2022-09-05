@@ -24,6 +24,6 @@ export function getInitialValue(questionInfo?: API.Question) {
     [status.name]: (questionInfo && questionInfo[status.name]) || STATUS.ACTIVE,
     [language.name]: (questionInfo && questionInfo[language.name]) || LANGUAGES.ENG,
     [mode.name]: (questionInfo && questionInfo[mode.name]) || MODE.PUBLIC,
-    [tags.name]: (questionInfo && questionInfo[tags.name].split(',')) || [],
+    [tags.name]: (questionInfo && (questionInfo[tags.name])) || [],
   }
 }

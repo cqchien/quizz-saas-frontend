@@ -3,7 +3,8 @@ import { Checkbox } from "antd";
 import { Button, Col, Divider, Form, Row, Space } from "antd";
 import { calculateSize } from '@/utils/function';
 
-import type { FC } from "react";
+import type { FC} from "react";
+import { useEffect } from "react";
 import CustomEditor from "@/components/CustomEditor";
 import { MinusCircleFilled, PlusCircleFilled } from "@ant-design/icons";
 import type { CheckboxChangeEvent } from "antd/lib/checkbox";
@@ -27,6 +28,13 @@ const TemplateFormFieldMultipleChoiceQuestion: FC<Props> = ({
   initialValues,
   onCancel,
 }) => {
+
+  useEffect(() => {
+    if (formRef && initialValues && Object.keys(initialValues).length > 0) {
+      // form.setFieldsValue(initialValues)
+      formRef.resetFields();
+    }
+  }, [formRef, initialValues]);
 
   const mapHeuristicLevelOptions = Object.keys(MAP_HEURISTIC_LEVEL).map((level: string) => ({
     label: MAP_HEURISTIC_LEVEL[level],
@@ -212,7 +220,7 @@ const TemplateFormFieldMultipleChoiceQuestion: FC<Props> = ({
           <FormattedMessage id="component.form.createQuestion.cancel" />
         </Button>
         <Button htmlType="submit" block type="primary" size="middle">
-          {initialValues?.id ?
+          {initialValues ?
             <FormattedMessage id="component.form.createQuestion.update" /> :
             <FormattedMessage id="component.form.createQuestion.create" />}
         </Button>

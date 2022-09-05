@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { createQuestion, getAll, getById, importListQuestions } from '@/services/question';
+import { createQuestion, getAll, getById, importListQuestions, updateQuestion } from '@/services/question';
 import { mapBuilder } from '@/utils/function';
 import type { Effect, Reducer } from 'umi';
 
@@ -17,6 +17,7 @@ interface IQuestionModel {
     getDetail: Effect;
     import: Effect;
     create: Effect;
+    update: Effect;
   };
   reducers: {
     updateDictionary: Reducer;
@@ -132,6 +133,47 @@ const QuestionModel: IQuestionModel = {
             payload: { data: dic },
           });
 
+          
+          notification.success({
+            message: 'Create new question successfully!'
+          })
+          
+          cb(response.data.id);
+          return response.data;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong'
+        })
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to get the detailed question:`, err);
+
+        notification.error({
+          message: 'Something went wrong'
+        })
+        return false;
+      }
+    },
+
+    *update({ payload }, { call, put }) {
+      try {
+        const { question, questionId, cb } = payload
+        const response = yield call(updateQuestion, question, questionId);
+        if (response.success) {
+          const { mapping: dic } = mapBuilder(response.data, 'id');
+
+          yield put({
+            type: 'updateDictionary',
+            payload: { data: dic },
+          });
+
+          
+          notification.success({
+            message: 'Update question successfully!'
+          })
+          
           cb(response.data.id);
           return response.data;
         }

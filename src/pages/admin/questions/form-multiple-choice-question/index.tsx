@@ -1,19 +1,25 @@
 import type { FC } from "react";
 import { useDispatch } from "umi";
-import { Form, Spin } from "antd";
-import { useHistory, useParams } from 'react-router-dom';
+import { Form } from "antd";
+import { useHistory } from 'react-router-dom';
 import { useSetForm } from "@/context/FormContext";
 import TemplateFormFieldMultipleChoiceQuestion from "../components/TemplateFormFieldMultipleChoiceQuestion";
 import formSchema from '../schemas/questionSchema';
 import { getInitialValue } from "../schemas/getInitialValues";
 
-const MultipleChoiceQuestionForm: FC = () => {
+interface IMultipleChoiceQuestionForm {
+  question?: API.Question
+}
+
+const MultipleChoiceQuestionForm: FC<IMultipleChoiceQuestionForm> = ({
+  question
+}) => {
   const { formField } = formSchema;
 
   const history = useHistory();
   const dispatch: any = useDispatch();
-  const { id: questionId }: any = useParams();
   const [form] = Form.useForm();
+
   useSetForm(form);
 
   const handleConfirmCancel = () => {
@@ -24,43 +30,45 @@ const MultipleChoiceQuestionForm: FC = () => {
     history.push(`/questions/${id}/edit`);
   }
 
-  const handleSubmitCreate = (value: any) => {
+  const handleSubmit = (value: any) => {
     const cb = (id: string) => {
       form.resetFields();
 
-      handleViewQuestion(id);
+      if (question) {
+        return handleConfirmCancel();
+      }
+      return handleViewQuestion(id);
     }
 
-    const question: API.Question = {
+    const questionInfo: API.Question = {
       ...value,
     }
 
-    dispatch({
+    if (question) {
+      return dispatch({
+        type: 'questions/update',
+        payload: { 
+          question: questionInfo,
+          questionId: question.id, 
+          cb }
+      })
+    };
+
+    return dispatch({
       type: 'questions/create',
-      payload: { question, cb }
+      payload: { question: questionInfo, cb }
     })
   }
 
   return (
-    <Spin
-      spinning={
-        false
-      }
-    >
-      {!questionId ? (
-        <TemplateFormFieldMultipleChoiceQuestion
-          formField={formField}
-          formRef={form}
-          initialValues={getInitialValue()}
-          onSubmit={handleSubmitCreate}
-          onCancel={handleConfirmCancel}
-        />
-      ) : (
-        <div>b</div>
-      )}
-    </Spin>
+    <TemplateFormFieldMultipleChoiceQuestion
+      formField={formField}
+      formRef={form}
+      initialValues={getInitialValue(question)}
+      onSubmit={handleSubmit}
+      onCancel={handleConfirmCancel}
+    />
   )
-
 }
 
 export default MultipleChoiceQuestionForm;

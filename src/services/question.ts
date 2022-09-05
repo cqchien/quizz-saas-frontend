@@ -1,4 +1,4 @@
-import { API_IMPORT_QUESTIONS, API_CREATE } from '@/utils/api-routes';
+import { API_IMPORT_QUESTIONS, API_CREATE, API_UPDATE } from '@/utils/api-routes';
 import request from '@/utils/request';
 
 export async function getAll() {
@@ -24,6 +24,16 @@ export async function importListQuestions(file: FormData) {
 export async function createQuestion(data: any) {
   return request<API.ApiResponse<API.Question>>(API_CREATE, {
     method: 'POST',
+    data,
+    requestType: 'json'
+  });
+}
+
+export async function updateQuestion(data: any, id: string) {
+  const endpoint = API_UPDATE.replace(':id', id);
+
+  return request<API.ApiResponse<API.Question>>(endpoint, {
+    method: 'PUT',
     data,
     requestType: 'json'
   });

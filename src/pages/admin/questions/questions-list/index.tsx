@@ -135,7 +135,7 @@ const QuestionsList: FC<IQuestionListProps> = ({ dispatch, questionList, loading
               Delete
             </Button>
           </Popconfirm>
-          <Link to={`/questions/edit/${record.id}`}>
+          <Link to={`/questions/${record.id}/edit`}>
             <Button type="link" icon={<EditTwoTone />} />
           </Link>
         </div>,

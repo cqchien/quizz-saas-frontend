@@ -55,6 +55,7 @@
     "@ckeditor/ckeditor5-react": "^5.0.2",
     "@tinymce/tinymce-react": "^4.2.0",
     "@umijs/route-utils": "^2.0.0",
+    "ahooks": "^3.7.0",
     "antd": "^4.20.0",
     "ckeditor": "^4.12.1",
     "classnames": "^2.3.0",
