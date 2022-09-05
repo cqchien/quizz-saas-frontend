@@ -69,12 +69,14 @@ const QuestionsList: FC<IQuestionListProps> = ({
   const questionTableColumns: ProColumns<API.Question>[] = [
     {
       dataIndex: 'index',
+      key: 'index',
       valueType: 'indexBorder',
       width: 48,
     },
     {
       title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,
       dataIndex: 'type',
+      key: 'type',
       initialValue: 'all',
       filters: true,
       onFilter: true,
@@ -85,6 +87,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
         <FormattedMessage id="pages.questionsTable.column.heuristicLevel.heuristicLevelLabel" />
       ),
       dataIndex: 'heuristicLevel',
+      key: 'heuristicLevel',
       initialValue: 'all',
       filters: true,
       onFilter: true,
@@ -106,7 +109,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       render: (_, record) => (
         <Space>
           {(record.tags || []).map((tag) => (
-            <Tag color="cyan" key={tag}>
+            <Tag color="cyan" key={`${tag}_${record.id}`}>
               {tag}
             </Tag>
           ))}
@@ -122,6 +125,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
     {
       title: <FormattedMessage id="pages.questionsTable.column.status.statusLabel" />,
       dataIndex: 'status',
+      key: 'status',
       initialValue: 'all',
       filters: true,
       onFilter: true,
@@ -154,7 +158,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
               Delete
             </Button>
           </Popconfirm>
-          <Link to={`/questions/edit/${record.id}`} key={record.id}>
+          <Link to={`/questions/${record.id}/edit`} key={record.id}>
             <Button type="link" icon={<EditTwoTone />} />
           </Link>
         </div>,

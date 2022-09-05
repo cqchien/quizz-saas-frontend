@@ -43,7 +43,7 @@ declare namespace API {
     tags: string[];
     attachment?: string[];
     language: string;
-    isPrivate: boolean;
+    mode: boolean;
     updatedAt?: Date;
     createdAt?: Date;
   };
@@ -60,7 +60,7 @@ declare namespace API {
     take?: number;
     searchField?: string;
     searchValue?: string;
-  }
+  };
 
   type Option = {
     order: number;

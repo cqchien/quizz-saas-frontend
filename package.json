@@ -55,6 +55,7 @@
     "@ckeditor/ckeditor5-react": "^5.0.2",
     "@tinymce/tinymce-react": "^4.2.0",
     "@umijs/route-utils": "^2.0.0",
+    "ahooks": "^3.7.0",
     "antd": "^4.20.0",
     "ckeditor": "^4.12.1",
     "classnames": "^2.3.0",
@@ -67,9 +68,11 @@
     "react-dev-inspector": "^1.7.0",
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.2.0",
+    "react-hook-form": "^7.34.2",
     "react-router-config": "^5.1.1",
     "react-router-dom": "^5.2.0",
-    "umi": "^3.5.0"
+    "umi": "^3.5.0",
+    "yup": "^0.32.11"
   },
   "devDependencies": {
     "@ant-design/pro-cli": "^2.1.0",

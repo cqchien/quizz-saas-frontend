@@ -1,5 +1,12 @@
 import { notification } from 'antd';
-import { deleteById, getAll, getById, importListQuestions } from '@/services/question';
+import {
+  createQuestion,
+  getAll,
+  getById,
+  importListQuestions,
+  updateQuestion,
+  deleteById,
+} from '@/services/question';
 import { mapBuilder } from '@/utils/function';
 import type { Effect, Reducer } from 'umi';
 
@@ -18,6 +25,8 @@ interface IQuestionModel {
     getDetail: Effect;
     delete: Effect;
     import: Effect;
+    create: Effect;
+    update: Effect;
   };
   reducers: {
     updateDictionary: Reducer;
@@ -31,13 +40,13 @@ const QuestionModel: IQuestionModel = {
   state: {
     dictionary: {},
     ids: [],
-    pagingParams:{},
+    pagingParams: {},
   },
 
   effects: {
     *fetch({ payload }, { call, put }) {
       try {
-        const {params} = payload;
+        const { params } = payload;
         const response = yield call(getAll, params);
 
         if (Array.isArray(response.data) && response.success) {
@@ -46,24 +55,24 @@ const QuestionModel: IQuestionModel = {
             current: response.meta.page,
             pageSize: response.meta.take,
             total: response.meta.itemCount,
-          }
+          };
           yield put({
             type: 'updateDictionary',
-            payload: { data: dic, pagingParams: newPagingParams},
+            payload: { data: dic, pagingParams: newPagingParams },
           });
           return true;
         }
 
         notification.error({
-          message: response.message || 'Something went wrong'
-        })
+          message: response.message || 'Something went wrong',
+        });
 
         return false;
       } catch (err) {
         console.error(`Error when trying to get questions:`, err);
         notification.error({
-          message: 'Something went wrong'
-        })
+          message: 'Something went wrong',
+        });
         return false;
       }
     },
@@ -87,15 +96,15 @@ const QuestionModel: IQuestionModel = {
         }
 
         notification.error({
-          message: response.message || 'Something went wrong'
-        })
+          message: response.message || 'Something went wrong',
+        });
 
         return false;
       } catch (err) {
         console.error(`Error when trying to get the detailed question:`, err);
         notification.error({
-          message: 'Something went wrong'
-        })
+          message: 'Something went wrong',
+        });
         return false;
       }
     },
@@ -110,15 +119,15 @@ const QuestionModel: IQuestionModel = {
         }
 
         notification.error({
-          message: response.message || 'Something went wrong'
-        })
+          message: response.message || 'Something went wrong',
+        });
 
         return false;
       } catch (err) {
         console.error(`Error when trying to delete a question:`, err);
         notification.error({
-          message: 'Something went wrong'
-        })
+          message: 'Something went wrong',
+        });
         return false;
       }
     },
@@ -137,23 +146,93 @@ const QuestionModel: IQuestionModel = {
         }
 
         notification.error({
-          message: response.message || 'Something went wrong'
-        })
+          message: response.message || 'Something went wrong',
+        });
 
         return false;
       } catch (err) {
         console.error(`Error when trying to get the detailed question:`, err);
 
         notification.error({
-          message: 'Something went wrong'
-        })
+          message: 'Something went wrong',
+        });
+        return false;
+      }
+    },
+
+    *create({ payload }, { call, put }) {
+      try {
+        const { question, cb } = payload;
+        const response = yield call(createQuestion, question);
+        if (response.success) {
+          const { mapping: dic } = mapBuilder(response.data, 'id');
+
+          yield put({
+            type: 'updateDictionary',
+            payload: { data: dic },
+          });
+
+          notification.success({
+            message: 'Create new question successfully!',
+          });
+
+          cb(response.data.id);
+          return response.data;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong',
+        });
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to get the detailed question:`, err);
+
+        notification.error({
+          message: 'Something went wrong',
+        });
+        return false;
+      }
+    },
+
+    *update({ payload }, { call, put }) {
+      try {
+        const { question, questionId, cb } = payload;
+        const response = yield call(updateQuestion, question, questionId);
+        if (response.success) {
+          const { mapping: dic } = mapBuilder(response.data, 'id');
+
+          yield put({
+            type: 'updateDictionary',
+            payload: { data: dic },
+          });
+
+          notification.success({
+            message: 'Update question successfully!',
+          });
+
+          cb(response.data.id);
+          return response.data;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong',
+        });
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to get the detailed question:`, err);
+
+        notification.error({
+          message: 'Something went wrong',
+        });
         return false;
       }
     },
   },
 
   reducers: {
-    updateDictionary(state, { payload: { data, pagingParams} }) {
+    updateDictionary(state, { payload: { data, pagingParams } }) {
       return {
         ...state,
         dictionary: {
@@ -179,7 +258,7 @@ const QuestionModel: IQuestionModel = {
           },
           ids: state.ids.includes(id) ? state.ids : [...state.ids, id],
         };
-      };
+      }
 
       return {
         ...state,
