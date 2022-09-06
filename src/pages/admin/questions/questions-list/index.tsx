@@ -11,6 +11,7 @@ import ImportQuestionModal from './components/ImportQuestion';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
+import { NUMBER_OF_QUESTION_PER_PAGE } from '@/utils/constant';
 interface IQuestionListProps {
   dispatch: any;
   questionList: API.Question[];
@@ -41,7 +42,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       if (res) {
         dispatch({
           type: 'questions/fetch',
-          payload: { params: { page: 1, take: 5 } },
+          payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
         });
       }
     });
@@ -50,7 +51,14 @@ const QuestionsList: FC<IQuestionListProps> = ({
   const handleSearch = (value: string) => {
     dispatch({
       type: 'questions/fetch',
-      payload: { params: { page: 1, take: 5, searchField: 'question', searchValue: value } },
+      payload: {
+        params: {
+          page: 1,
+          take: NUMBER_OF_QUESTION_PER_PAGE,
+          searchField: 'question',
+          searchValue: value,
+        },
+      },
     });
   };
 
@@ -169,7 +177,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
   useEffect(() => {
     dispatch({
       type: 'questions/fetch',
-      payload: { params: { page: 1, take: 5 } },
+      payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
     });
   }, []);
 
@@ -193,7 +201,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
           id: 'pages.questionsTable.title',
         })}
         pagination={{
-          defaultPageSize: pagingParams ? pagingParams.pageSize : 5,
+          pageSize: pagingParams ? pagingParams.pageSize : NUMBER_OF_QUESTION_PER_PAGE,
           total: pagingParams ? pagingParams.total : 0,
           defaultCurrent: pagingParams ? pagingParams.current : 1,
           showSizeChanger: true,

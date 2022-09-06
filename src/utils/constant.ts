@@ -80,6 +80,8 @@ const MAP_TOPIC = {
   [TOPIC.OTHER]: 'Other',
 };
 
+const NUMBER_OF_QUESTION_PER_PAGE = 10;
+
 export {
   ROLES,
   QUESTION_TYPE,
@@ -95,4 +97,5 @@ export {
   MODE,
   MAP_MODE,
   ACCEPT_EXCEL_FILE,
+  NUMBER_OF_QUESTION_PER_PAGE
 };
