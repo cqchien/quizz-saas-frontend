@@ -1,4 +1,4 @@
-import { PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-components';
 import type { FC } from 'react';
@@ -172,9 +172,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
             okText="Yes"
             cancelText="No"
           >
-            <Button key={record.id} type="link" danger>
-              Delete
-            </Button>
+            <Button key={record.id} type="link" icon={<DeleteOutlined />} danger />
           </Popconfirm>
           <Link to={`/questions/${record.id}/edit`} key={record.id}>
             <Button type="link" icon={<EditTwoTone />} />
