@@ -132,16 +132,13 @@ const QuestionModel: IQuestionModel = {
       }
     },
 
-    *import({ payload }, { call, put }) {
+    *import({ payload }, { call }) {
       try {
-        const response = yield call(importListQuestions, payload);
-        if (Array.isArray(response.data) && response.success) {
-          const { mapping: dic } = mapBuilder(response.data, 'id');
+        const { data, cb } = payload;
 
-          yield put({
-            type: 'updateDictionary',
-            payload: { data: dic },
-          });
+        const response = yield call(importListQuestions, data);
+        if (Array.isArray(response.data) && response.success) {
+          cb();
           return response.data;
         }
 

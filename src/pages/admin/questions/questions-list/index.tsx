@@ -66,11 +66,21 @@ const QuestionsList: FC<IQuestionListProps> = ({
     const uploadedFile = data.file[0];
     const formData = new FormData();
 
+    const cb = () => {
+      dispatch({
+        type: 'questions/fetch',
+        payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
+      });
+    };
+
     formData.append('file', uploadedFile.originFileObj, uploadedFile.name);
 
     return dispatch({
       type: 'questions/import',
-      payload: formData,
+      payload: {
+        data: formData,
+        cb,
+      },
     });
   };
 
