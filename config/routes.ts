@@ -41,6 +41,33 @@
     ],
   },
   {
+    path: '/examinations',
+    name: 'examinations',
+    access: 'admin',
+    icon: 'container',
+    hideChildrenInMenu: true,
+    routes: [
+      {
+        path: '/examinations/list',
+        name: 'examinations-list',
+        component: './admin/examinations/examinations-list',
+      },
+      {
+        path: '/examinations/create',
+        name: 'examinations-create',
+        component: './admin/examinations/examinations-create',
+      },
+      {
+        path: '/examinations/:id/edit',
+        name: 'examinations-edit',
+        component: './admin/examinations/examinations-edit',
+      },
+      {
+        redirect: '/examinations/list',
+      },
+    ],
+  },
+  {
     path: '/',
     redirect: '/login',
   },
