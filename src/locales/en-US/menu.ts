@@ -15,11 +15,11 @@ export default {
   'menu.questions.questions-create': 'Create Question',
   'menu.questions.questions-edit': 'Edit Question',
 
-  // Admin - Examination Management
-  'menu.examinations': 'Examinations',
-  'menu.examinations.examinations-list': 'Examinations List',
-  'menu.examinations.examinations-create': 'Create Examination',
-  'menu.examinations.examinations-edit': 'Edit Examination',
+  // Admin - Exam Management
+  'menu.exams': 'Exams',
+  'menu.exams.exams-list': 'Exams List',
+  'menu.exams.exams-create': 'Create Exam',
+  'menu.exams.exams-edit': 'Edit Exam',
 
   // exception
   'menu.exception.403': '403',

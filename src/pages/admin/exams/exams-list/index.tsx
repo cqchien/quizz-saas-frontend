@@ -4,13 +4,13 @@ import { Button } from 'antd';
 import { Link } from 'react-router-dom';
 import { FormattedMessage } from 'umi';
 
-const ExaminationList: React.FC = () => {
+const ExamList: React.FC = () => {
   return (
     <PageContainer>
-      <Link to={'/examinations/create'} key="createButton">
+      <Link to={'/exams/create'} key="createButton">
         <Button type="primary" icon={<PlusOutlined />}>
           <span>
-            <FormattedMessage id="pages.examinationsTable.column.action.createLabel" />
+            <FormattedMessage id="pages.examsTable.column.action.createLabel" />
           </span>
         </Button>
       </Link>
@@ -18,4 +18,4 @@ const ExaminationList: React.FC = () => {
   );
 };
 
-export default ExaminationList;
+export default ExamList;

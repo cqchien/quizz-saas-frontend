@@ -69,16 +69,15 @@ export default {
   'pages.createQuestion.tooltip.enterOptionContent': 'Please enter option content here (*)',
   'pages.createQuestion.tooltip.typeOfQuestion': 'Please choose type of question',
 
-
-  // Examination table
-  'pages.examinationsTable.column.action.createLabel':"Create Exam",
-  'pages.examinationsTable.title': 'Examinations List',
+  // Exam table
+  'pages.examsTable.column.action.createLabel': 'Create Exam',
+  'pages.examsTable.title': 'Exams List',
 
   // Create exam
-  'pages.createExamination.tab.tabName.examinationDetails': 'Details',
-  'pages.createExamination.tab.tabName.examinationSettings': 'Settings',
-  'pages.createExamination.tab.tabName.examinationQuestions': 'Questions',
-  'pages.createExamination.tab.tabName.examinationSchedules': 'Schedules',
+  'pages.createExam.tab.tabName.examDetails': 'Details',
+  'pages.createExam.tab.tabName.examSettings': 'Settings',
+  'pages.createExam.tab.tabName.examQuestions': 'Questions',
+  'pages.createExam.tab.tabName.examSchedules': 'Schedules',
 
   // Schedules table
   'pages.schedulesTable.title': 'Schedules List',
@@ -91,7 +90,6 @@ export default {
   'pages.schedulesTable.column.action.confirmDeleteScheduleMessage':
     'Are you sure to delete this schedule?',
 
-    
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':
     'Umi ui is now released, welcome to use npm run ui to start the experience.',

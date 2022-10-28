@@ -74,30 +74,40 @@ declare namespace API {
     json?: any;
   };
 
-  type Examination = {
-    title: string;
-    description: string;
+  type Exam = {
+    id?: string;
+    code: string;
+    name: string;
     tags: string[];
-    durationMode: boolean;
-    marksMode: boolean;
-    negativeMarking: boolean;
-    overallPassPercentage: number;
-    shuffleQuestions: boolean;
-    disableSectionNavigation: boolean;
-    disableFinishButton: boolean;
-    enableQuestionListView: boolean;
-    hideSolutions: boolean;
-  }
+    description: string;
+    defaultQuestionNumber: number;
+    type: string;
+    questionBankType: string;
+    questions: string[];
+    setting: Setting;
+    schedules: Schedule[];
+  };
+
+  type Setting = {
+    plusScorePerQuestion: number;
+    minusScorePerQuestion: number;
+    viewPassQuestion: boolean;
+    viewNextQuestion: boolean;
+    showAllQuestion: boolean;
+    timePerQuestion: number;
+    shufflingExams: number;
+    hideResult: boolean;
+    percentageToPass: number;
+  };
 
   type Schedule = {
-    id: string;
     code: string;
-    type: string;
-    startAt: Date;
-    endsAt: Date;
-    status: boolean;
+    time?: number;
+    startTime: Date;
+    endTime: Date;
+    status?: boolean;
     assignedGroup?: string[];
-  }
+  };
 
   // type RuleListItem = {
   //   key?: number;

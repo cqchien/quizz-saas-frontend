@@ -1,5 +1,3 @@
-// Danh sách các thẻ câu hỏi - cho phép xóa
-
 import { MinusCircleOutlined } from '@ant-design/icons';
 import { Card, Col, Row } from 'antd';
 import React, { useEffect, useState } from 'react';
@@ -25,7 +23,7 @@ const SelectedQuestionTable: React.FC<IQuestionListProps> = ({
 
   useEffect(() => {
     setSelectedQuestion(questionList.filter((x) => selectedQuestionIds.includes(x.id)));
-  }, [selectedQuestionIds]);
+  }, [questionList, selectedQuestionIds]);
 
   const handleUnselectQuestion = (id: string) => {
     setSelectedQuestionIds((current) =>
@@ -39,7 +37,7 @@ const SelectedQuestionTable: React.FC<IQuestionListProps> = ({
     <>
       {selectedQuestion.map((item) => {
         return (
-          <Card>
+          <Card key={item.id}>
             <Row>
               <Col span={22}>
                 <QuestionCard questionId={item.id} />
