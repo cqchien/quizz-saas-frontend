@@ -34,9 +34,7 @@ declare namespace API {
     name?: string;
   };
 
-  type File = {
-    
-  }
+  type File = {};
 
   type Pet = {
     id?: number;

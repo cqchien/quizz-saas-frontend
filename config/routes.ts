@@ -41,6 +41,33 @@
     ],
   },
   {
+    path: '/exams',
+    name: 'exams',
+    access: 'admin',
+    icon: 'container',
+    hideChildrenInMenu: true,
+    routes: [
+      {
+        path: '/exams/list',
+        name: 'exams-list',
+        component: './admin/exams/exams-list',
+      },
+      {
+        path: '/exams/create',
+        name: 'exams-create',
+        component: './admin/exams/exams-create',
+      },
+      {
+        path: '/exams/:id/edit',
+        name: 'exams-edit',
+        component: './admin/exams/exams-edit',
+      },
+      {
+        redirect: '/exams/list',
+      },
+    ],
+  },
+  {
     path: '/',
     redirect: '/login',
   },

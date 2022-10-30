@@ -15,6 +15,12 @@ export default {
   'menu.questions.questions-create': 'Create Question',
   'menu.questions.questions-edit': 'Edit Question',
 
+  // Admin - Exam Management
+  'menu.exams': 'Exams',
+  'menu.exams.exams-list': 'Exams List',
+  'menu.exams.exams-create': 'Create Exam',
+  'menu.exams.exams-edit': 'Edit Exam',
+
   // exception
   'menu.exception.403': '403',
   'menu.exception.404': '404',
