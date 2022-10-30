@@ -163,6 +163,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       render: (text, record) => [
         <div key={record?.id}>
           <Popconfirm
+            key={record.id}
             title={
               <FormattedMessage id="pages.questionsTable.column.action.confirmDeleteQuestionMessage" />
             }
@@ -175,7 +176,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
             <Button key={record.id} type="link" icon={<DeleteOutlined />} danger />
           </Popconfirm>
           <Link to={`/questions/${record.id}/edit`} key={record.id}>
-            <Button type="link" icon={<EditTwoTone />} />
+            <Button key={record.id} type="link" icon={<EditTwoTone />} />
           </Link>
         </div>,
       ],
@@ -187,7 +188,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       type: 'questions/fetch',
       payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
     });
-  }, []);
+  }, [dispatch]);
 
   const paginationChange = (page: number, pageSize?: number) => {
     const params: API.PageQuery = {

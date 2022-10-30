@@ -1,4 +1,5 @@
-import React, { Key, useEffect, useState } from 'react';
+import type { Key } from 'react';
+import React, { useEffect, useState } from 'react';
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { Button, Card, Space, Tag } from 'antd';
@@ -118,7 +119,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       type: 'questions/fetch',
       payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
     });
-  }, []);
+  }, [dispatch]);
 
   const paginationChange = (page: number, pageSize?: number) => {
     const params: API.PageQuery = {

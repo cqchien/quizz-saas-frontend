@@ -34,9 +34,7 @@ declare namespace API {
     name?: string;
   };
 
-  type File = {
-    
-  }
+  type File = {};
 
   type Pet = {
     id?: number;
@@ -57,5 +55,4 @@ declare namespace API {
   type RuleListItem = {
     name: string;
   };
-
 }

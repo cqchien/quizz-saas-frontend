@@ -72,12 +72,20 @@ export default {
   // Exam table
   'pages.examsTable.column.action.createLabel': 'Create Exam',
   'pages.examsTable.title': 'Exams List',
+  'pages.examsTable.column.name.nameLabel': 'Name',
+  'pages.examsTable.column.code.codeLabel': 'Code',
+  'pages.examsTable.column.description.descriptionLabel': 'Description',
+  'pages.examsTable.column.type.typeLabel': 'Type',
+  'pages.examsTable.column.questionBankType.questionBankTypeLabel': 'Question Bank',
+  'pages.examsTable.column.action.confirmDeleteExamMessage': 'Are you sure to delete this exam?',
+  'pages.examsTable.column.action.actionLabel': 'Action',
 
   // Create exam
   'pages.createExam.tab.tabName.examDetails': 'Details',
   'pages.createExam.tab.tabName.examSettings': 'Settings',
   'pages.createExam.tab.tabName.examQuestions': 'Questions',
   'pages.createExam.tab.tabName.examSchedules': 'Schedules',
+  'pages.createExam.validate.required.requiredMessage': 'This field is required',
 
   // Schedules table
   'pages.schedulesTable.title': 'Schedules List',

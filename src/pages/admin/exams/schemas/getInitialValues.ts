@@ -6,6 +6,8 @@ const {
     description,
     tags,
     setting,
+    questionList,
+    scheduleList,
     plusScorePerQuestion,
     minusScorePerQuestion,
     timePerQuestion,
@@ -23,16 +25,24 @@ export function getInitialValue(objectInfo?: API.Exam) {
     [name.name]: (objectInfo && objectInfo[name.name]) || '',
     [description.name]: (objectInfo && objectInfo[description.name]) || '',
     [tags.name]: (objectInfo && objectInfo[tags.name]) || ['TOAN', 'TOAN12'],
+    [questionList.name]: (objectInfo && objectInfo[questionList.name]) || [], // TODO
+    [scheduleList.name]: (objectInfo && objectInfo[scheduleList.name]) || [],
     [setting.name]: {
-      [plusScorePerQuestion.name]: (objectInfo && objectInfo[plusScorePerQuestion.name]) || 0,
-      [minusScorePerQuestion.name]: (objectInfo && objectInfo[minusScorePerQuestion.name]) || 0,
-      [timePerQuestion.name]: (objectInfo && objectInfo[timePerQuestion.name]) || 0,
-      [shufflingExams.name]: (objectInfo && objectInfo[shufflingExams.name]) || 0,
-      [percentageToPass.name]: (objectInfo && objectInfo[percentageToPass.name]) || 50,
-      [viewPassQuestion.name]: (objectInfo && objectInfo[viewPassQuestion.name]) || false,
-      [viewNextQuestion.name]: (objectInfo && objectInfo[viewNextQuestion.name]) || false,
-      [showAllQuestion.name]: (objectInfo && objectInfo[showAllQuestion.name]) || false,
-      [hideResult.name]: (objectInfo && objectInfo[hideResult.name]) || false,
+      [plusScorePerQuestion.name]:
+        (objectInfo && objectInfo[setting.name][plusScorePerQuestion.name]) || 0,
+      [minusScorePerQuestion.name]:
+        (objectInfo && objectInfo[setting.name][minusScorePerQuestion.name]) || 0,
+      [timePerQuestion.name]: (objectInfo && objectInfo[setting.name][timePerQuestion.name]) || 0,
+      [shufflingExams.name]: (objectInfo && objectInfo[setting.name][shufflingExams.name]) || 0,
+      [percentageToPass.name]:
+        (objectInfo && objectInfo[setting.name][percentageToPass.name]) || 50,
+      [viewPassQuestion.name]:
+        (objectInfo && objectInfo[setting.name][viewPassQuestion.name]) || false,
+      [viewNextQuestion.name]:
+        (objectInfo && objectInfo[setting.name][viewNextQuestion.name]) || false,
+      [showAllQuestion.name]:
+        (objectInfo && objectInfo[setting.name][showAllQuestion.name]) || false,
+      [hideResult.name]: (objectInfo && objectInfo[setting.name][hideResult.name]) || false,
     },
   };
 }

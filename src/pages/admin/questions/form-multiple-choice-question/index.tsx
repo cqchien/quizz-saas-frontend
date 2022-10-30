@@ -6,6 +6,7 @@ import { useSetForm } from '@/context/FormContext';
 import TemplateFormFieldMultipleChoiceQuestion from '../components/TemplateFormFieldMultipleChoiceQuestion';
 import formSchema from '../schemas/questionSchema';
 import { getInitialValue } from '../schemas/getInitialValues';
+import { QUESTION_TYPE } from '@/utils/constant';
 
 interface IMultipleChoiceQuestionForm {
   question?: API.Question;
@@ -40,6 +41,8 @@ const MultipleChoiceQuestionForm: FC<IMultipleChoiceQuestionForm> = ({ question 
 
     const questionInfo: API.Question = {
       ...value,
+      type: QUESTION_TYPE.MULTIPLE_CHOICE_QUESTION,
+      attachment: [],
     };
 
     if (question) {

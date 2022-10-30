@@ -16,6 +16,7 @@ export default {
       label: 'Description',
       errMsg: 'Please input the description of this exam',
       required: true,
+      placeholder: '',
     },
 
     plusScorePerQuestion: {

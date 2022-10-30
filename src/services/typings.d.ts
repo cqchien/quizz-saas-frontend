@@ -83,7 +83,7 @@ declare namespace API {
     defaultQuestionNumber: number;
     type: string;
     questionBankType: string;
-    questions: string[];
+    questions: string[] | Question[];
     setting: Setting;
     schedules: Schedule[];
   };

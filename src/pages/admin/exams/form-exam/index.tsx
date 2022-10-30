@@ -27,7 +27,8 @@ const ExamForm: FC<IExamForm> = ({ exam }) => {
   };
 
   function handleViewExam(id: string) {
-    history.push(`/exams/${id}/edit`);
+    console.log(id);
+    history.push('/exams'); //history.push(`/exams/${id}/edit`);
   }
 
   const handleSubmit = (value: any) => {
