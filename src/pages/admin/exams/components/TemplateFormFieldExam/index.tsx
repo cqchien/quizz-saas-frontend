@@ -12,7 +12,7 @@ import { Content } from 'antd/lib/layout/layout';
 import React, { useEffect, useState } from 'react';
 import { useIntl } from 'umi';
 import QuestionTable from '../QuestionTable';
-import SelectedQuestionTable from '../SelectedQuestionTable';
+import SelectedQuestionsTable from '../SelectedQuestionsTable';
 import TemplateFormFieldSchedule from '../TemplateFormFieldSchedule';
 
 interface Props {
@@ -30,20 +30,19 @@ const TemplateFormFieldExam: React.FC<Props> = ({
 }) => {
   const intl = useIntl();
 
-  const [selectedQuestionIds, setSelectedQuestionIds] = useState<string[]>([]);
+  const [selectedQuestions, setSelectedQuestions] = useState<API.Question[]>([]);
 
   const handleChangeFieldValue = (value: any, fieldIndex: string) => {
     formRef.current?.setFieldsValue({ [fieldIndex]: value });
   };
 
-  const handleChangeSelectedQuestion = (value: any) => {
-    setSelectedQuestionIds([...new Set(selectedQuestionIds.concat(value))]);
+  const handleChangeSelectedQuestions = (value: API.Question) => {
+    setSelectedQuestions([...new Set(selectedQuestions.concat(value))]);
   };
 
   useEffect(() => {
-    handleChangeFieldValue(selectedQuestionIds, formField.questionList.name);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [selectedQuestionIds]);
+    handleChangeFieldValue(selectedQuestions, formField.questionList.name);
+  }, [selectedQuestions]);
 
   return (
     <StepsForm
@@ -98,6 +97,68 @@ const TemplateFormFieldExam: React.FC<Props> = ({
               },
             ]}
           />
+        </Content>
+      </StepsForm.StepForm>
+      <StepsForm.StepForm
+        name="examQuestions"
+        title={intl.formatMessage({
+          id: 'pages.createExam.tab.tabName.examQuestions',
+        })}
+      >
+        <Content
+          style={{ marginBottom: '24px', width: '1024px', height: '600px', overflow: 'auto' }}
+        >
+          <Form.Item
+            name={formField.questionList.name}
+            label={formField.questionList.label}
+            rules={[
+              {
+                required: formField.questionList.required,
+                message: formField.questionList.errMsg,
+              },
+            ]}
+          >
+            <Row>
+              <Col span={12}>
+                <QuestionTable
+                  handleSelectQuestion={(value: any) => handleChangeSelectedQuestions(value)}
+                />
+              </Col>
+              <Col span={12}>
+                <SelectedQuestionsTable
+                  selectedQuestions={selectedQuestions}
+                  setSelectedQuestions={setSelectedQuestions}
+                />
+              </Col>
+            </Row>
+          </Form.Item>
+        </Content>
+      </StepsForm.StepForm>
+      <StepsForm.StepForm
+        name="examSchedules"
+        title={intl.formatMessage({
+          id: 'pages.createExam.tab.tabName.examSchedules',
+        })}
+      >
+        <Content
+          style={{ marginBottom: '24px', width: '1024px', height: '600px', overflow: 'auto' }}
+        >
+          <Form.Item
+            name={formField.scheduleList.name}
+            label={formField.scheduleList.label}
+            rules={[
+              {
+                required: formField.scheduleList.required,
+                message: formField.scheduleList.errMsg,
+              },
+            ]}
+          >
+            <TemplateFormFieldSchedule
+              initialValues={initialValues}
+              handleChangeFieldValue={handleChangeFieldValue}
+              scheduleListFieldName={formField.scheduleList.name}
+            />
+          </Form.Item>
         </Content>
       </StepsForm.StepForm>
       <StepsForm.StepForm
@@ -167,44 +228,6 @@ const TemplateFormFieldExam: React.FC<Props> = ({
               />
             </Col>
           </Row>
-        </Content>
-      </StepsForm.StepForm>
-      <StepsForm.StepForm
-        name="examQuestions"
-        title={intl.formatMessage({
-          id: 'pages.createExam.tab.tabName.examQuestions',
-        })}
-      >
-        <Content
-          style={{ marginBottom: '24px', width: '1024px', height: '600px', overflow: 'auto' }}
-        >
-          <Form.Item name={formField.questionList.name} label={formField.questionList.label}>
-            <QuestionTable
-              handleSelectQuestion={(value: any) => handleChangeSelectedQuestion(value)}
-            />
-            <SelectedQuestionTable
-              selectedQuestionIds={selectedQuestionIds}
-              setSelectedQuestionIds={setSelectedQuestionIds}
-            />
-          </Form.Item>
-        </Content>
-      </StepsForm.StepForm>
-      <StepsForm.StepForm
-        name="examSchedules"
-        title={intl.formatMessage({
-          id: 'pages.createExam.tab.tabName.examSchedules',
-        })}
-      >
-        <Content
-          style={{ marginBottom: '24px', width: '1024px', height: '600px', overflow: 'auto' }}
-        >
-          <Form.Item name={formField.scheduleList.name} label={formField.scheduleList.label}>
-            <TemplateFormFieldSchedule
-              initialValues={initialValues}
-              handleChangeFieldValue={handleChangeFieldValue}
-              scheduleListFieldName={formField.scheduleList.name}
-            />
-          </Form.Item>
         </Content>
       </StepsForm.StepForm>
     </StepsForm>

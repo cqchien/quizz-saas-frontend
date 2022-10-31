@@ -59,10 +59,14 @@ export default {
 
     questionList: {
       name: 'questions',
+      required: true,
+      errMsg: 'This exam need at least one question',
     },
 
     scheduleList: {
       name: 'schedules',
+      required: true,
+      errMsg: 'This exam need at least one schedule',
     },
 
     setting: {

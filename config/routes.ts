@@ -63,6 +63,11 @@
         component: './admin/exams/exams-edit',
       },
       {
+        path: '/exams/exam',
+        name: 'exams-exam',
+        component: './admin/exams/exams-exam',
+      },
+      {
         redirect: '/exams/list',
       },
     ],

@@ -109,6 +109,16 @@ declare namespace API {
     assignedGroup?: string[];
   };
 
+  type SubmitExamData = {
+    answers: QuestionAnswer[];
+  };
+
+  type QuestionAnswer = {
+    questionId: string;
+    answerOrder: number;
+    answerValue?: any;
+  };
+
   // type RuleListItem = {
   //   key?: number;
   //   disabled?: boolean;

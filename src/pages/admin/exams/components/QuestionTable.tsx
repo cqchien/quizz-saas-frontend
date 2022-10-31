@@ -2,11 +2,12 @@ import type { Key } from 'react';
 import React, { useEffect, useState } from 'react';
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Card, Space, Tag } from 'antd';
+import { Button, Card } from 'antd';
 import { connect, FormattedMessage, useIntl } from 'umi';
 import mapStateToProps from '../../questions/mapStateToProps';
 import {
   HEURISTIC_LEVEL_STRING,
+  MAP_QUESTION_TYPE_SHORT,
   NUMBER_OF_QUESTION_PER_PAGE,
   QUESTION_TYPE_STRING,
 } from '@/utils/constant';
@@ -43,6 +44,13 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       valueType: 'indexBorder',
       width: 48,
     },
+
+    {
+      title: <FormattedMessage id="pages.questionsTable.column.question.questionLabel" />,
+      dataIndex: 'question',
+      key: 'question',
+      width: 500,
+    },
     {
       title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,
       dataIndex: 'type',
@@ -62,6 +70,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
         },
         [QUESTION_TYPE_STRING.ORDERING_SEQUENCE]: { text: QUESTION_TYPE_STRING.ORDERING_SEQUENCE },
       },
+      render: (_, record) => MAP_QUESTION_TYPE_SHORT[record.type],
     },
     {
       title: (
@@ -83,35 +92,6 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
         [HEURISTIC_LEVEL_STRING.EVALUATION]: { text: HEURISTIC_LEVEL_STRING.EVALUATION },
       },
     },
-    {
-      title: <FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />,
-      key: 'topic',
-      dataIndex: 'topic',
-    },
-    {
-      title: <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" />,
-      dataIndex: 'tags',
-      key: 'tag',
-      search: false,
-      renderFormItem: (_, { defaultRender }) => {
-        return defaultRender(_);
-      },
-      render: (_, record) => (
-        <Space>
-          {(record.tags || []).map((tag) => (
-            <Tag color="cyan" key={`${tag}_${record.id}`}>
-              {tag}
-            </Tag>
-          ))}
-        </Space>
-      ),
-    },
-    {
-      title: <FormattedMessage id="pages.questionsTable.column.question.questionLabel" />,
-      dataIndex: 'question',
-      key: 'question',
-      width: 500,
-    },
   ];
 
   useEffect(() => {
@@ -131,6 +111,14 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       type: 'questions/fetch',
       payload: { params: params },
     });
+  };
+
+  const handleSelectButton = () => {
+    const selectedQuestion = questionList.filter((x) => {
+      if (selectedRowKeys.includes(x.id)) return x;
+    });
+    handleSelectQuestion(selectedQuestion);
+    setSelectedRowKeys([]);
   };
 
   return (
@@ -169,14 +157,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
         }}
         dateFormatter="string"
         toolBarRender={() => [
-          <Button
-            type="primary"
-            key="show"
-            onClick={() => {
-              handleSelectQuestion(selectedRowKeys);
-              setSelectedRowKeys([]);
-            }}
-          >
+          <Button type="primary" key="show" onClick={handleSelectButton}>
             Select question
           </Button>,
         ]}
