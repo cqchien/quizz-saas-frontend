@@ -11,6 +11,7 @@ import {
   NUMBER_OF_QUESTION_PER_PAGE,
   QUESTION_TYPE_STRING,
 } from '@/utils/constant';
+import { Editor } from '@tinymce/tinymce-react';
 
 interface IQuestionListProps {
   dispatch: any;
@@ -50,6 +51,16 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       dataIndex: 'question',
       key: 'question',
       width: 500,
+      render: (_, record) => (
+        <Editor
+          value={record.question}
+          init={{
+            inline: true,
+            readonly: true,
+          }}
+          disabled={true}
+        />
+      ),
     },
     {
       title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,

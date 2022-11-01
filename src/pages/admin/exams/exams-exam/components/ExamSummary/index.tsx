@@ -1,6 +1,4 @@
-import { ClockCircleOutlined } from '@ant-design/icons';
-import { Typography, Card, Row, Col, Space, Button } from 'antd';
-import Countdown from 'antd/lib/statistic/Countdown';
+import { Typography, Card, Row, Col, Button } from 'antd';
 import React from 'react';
 
 const QuestionStateStyle: React.CSSProperties = {
@@ -12,7 +10,7 @@ const QuestionStateStyle: React.CSSProperties = {
   border: '1px solid #dee2e6',
 };
 
-const { Text } = Typography;
+const { Text, Title } = Typography;
 
 interface Props {
   questionList: API.Question[];
@@ -24,15 +22,6 @@ const ExamSummary: React.FC<Props> = ({ questionList, setCurrentIndex, onSubmitE
   return (
     <Card>
       <Row className="question-state" gutter={[32, 16]}>
-        <Col span={24}>
-          <Space direction="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
-            <Space align="center">
-              <ClockCircleOutlined style={{ fontSize: '32px', color: '#08c' }} />
-              <Countdown value={Date.now() + 1000 * 60 * 30} onFinish={onSubmitExam} />
-            </Space>
-          </Space>
-        </Col>
-
         <Col className="gutter-row" span={12}>
           <div
             style={{
@@ -40,7 +29,7 @@ const ExamSummary: React.FC<Props> = ({ questionList, setCurrentIndex, onSubmitE
               background: '#ffffff',
             }}
           />
-          <span>Not visit</span>
+          <Text strong>Not visit</Text>
         </Col>
         <Col className="gutter-row" span={12}>
           <div
@@ -49,7 +38,7 @@ const ExamSummary: React.FC<Props> = ({ questionList, setCurrentIndex, onSubmitE
               background: '#0092ff',
             }}
           />
-          <span>Tick</span>
+          <Text strong>Flagged</Text>
         </Col>
         <Col className="gutter-row" span={12}>
           <div
@@ -58,7 +47,7 @@ const ExamSummary: React.FC<Props> = ({ questionList, setCurrentIndex, onSubmitE
               background: '#063970',
             }}
           />
-          <span>Answered</span>
+          <Text strong>Answered</Text>
         </Col>
         <Col className="gutter-row" span={12}>
           <div
@@ -67,24 +56,31 @@ const ExamSummary: React.FC<Props> = ({ questionList, setCurrentIndex, onSubmitE
               background: '#eeeee4',
             }}
           />
-          <span>Not answered</span>
+          <Text strong>Not answered</Text>
         </Col>
         <Col span={24}>
           <Text type="secondary">Click on button to view question</Text>
         </Col>
         <Col className="gutter-row" span={24}>
           <Row gutter={[16, 16]}>
-            {questionList.map((x, index) => (
+            {questionList?.map((x, index) => (
               <Col key={x.id} span={3}>
                 <Button shape="round" size="large" onClick={() => setCurrentIndex(index)}>
-                  {index + 1}
+                  <Text strong>{index + 1}</Text>
                 </Button>
               </Col>
             ))}
           </Row>
         </Col>
-        <Button type="primary" block style={{ height: '50px' }} onClick={onSubmitExam}>
-          FINISH
+        <Button
+          type="primary"
+          block
+          style={{ height: '50px', backgroundColor: '#003a8c' }}
+          onClick={onSubmitExam}
+        >
+          <Title level={2} style={{ color: '#ffffff' }}>
+            FINISH
+          </Title>
         </Button>
       </Row>
     </Card>

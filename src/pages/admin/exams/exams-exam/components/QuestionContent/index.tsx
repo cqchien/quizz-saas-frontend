@@ -6,7 +6,7 @@ import React, { useEffect, useState } from 'react';
 const { Text } = Typography;
 
 interface Props {
-  currentQuestion: API.Question;
+  currentQuestion: API.Question | undefined;
   onSelectOption: any;
   questionAnswers: API.QuestionAnswer[];
 }
@@ -40,7 +40,7 @@ const QuestionContent: React.FC<Props> = ({ currentQuestion, onSelectOption, que
           </Divider>
           <Radio.Group key={currentQuestion.id} onChange={onSelectOption} value={selectedValue}>
             <Space direction="vertical">
-              {currentQuestion.options.map((x) => (
+              {currentQuestion.options?.map((x) => (
                 <Radio key={`${currentQuestion.id}_${x.order}`} value={x.order}>
                   <Editor
                     value={x.option}

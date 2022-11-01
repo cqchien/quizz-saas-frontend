@@ -119,6 +119,51 @@ declare namespace API {
     answerValue?: any;
   };
 
+  type UserExam = {
+    id: string;
+    quest;
+    templateExam: TemplateExam;
+    user: User;
+    setting: Setting;
+    code: string;
+    name: string;
+    description: string;
+    type: string;
+    status: string;
+    scheduleCode: string;
+    score: number;
+    total: number;
+    resultStatus: string;
+    questionBankType: string;
+    questions: QuestionAnswerGet[];
+    createdAt: Date;
+    updatedAt: Date;
+  };
+
+  type QuestionAnswerGet = {
+    question: Question;
+    answerOrder: number;
+    answerValue: any;
+  };
+
+  type TemplateExam = {
+    id: string;
+    code: string;
+    name: string;
+    description: string;
+    defaultQuestionNumber: number;
+    time: number;
+    type: string;
+    questionBankType: string;
+    questions: Question[];
+    setting: Setting;
+    schedules: Schedule[];
+    createdAt: Date;
+    updatedAt: Date;
+    createdBy: User;
+    updatedBy: User;
+  };
+
   // type RuleListItem = {
   //   key?: number;
   //   disabled?: boolean;

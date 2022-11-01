@@ -63,12 +63,19 @@
         component: './admin/exams/exams-edit',
       },
       {
-        path: '/exams/exam',
+        redirect: '/exams/list',
+      },
+    ],
+  },
+  {
+    path: '/user-exams',
+    access: 'admin',
+    hideChildrenInMenu: true,
+    routes: [
+      {
+        path: '/user-exams/:id/take-exam',
         name: 'exams-exam',
         component: './admin/exams/exams-exam',
-      },
-      {
-        redirect: '/exams/list',
       },
     ],
   },

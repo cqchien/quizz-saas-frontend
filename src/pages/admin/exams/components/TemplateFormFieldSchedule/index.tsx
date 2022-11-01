@@ -108,7 +108,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
               type="link"
               danger
               icon={<DeleteOutlined />}
-              disabled={record.startTime < new Date()}
+              // disabled={record.startTime < new Date()}
             />
           </Popconfirm>
           <Button

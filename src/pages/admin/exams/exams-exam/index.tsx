@@ -1,9 +1,15 @@
-import { CheckOutlined, ArrowLeftOutlined, ArrowRightOutlined } from '@ant-design/icons';
+import {
+  CheckOutlined,
+  ArrowLeftOutlined,
+  ArrowRightOutlined,
+  ClockCircleOutlined,
+} from '@ant-design/icons';
 import { ProCard } from '@ant-design/pro-components';
+import { useMount } from 'ahooks';
 import type { RadioChangeEvent } from 'antd';
-import { Button } from 'antd';
+import { Button, Card, Space } from 'antd';
 import { Row, Col } from 'antd';
-import { orderBy } from 'lodash';
+import Countdown from 'antd/lib/statistic/Countdown';
 import { useEffect, useState } from 'react';
 import { connect } from 'umi';
 import ExamHeading from './components/ExamHeading';
@@ -11,33 +17,59 @@ import ExamSummary from './components/ExamSummary';
 import QuestionContent from './components/QuestionContent';
 
 interface IProps {
+  id: string;
   dispatch: any;
-  questionList: API.Question[];
+  userExam: API.UserExam;
 }
 
-const DoExam: React.FC<IProps> = ({ dispatch, questionList }) => {
+const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
+  const [schedule, setSchedule] = useState<API.Schedule>();
+  const [questionList, setQuestionList] = useState<API.Question[]>([]);
   const [questionAnswers, setQuestionAnswers] = useState<API.QuestionAnswer[]>([]);
-  const [currentQuestion, setCurrentQuestion] = useState<API.Question>(questionList[0]);
-  const [currentQuestionId, setCurrentQuestionId] = useState<string>(questionList[0]?.id);
+  const [currentQuestion, setCurrentQuestion] = useState<API.Question>();
+  const [currentQuestionId, setCurrentQuestionId] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
-  useEffect(() => {
+  useMount(() => {
     dispatch({
-      type: 'questions/fetch',
-      payload: { params: { page: 1, take: 10 } },
+      type: 'userExamsNamespace/takeExam',
+      payload: {
+        userExamId: id,
+      },
     });
-  }, [dispatch]);
+  });
 
   useEffect(() => {
-    setQuestionAnswers([]);
-    setCurrentIndex(0);
-    setCurrentQuestion(questionList[0]);
-    setCurrentQuestionId(questionList[0]?.id);
+    if (userExam) {
+      setQuestionList(userExam.questions.map((x) => x.question));
+      setSchedule(
+        userExam.templateExam.schedules.filter((x) => x.code == userExam.scheduleCode)[0],
+      );
+      console.log(
+        new Date(
+          userExam.templateExam.schedules.filter((x) => x.code == userExam.scheduleCode)[0].endTime,
+        ).getMilliseconds(),
+        new Date(
+          userExam.templateExam.schedules.filter((x) => x.code == userExam.scheduleCode)[0].endTime,
+        ),
+      );
+    }
+  }, [userExam]);
+
+  useEffect(() => {
+    if (questionList) {
+      setQuestionAnswers([]);
+      setCurrentIndex(0);
+      setCurrentQuestion(questionList[0]);
+      setCurrentQuestionId(questionList[0]?.id);
+    }
   }, [questionList]);
 
   useEffect(() => {
-    setCurrentQuestion(questionList[currentIndex]);
-    setCurrentQuestionId(questionList[currentIndex]?.id);
+    if (questionList) {
+      setCurrentQuestion(questionList[currentIndex]);
+      setCurrentQuestionId(questionList[currentIndex]?.id);
+    }
   }, [currentIndex, questionList]);
 
   const onSelectOption = (e: RadioChangeEvent) => {
@@ -60,10 +92,10 @@ const DoExam: React.FC<IProps> = ({ dispatch, questionList }) => {
     console.log('Submit', questionAnswers);
   };
 
-  return (
+  return userExam ? (
     <Row gutter={[0, 24]}>
       <Col span={24}>
-        <ExamHeading />
+        <ExamHeading templateExam={userExam.templateExam} time={schedule?.time} />
       </Col>
       <Col span={24}>
         <Row gutter={[48, 0]} className="exam-content w-100">
@@ -94,7 +126,7 @@ const DoExam: React.FC<IProps> = ({ dispatch, questionList }) => {
                   key="nextQuestion"
                   icon={<ArrowRightOutlined />}
                   size="large"
-                  disabled={currentIndex + 1 == questionList.length}
+                  disabled={currentIndex + 1 == questionList?.length}
                   onClick={() => setCurrentIndex(currentIndex + 1)}
                 >
                   Next
@@ -109,6 +141,19 @@ const DoExam: React.FC<IProps> = ({ dispatch, questionList }) => {
             </ProCard>
           </Col>
           <Col span={8} className="do-exam-wrapper">
+            <Card>
+              <Space direction="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
+                <Space align="center">
+                  <ClockCircleOutlined style={{ fontSize: '32px', color: '#003a8c' }} />
+                  <Countdown
+                    value={new Date(schedule?.endTime ? schedule?.endTime : '').getTime()} //Date.now() + 1000 * 60 * 30
+                    onFinish={onSubmitExam}
+                    valueStyle={{ color: '#003a8c' }}
+                  />
+                </Space>
+              </Space>
+            </Card>
+
             <ExamSummary
               questionList={questionList}
               setCurrentIndex={setCurrentIndex}
@@ -118,15 +163,16 @@ const DoExam: React.FC<IProps> = ({ dispatch, questionList }) => {
         </Row>
       </Col>
     </Row>
+  ) : (
+    <></>
   );
 };
 
-export default connect(({ loading, questions }: any) => {
-  const { ids, dictionary, pagingParams } = questions;
-  const questionList = ids.map((id: string) => dictionary[id]);
+export default connect(({ userExamsNamespace }: any, { match }: any) => {
+  const { id } = match.params;
+  const { dictionary } = userExamsNamespace;
   return {
-    questionList: orderBy(questionList, 'createdAt', 'desc'),
-    pagingParams: pagingParams,
-    loading: loading.effects['exams/fetch'],
+    id,
+    userExam: dictionary[id],
   };
 })(DoExam);
