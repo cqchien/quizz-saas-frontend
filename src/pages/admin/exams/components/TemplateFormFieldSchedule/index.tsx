@@ -79,20 +79,24 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       key: 'status',
       valueType: 'select',
       render: (_, record) =>
-        record.status === 'in_progress' ? (
+        record.status === 'not_started' ? (
           <Tag color="green" key={`${record.code}`}>
+            Not started
+          </Tag>
+        ) : record.status === 'in_progress' ? (
+          <Tag color="yellow" key={`${record.code}`}>
             In progress
           </Tag>
         ) : (
           <Tag color="red" key={`${record.code}`}>
-            Expired
+            Completed
           </Tag>
         ),
     },
     {
       title: <FormattedMessage id="pages.schedulesTable.column.action.actionLabel" />,
       key: 'action',
-      valueType: 'option',
+      valueType: 'option', //TODO check condition for edit and delete schedule
       render: (text, record) => [
         <div key={record?.code}>
           <Popconfirm
@@ -106,13 +110,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
             cancelText="No"
             disabled={record.startTime < new Date()}
           >
-            <Button
-              key={record.code}
-              type="link"
-              danger
-              icon={<DeleteOutlined />}
-              // disabled={record.startTime < new Date()}
-            />
+            <Button key={record.code} type="link" danger icon={<DeleteOutlined />} />
           </Popconfirm>
           <Button
             key={record.code}
