@@ -1,6 +1,5 @@
 import { notification } from 'antd';
 import { takeExam, submitExam } from '@/services/userExam';
-import { mapBuilder } from '@/utils/function';
 import type { Effect, Reducer } from 'umi';
 
 const NAMESPACE = 'userExamsNamespace';
@@ -63,20 +62,15 @@ const UserExamModel: IUserExamModel = {
       }
     },
 
-    *submitExam({ payload }, { call, put }) {
+    *submitExam({ payload }, { call }) {
       try {
         const { examSubmit, userExamId } = payload;
-        const response = yield call(submitExam, examSubmit, userExamId);
+        const response = yield call(submitExam, userExamId, examSubmit);
         if (response.success) {
-          const { mapping: dic } = mapBuilder(response.data, 'id');
-
-          yield put({
-            type: 'updateDictionary',
-            payload: { data: dic },
-          });
+          console.log(response.data);
 
           notification.success({
-            message: 'Update exam successfully!',
+            message: 'Submit exam successfully!',
           });
 
           return response.data;

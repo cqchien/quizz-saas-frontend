@@ -98,6 +98,9 @@ export default {
   'pages.schedulesTable.column.action.confirmDeleteScheduleMessage':
     'Are you sure to delete this schedule?',
 
+  // User start exam
+  'pages.userExam.questionsTable.hint': 'Please select question from list below',
+
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':
     'Umi ui is now released, welcome to use npm run ui to start the experience.',

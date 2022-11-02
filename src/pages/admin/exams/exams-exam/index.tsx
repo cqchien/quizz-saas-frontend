@@ -45,14 +45,6 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       setSchedule(
         userExam.templateExam.schedules.filter((x) => x.code == userExam.scheduleCode)[0],
       );
-      console.log(
-        new Date(
-          userExam.templateExam.schedules.filter((x) => x.code == userExam.scheduleCode)[0].endTime,
-        ).getMilliseconds(),
-        new Date(
-          userExam.templateExam.schedules.filter((x) => x.code == userExam.scheduleCode)[0].endTime,
-        ),
-      );
     }
   }, [userExam]);
 
@@ -89,8 +81,47 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
   };
 
   const onSubmitExam = () => {
-    console.log('Submit', questionAnswers);
+    dispatch({
+      type: 'userExamsNamespace/submitExam',
+      payload: {
+        examSubmit: {
+          answers: questionAnswers,
+        },
+        userExamId: id,
+      },
+    });
   };
+
+  const examMainContentActions = [
+    <Button
+      key="viewResult"
+      icon={<CheckOutlined />}
+      size="large"
+      onClick={() => {
+        console.log(questionAnswers);
+      }}
+    >
+      View result
+    </Button>,
+    <Button
+      key="previousQuestion"
+      icon={<ArrowLeftOutlined />}
+      size="large"
+      disabled={!userExam?.setting.viewPassQuestion || currentIndex == 0}
+      onClick={() => setCurrentIndex(currentIndex - 1)}
+    >
+      Previous
+    </Button>,
+    <Button
+      key="nextQuestion"
+      icon={<ArrowRightOutlined />}
+      size="large"
+      disabled={!userExam?.setting.viewNextQuestion || currentIndex + 1 == questionList?.length}
+      onClick={() => setCurrentIndex(currentIndex + 1)}
+    >
+      Next
+    </Button>,
+  ];
 
   return userExam ? (
     <Row gutter={[0, 24]}>
@@ -100,39 +131,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       <Col span={24}>
         <Row gutter={[48, 0]} className="exam-content w-100">
           <Col offset={2} span={12} className="exam-main-content">
-            <ProCard
-              title={`Question ${currentIndex + 1}`}
-              actions={[
-                <Button
-                  key="viewResult"
-                  icon={<CheckOutlined />}
-                  size="large"
-                  onClick={() => {
-                    console.log(questionAnswers);
-                  }}
-                >
-                  View result
-                </Button>,
-                <Button
-                  key="previousQuestion"
-                  icon={<ArrowLeftOutlined />}
-                  size="large"
-                  disabled={currentIndex == 0}
-                  onClick={() => setCurrentIndex(currentIndex - 1)}
-                >
-                  Previous
-                </Button>,
-                <Button
-                  key="nextQuestion"
-                  icon={<ArrowRightOutlined />}
-                  size="large"
-                  disabled={currentIndex + 1 == questionList?.length}
-                  onClick={() => setCurrentIndex(currentIndex + 1)}
-                >
-                  Next
-                </Button>,
-              ]}
-            >
+            <ProCard title={`Question ${currentIndex + 1}`} actions={examMainContentActions}>
               <QuestionContent
                 currentQuestion={currentQuestion}
                 onSelectOption={onSelectOption}
@@ -157,6 +156,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
             <ExamSummary
               questionList={questionList}
               setCurrentIndex={setCurrentIndex}
+              questionAnswers={questionAnswers}
               onSubmitExam={onSubmitExam}
             />
           </Col>

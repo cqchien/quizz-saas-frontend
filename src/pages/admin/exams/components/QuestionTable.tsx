@@ -144,7 +144,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
           },
         }}
         headerTitle={intl.formatMessage({
-          id: 'pages.questionsTable.title',
+          id: 'pages.userExam.questionsTable.hint',
         })}
         pagination={{
           pageSize: pagingParams ? pagingParams.pageSize : NUMBER_OF_QUESTION_PER_PAGE,

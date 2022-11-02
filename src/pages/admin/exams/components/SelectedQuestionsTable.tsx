@@ -1,7 +1,8 @@
 import { MinusCircleOutlined } from '@ant-design/icons';
+import { ProCard } from '@ant-design/pro-components';
+import { Editor } from '@tinymce/tinymce-react';
 import { Card, Col, Row } from 'antd';
 import React from 'react';
-import QuestionCard from './QuestionCard';
 
 interface IQuestionListProps {
   selectedQuestions: API.Question[];
@@ -21,13 +22,20 @@ const SelectedQuestionsTable: React.FC<IQuestionListProps> = ({
   };
 
   return (
-    <>
+    <ProCard title="There are your selected question">
       {selectedQuestions.map((item) => {
         return (
           <Card key={item.id}>
             <Row>
               <Col span={22}>
-                <QuestionCard questionId={item.id} />
+                <Editor
+                  value={item.question}
+                  init={{
+                    inline: true,
+                    readonly: true,
+                  }}
+                  disabled={true}
+                />
               </Col>
               <Col span={2}>
                 <Row justify="end">
@@ -41,7 +49,7 @@ const SelectedQuestionsTable: React.FC<IQuestionListProps> = ({
           </Card>
         );
       })}
-    </>
+    </ProCard>
   );
 };
 

@@ -11,7 +11,7 @@ import {
   ProFormDateTimeRangePicker,
   ProFormSelect,
 } from '@ant-design/pro-components';
-import { Button, Form, message, Popconfirm, Tag } from 'antd';
+import { Button, Form, Popconfirm, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, useIntl } from 'umi';
 
@@ -31,6 +31,11 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
   const [scheduleList, setScheduleList] = useState<API.Schedule[]>(
     initialValues[scheduleListFieldName],
   );
+
+  useEffect(() => {
+    handleChangeFieldValue(scheduleList, scheduleListFieldName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scheduleList]);
 
   const handleRemoveSchedule = (code: string) => {
     setScheduleList((current) =>
@@ -137,11 +142,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     return current < new Date();
   };
 
-  useEffect(() => {
-    handleChangeFieldValue(scheduleList, scheduleListFieldName);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scheduleList]);
-
   const handleScheduleSubmit = async (values: any) => {
     let startTime;
     let endTime;
@@ -163,7 +163,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     };
 
     setScheduleList([...scheduleList, newSchedule]);
-    message.success('Success OK');
     return true;
   };
 
