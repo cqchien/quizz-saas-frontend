@@ -13,7 +13,7 @@ import {
 } from '@ant-design/pro-components';
 import { Button, Form, Popconfirm, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'umi';
+import { FormattedMessage } from 'umi';
 
 interface IProps {
   initialValues: any;
@@ -26,8 +26,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
   handleChangeFieldValue,
   scheduleListFieldName,
 }) => {
-  const intl = useIntl();
-
   const [scheduleList, setScheduleList] = useState<API.Schedule[]>(
     initialValues[scheduleListFieldName],
   );
@@ -81,9 +79,9 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       key: 'status',
       valueType: 'select',
       render: (_, record) =>
-        record.status === true ? (
+        record.status === 'in_progress' ? (
           <Tag color="green" key={`${record.code}`}>
-            Active
+            In progress
           </Tag>
         ) : (
           <Tag color="red" key={`${record.code}`}>
@@ -170,10 +168,10 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     <ProTable<API.Schedule>
       dataSource={scheduleList}
       search={false}
-      headerTitle={intl.formatMessage({
-        id: 'pages.schedulesTable.title',
-      })}
       columns={scheduleTableColumns}
+      pagination={{
+        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+      }}
       options={{
         setting: false,
         fullScreen: false,
@@ -229,6 +227,8 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
                       placeholder=""
                       fieldProps={{
                         disabledDate: disabledDate,
+                        minuteStep: 5,
+                        format: 'YYYY-MM-DD HH:mm',
                       }}
                     />
                     <ProFormDigit
@@ -245,6 +245,10 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
                   name="dateRange"
                   label="Date range"
                   placeholder={['Start at', 'End at']}
+                  fieldProps={{
+                    minuteStep: 5,
+                    format: 'YYYY-MM-DD HH:mm',
+                  }}
                 />
               );
             }}

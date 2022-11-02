@@ -7,6 +7,7 @@ import {
 import { ProCard } from '@ant-design/pro-components';
 import { useMount } from 'ahooks';
 import type { RadioChangeEvent } from 'antd';
+import { Result, Statistic } from 'antd';
 import { Button, Card, Space } from 'antd';
 import { Row, Col } from 'antd';
 import Countdown from 'antd/lib/statistic/Countdown';
@@ -23,6 +24,8 @@ interface IProps {
 }
 
 const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
+  const [examResult, setExamResult] = useState<any>();
+  const [isSubmited, setIsSubmited] = useState<boolean>(false);
   const [schedule, setSchedule] = useState<API.Schedule>();
   const [questionList, setQuestionList] = useState<API.Question[]>([]);
   const [questionAnswers, setQuestionAnswers] = useState<API.QuestionAnswer[]>([]);
@@ -89,6 +92,9 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
         },
         userExamId: id,
       },
+    }).then((result: any) => {
+      setExamResult(result);
+      setIsSubmited(true);
     });
   };
 
@@ -129,38 +135,58 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
         <ExamHeading templateExam={userExam.templateExam} time={schedule?.time} />
       </Col>
       <Col span={24}>
-        <Row gutter={[48, 0]} className="exam-content w-100">
-          <Col offset={2} span={12} className="exam-main-content">
-            <ProCard title={`Question ${currentIndex + 1}`} actions={examMainContentActions}>
-              <QuestionContent
-                currentQuestion={currentQuestion}
-                onSelectOption={onSelectOption}
-                questionAnswers={questionAnswers}
-              />
-            </ProCard>
-          </Col>
-          <Col span={8} className="do-exam-wrapper">
-            <Card>
-              <Space direction="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
-                <Space align="center">
-                  <ClockCircleOutlined style={{ fontSize: '32px', color: '#003a8c' }} />
-                  <Countdown
-                    value={new Date(schedule?.endTime ? schedule?.endTime : '').getTime()} //Date.now() + 1000 * 60 * 30
-                    onFinish={onSubmitExam}
-                    valueStyle={{ color: '#003a8c' }}
-                  />
+        {isSubmited ? (
+          <Result
+            status={examResult?.resultStatus == 'Failed' ? 'error' : 'success'}
+            title={
+              examResult?.resultStatus == 'Failed'
+                ? 'Sorry, you failed'
+                : 'Congratulations, you have successfully completed the exam'
+            }
+            extra={[
+              <Statistic
+                key="percent"
+                value={(examResult?.numberOfCorrectAnswer / examResult?.questions.length) * 100}
+                precision={2}
+                valueStyle={{ color: '#3f8600' }}
+                suffix="%"
+              />,
+            ]}
+          />
+        ) : (
+          <Row gutter={[48, 0]} className="exam-content w-100">
+            <Col offset={2} span={12} className="exam-main-content">
+              <ProCard title={`Question ${currentIndex + 1}`} actions={examMainContentActions}>
+                <QuestionContent
+                  currentQuestion={currentQuestion}
+                  onSelectOption={onSelectOption}
+                  questionAnswers={questionAnswers}
+                />
+              </ProCard>
+            </Col>
+            <Col span={8} className="do-exam-wrapper">
+              <Card>
+                <Space direction="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
+                  <Space align="center">
+                    <ClockCircleOutlined style={{ fontSize: '32px', color: '#003a8c' }} />
+                    <Countdown
+                      value={new Date(schedule?.endTime ? schedule?.endTime : '').getTime()} //Date.now() + 1000 * 60 * 30
+                      onFinish={onSubmitExam}
+                      valueStyle={{ color: '#003a8c' }}
+                    />
+                  </Space>
                 </Space>
-              </Space>
-            </Card>
+              </Card>
 
-            <ExamSummary
-              questionList={questionList}
-              setCurrentIndex={setCurrentIndex}
-              questionAnswers={questionAnswers}
-              onSubmitExam={onSubmitExam}
-            />
-          </Col>
-        </Row>
+              <ExamSummary
+                questionList={questionList}
+                setCurrentIndex={setCurrentIndex}
+                questionAnswers={questionAnswers}
+                onSubmitExam={onSubmitExam}
+              />
+            </Col>
+          </Row>
+        )}
       </Col>
     </Row>
   ) : (

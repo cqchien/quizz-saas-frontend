@@ -8,7 +8,7 @@ import {
   ProFormDigit,
   ProFormSwitch,
 } from '@ant-design/pro-components';
-import { Form, Row, Col } from 'antd';
+import { Form, Row, Col, Button } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import React, { useEffect, useRef, useState } from 'react';
 import { useIntl } from 'umi';
@@ -66,6 +66,37 @@ const TemplateFormFieldExam: React.FC<Props> = ({
           },
         }}
         formRef={formRef}
+        submitter={{
+          render: (props) => {
+            if (props.step === 0) {
+              return (
+                <Button type="primary" onClick={() => props.onSubmit?.()}>
+                  Next
+                </Button>
+              );
+            }
+
+            if (props.step === 1 || props.step === 2) {
+              return [
+                <Button key="pre" onClick={() => props.onPre?.()}>
+                  Previous
+                </Button>,
+                <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
+                  Next
+                </Button>,
+              ];
+            }
+
+            return [
+              <Button key="gotoTwo" onClick={() => props.onPre?.()}>
+                Previous
+              </Button>,
+              <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
+                Finish
+              </Button>,
+            ];
+          },
+        }}
       >
         <StepsForm.StepForm
           name="examDetails"
