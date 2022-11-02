@@ -11,7 +11,8 @@ import ImportQuestionModal from './components/ImportQuestion';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
-import { NUMBER_OF_QUESTION_PER_PAGE } from '@/utils/constant';
+import { MAP_QUESTION_TYPE_SHORT, NUMBER_OF_QUESTION_PER_PAGE } from '@/utils/constant';
+import { Editor } from '@tinymce/tinymce-react';
 interface IQuestionListProps {
   dispatch: any;
   questionList: API.Question[];
@@ -99,6 +100,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       filters: true,
       onFilter: true,
       valueType: 'select',
+      render: (_, record) => MAP_QUESTION_TYPE_SHORT[record.type],
     },
     {
       title: (
@@ -139,6 +141,16 @@ const QuestionsList: FC<IQuestionListProps> = ({
       dataIndex: 'question',
       key: 'question',
       width: 500,
+      render: (_, record) => (
+        <Editor
+          value={record.question}
+          init={{
+            inline: true,
+            readonly: true,
+          }}
+          disabled={true}
+        />
+      ),
     },
     {
       title: <FormattedMessage id="pages.questionsTable.column.status.statusLabel" />,

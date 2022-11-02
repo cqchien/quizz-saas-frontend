@@ -47,6 +47,7 @@ const ExamForm: FC<IExamForm> = ({ exam }) => {
       defaultQuestionNumber: value.questions.length,
       type: 'exam',
       questionBankType: 'system',
+      questions: value.questions.map((x: API.Question) => x.id),
     };
 
     if (exam) {
@@ -75,5 +76,5 @@ const ExamForm: FC<IExamForm> = ({ exam }) => {
     />
   );
 };
-//635ba271257a709a02cf1314
+
 export default ExamForm;

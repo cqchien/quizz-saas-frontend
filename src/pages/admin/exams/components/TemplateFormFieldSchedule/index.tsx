@@ -11,9 +11,9 @@ import {
   ProFormDateTimeRangePicker,
   ProFormSelect,
 } from '@ant-design/pro-components';
-import { Button, Form, message, Popconfirm, Tag } from 'antd';
+import { Button, Form, Popconfirm, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, useIntl } from 'umi';
+import { FormattedMessage } from 'umi';
 
 interface IProps {
   initialValues: any;
@@ -26,11 +26,14 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
   handleChangeFieldValue,
   scheduleListFieldName,
 }) => {
-  const intl = useIntl();
-
   const [scheduleList, setScheduleList] = useState<API.Schedule[]>(
     initialValues[scheduleListFieldName],
   );
+
+  useEffect(() => {
+    handleChangeFieldValue(scheduleList, scheduleListFieldName);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [scheduleList]);
 
   const handleRemoveSchedule = (code: string) => {
     setScheduleList((current) =>
@@ -76,20 +79,24 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       key: 'status',
       valueType: 'select',
       render: (_, record) =>
-        record.status === true ? (
+        record.status === 'not_started' ? (
           <Tag color="green" key={`${record.code}`}>
-            Active
+            Not started
+          </Tag>
+        ) : record.status === 'in_progress' ? (
+          <Tag color="yellow" key={`${record.code}`}>
+            In progress
           </Tag>
         ) : (
           <Tag color="red" key={`${record.code}`}>
-            Expired
+            Completed
           </Tag>
         ),
     },
     {
       title: <FormattedMessage id="pages.schedulesTable.column.action.actionLabel" />,
       key: 'action',
-      valueType: 'option',
+      valueType: 'option', //TODO check condition for edit and delete schedule
       render: (text, record) => [
         <div key={record?.code}>
           <Popconfirm
@@ -103,13 +110,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
             cancelText="No"
             disabled={record.startTime < new Date()}
           >
-            <Button
-              key={record.code}
-              type="link"
-              danger
-              icon={<DeleteOutlined />}
-              disabled={record.startTime < new Date()}
-            />
+            <Button key={record.code} type="link" danger icon={<DeleteOutlined />} />
           </Popconfirm>
           <Button
             key={record.code}
@@ -137,11 +138,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     return current < new Date();
   };
 
-  useEffect(() => {
-    handleChangeFieldValue(scheduleList, scheduleListFieldName);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [scheduleList]);
-
   const handleScheduleSubmit = async (values: any) => {
     let startTime;
     let endTime;
@@ -163,7 +159,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     };
 
     setScheduleList([...scheduleList, newSchedule]);
-    message.success('Success OK');
     return true;
   };
 
@@ -171,10 +166,10 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     <ProTable<API.Schedule>
       dataSource={scheduleList}
       search={false}
-      headerTitle={intl.formatMessage({
-        id: 'pages.schedulesTable.title',
-      })}
       columns={scheduleTableColumns}
+      pagination={{
+        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+      }}
       options={{
         setting: false,
         fullScreen: false,
@@ -230,6 +225,8 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
                       placeholder=""
                       fieldProps={{
                         disabledDate: disabledDate,
+                        minuteStep: 5,
+                        format: 'YYYY-MM-DD HH:mm',
                       }}
                     />
                     <ProFormDigit
@@ -246,6 +243,10 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
                   name="dateRange"
                   label="Date range"
                   placeholder={['Start at', 'End at']}
+                  fieldProps={{
+                    minuteStep: 5,
+                    format: 'YYYY-MM-DD HH:mm',
+                  }}
                 />
               );
             }}

@@ -91,12 +91,15 @@ export default {
   'pages.schedulesTable.title': 'Schedules List',
   'pages.schedulesTable.column.code.codeLabel': 'Code',
   'pages.schedulesTable.column.type.typeLabel': 'Type',
-  'pages.schedulesTable.column.startAt.startAtLabel': 'Start at',
-  'pages.schedulesTable.column.endsAt.endsAtLabel': 'Ands at',
+  'pages.schedulesTable.column.startAt.startAtLabel': 'Start time',
+  'pages.schedulesTable.column.endsAt.endsAtLabel': 'End time',
   'pages.schedulesTable.column.status.statusLabel': 'Status',
   'pages.schedulesTable.column.action.actionLabel': 'Action',
   'pages.schedulesTable.column.action.confirmDeleteScheduleMessage':
     'Are you sure to delete this schedule?',
+
+  // User start exam
+  'pages.userExam.questionsTable.hint': 'Please select question from list below',
 
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':

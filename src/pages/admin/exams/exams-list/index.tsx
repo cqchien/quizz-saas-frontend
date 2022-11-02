@@ -11,6 +11,7 @@ import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
 import { NUMBER_OF_EXAM_PER_PAGE } from '@/utils/constant';
+import { Editor } from '@tinymce/tinymce-react';
 interface IProps {
   dispatch: any;
   examList: API.Exam[];
@@ -79,6 +80,16 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
       key: 'description',
       dataIndex: 'description',
       valueType: 'text',
+      render: (_, record) => (
+        <Editor
+          value={record.description}
+          init={{
+            inline: true,
+            readonly: true,
+          }}
+          disabled={true}
+        />
+      ),
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.type.typeLabel" />,
