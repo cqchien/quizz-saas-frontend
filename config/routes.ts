@@ -44,7 +44,7 @@
     path: '/exams',
     name: 'exams',
     access: 'admin',
-    icon: 'container',
+    icon: 'book',
     hideChildrenInMenu: true,
     routes: [
       {

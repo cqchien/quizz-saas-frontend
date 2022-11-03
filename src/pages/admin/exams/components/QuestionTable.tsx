@@ -2,13 +2,15 @@ import type { Key } from 'react';
 import React, { useEffect, useState } from 'react';
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Card } from 'antd';
+import { Button, Card, Select } from 'antd';
 import { connect, FormattedMessage, useIntl } from 'umi';
 import mapStateToProps from '../../questions/mapStateToProps';
 import {
   HEURISTIC_LEVEL_STRING,
   MAP_HEURISTIC_LEVEL,
+  MAP_QUESTION_BANK_TYPE,
   MAP_QUESTION_TYPE_SHORT,
+  MAP_TOPIC,
   NUMBER_OF_QUESTION_PER_PAGE,
   QUESTION_TYPE_STRING,
 } from '@/utils/constant';
@@ -22,6 +24,23 @@ interface IQuestionListProps {
   handleSelectQuestion: any;
 }
 
+type FilterParams = {
+  page: number;
+  take: number;
+  topic?: string;
+  bankType?: string;
+};
+
+const mapQuestionBankTypeOptions = Object.keys(MAP_QUESTION_BANK_TYPE).map((topic: string) => ({
+  label: MAP_QUESTION_BANK_TYPE[topic],
+  value: topic,
+}));
+
+const mapTopicOptions = Object.keys(MAP_TOPIC).map((topic: string) => ({
+  label: MAP_TOPIC[topic],
+  value: topic,
+}));
+
 const QuestionTable: React.FC<IQuestionListProps> = ({
   dispatch,
   questionList,
@@ -29,6 +48,11 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
   handleSelectQuestion,
 }) => {
   const intl = useIntl();
+
+  const [filterParams, setFilterParams] = useState<FilterParams>({
+    page: 1,
+    take: NUMBER_OF_QUESTION_PER_PAGE,
+  });
 
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
     name: {
@@ -110,19 +134,14 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
   useEffect(() => {
     dispatch({
       type: 'questions/fetch',
-      payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
+      payload: { params: filterParams },
     });
-  }, [dispatch]);
+  }, [dispatch, filterParams]);
 
   const paginationChange = (page: number, pageSize?: number) => {
-    const params: API.PageQuery = {
-      page: page,
-      take: pageSize,
-    };
-
     dispatch({
       type: 'questions/fetch',
-      payload: { params: params },
+      payload: { params: { ...filterParams, page: page, take: pageSize } },
     });
   };
 
@@ -170,6 +189,22 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
         }}
         dateFormatter="string"
         toolBarRender={() => [
+          <Select
+            key="typeSelector"
+            options={mapQuestionBankTypeOptions}
+            placeholder="Select bank type"
+            onChange={(value) => {
+              setFilterParams({ ...filterParams, bankType: value });
+            }}
+          />,
+          <Select
+            key="topicSelector"
+            options={mapTopicOptions}
+            placeholder="Select topic"
+            onChange={(value) => {
+              setFilterParams({ ...filterParams, topic: value });
+            }}
+          />,
           <Button type="primary" key="show" onClick={handleSelectButton}>
             Select question
           </Button>,

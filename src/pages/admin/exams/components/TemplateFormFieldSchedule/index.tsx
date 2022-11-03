@@ -80,11 +80,11 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       key: 'status',
       valueType: 'select',
       render: (_, record) =>
-        record.status === 'not_started' ? (
+        record.status === SCHEDULE_STATUS.NOT_STARTED ? (
           <Tag color="green" key={`${record.code}`}>
             {MAP_SCHEDULE_STATUS[record.status]}
           </Tag>
-        ) : record.status === 'in_progress' ? (
+        ) : record.status === SCHEDULE_STATUS.IN_PROGRESS ? (
           <Tag color="yellow" key={`${record.code}`}>
             {MAP_SCHEDULE_STATUS[record.status]}
           </Tag>
@@ -109,7 +109,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
             }}
             okText="Yes"
             cancelText="No"
-            disabled={record.startTime < new Date()}
+            disabled={record.status != SCHEDULE_STATUS.NOT_STARTED}
           >
             <Button key={record.code} type="link" danger icon={<DeleteOutlined />} />
           </Popconfirm>
@@ -117,7 +117,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
             key={record.code}
             type="link"
             icon={<EditOutlined />}
-            disabled={record.startTime < new Date()}
+            disabled={record.status != SCHEDULE_STATUS.NOT_STARTED}
           />
         </div>,
       ],

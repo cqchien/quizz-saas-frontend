@@ -120,15 +120,6 @@ const TemplateFormFieldExam: React.FC<Props> = ({
                 },
               ]}
             />
-            <ProFormSelect
-              name={formField.tags.name}
-              label={formField.tags.label}
-              fieldProps={{ mode: 'tags' }}
-              options={['TOAN', 'HOA', 'LOP12', 'TOAN12', 'THPT'].map((item) => ({
-                label: item,
-                value: item,
-              }))}
-            />
             <ProFormTextArea
               name={formField.description.name}
               label={formField.description.label}
@@ -138,6 +129,16 @@ const TemplateFormFieldExam: React.FC<Props> = ({
                   required: formField.description.required,
                 },
               ]}
+            />
+            <ProFormSelect
+              name={formField.tags.name}
+              label={formField.tags.label}
+              placeholder={formField.tags.placeholder}
+              fieldProps={{ mode: 'tags' }}
+              options={['MATH', 'MUSIC'].map((item) => ({
+                label: item,
+                value: item,
+              }))}
             />
           </Content>
         </StepsForm.StepForm>

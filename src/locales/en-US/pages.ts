@@ -99,7 +99,7 @@ export default {
     'Are you sure to delete this schedule?',
 
   // User start exam
-  'pages.userExam.questionsTable.hint': 'Please select question from list below',
+  'pages.userExam.questionsTable.hint': 'Please select question',
 
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':

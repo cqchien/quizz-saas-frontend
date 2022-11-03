@@ -2,18 +2,19 @@ export default {
   formField: {
     name: {
       name: 'name',
-      label: 'Name',
+      label: 'Exam title',
       errMsg: 'Please input the title of this exam',
       required: true,
       placeholder: '',
     },
     tags: {
       name: 'tags',
-      label: 'Tags',
+      label: 'Related tags',
+      placeholder: '',
     },
     description: {
       name: 'description',
-      label: 'Description',
+      label: 'Exam description',
       errMsg: 'Please input the description of this exam',
       required: true,
       placeholder: '',

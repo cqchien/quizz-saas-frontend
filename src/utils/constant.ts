@@ -115,10 +115,12 @@ const MAP_EXAM_TYPE = {
 
 const QUESTION_BANK_TYPE = {
   SYSTEM: 'system',
+  PERSONAL: 'personal',
 };
 
 const MAP_QUESTION_BANK_TYPE = {
   [QUESTION_BANK_TYPE.SYSTEM]: 'System',
+  [QUESTION_BANK_TYPE.PERSONAL]: 'Personal',
 };
 
 const SCHEDULE_STATUS = {

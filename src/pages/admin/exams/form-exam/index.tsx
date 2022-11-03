@@ -1,4 +1,4 @@
-import type { FC } from 'react';
+import { useState } from 'react';
 import { useRef } from 'react';
 import { useDispatch } from 'umi';
 import { useHistory } from 'react-router-dom';
@@ -7,12 +7,15 @@ import formSchema from '../schemas/examSchema';
 import { getInitialValue } from '../schemas/getInitialValues';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import TemplateFormFieldExam from '../components/TemplateFormFieldExam';
+import { Spin } from 'antd';
 
 interface IExamForm {
   exam?: API.Exam;
 }
 
-const ExamForm: FC<IExamForm> = ({ exam }) => {
+const ExamForm: React.FC<IExamForm> = ({ exam }) => {
+  const [loading, setLoading] = useState<boolean>(false);
+
   const history = useHistory();
   const dispatch: any = useDispatch();
 
@@ -32,6 +35,8 @@ const ExamForm: FC<IExamForm> = ({ exam }) => {
   }
 
   const handleSubmit = (value: any) => {
+    setLoading(true);
+
     const cb = (id: string) => {
       form.current?.resetFields();
 
@@ -58,22 +63,30 @@ const ExamForm: FC<IExamForm> = ({ exam }) => {
           examId: exam.id,
           cb,
         },
+      }).then((result: any) => {
+        setLoading(false);
+        return result;
       });
     }
 
     return dispatch({
       type: 'exams/create',
       payload: { exam: examInfo, cb },
+    }).then((result: any) => {
+      setLoading(false);
+      return result;
     });
   };
 
   return (
-    <TemplateFormFieldExam
-      formField={formField}
-      formRef={form}
-      initialValues={getInitialValue(exam)}
-      onSubmit={handleSubmit}
-    />
+    <Spin spinning={loading}>
+      <TemplateFormFieldExam
+        formField={formField}
+        formRef={form}
+        initialValues={getInitialValue(exam)}
+        onSubmit={handleSubmit}
+      />
+    </Spin>
   );
 };
 

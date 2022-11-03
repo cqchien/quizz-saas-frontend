@@ -24,7 +24,7 @@ export function getInitialValue(objectInfo?: API.Exam) {
   return {
     [name.name]: (objectInfo && objectInfo[name.name]) || '',
     [description.name]: (objectInfo && objectInfo[description.name]) || '',
-    [tags.name]: (objectInfo && objectInfo[tags.name]) || ['TOAN', 'TOAN12'],
+    [tags.name]: (objectInfo && objectInfo[tags.name]) || [],
     [questionList.name]: (objectInfo && objectInfo[questionList.name]) || [],
     [scheduleList.name]: (objectInfo && objectInfo[scheduleList.name]) || [],
     [setting.name]: {

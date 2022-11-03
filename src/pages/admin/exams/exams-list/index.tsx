@@ -43,14 +43,15 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
   };
 
   const handleSearch = (value: string) => {
+    console.log(value);
     dispatch({
       type: 'exams/fetch',
       payload: {
         params: {
           page: 1,
           take: NUMBER_OF_EXAM_PER_PAGE,
-          searchField: 'exam',
-          searchValue: value,
+          // searchField: 'exam',
+          // searchValue: value,
         },
       },
     });
@@ -67,21 +68,18 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
       title: <FormattedMessage id="pages.examsTable.column.code.codeLabel" />,
       dataIndex: 'code',
       valueType: 'select',
-      width: 50,
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.name.nameLabel" />,
       key: 'examName',
       dataIndex: 'name',
       valueType: 'text',
-      width: 50,
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.description.descriptionLabel" />,
       key: 'description',
       dataIndex: 'description',
       valueType: 'text',
-      width: 50,
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.type.typeLabel" />,
@@ -90,7 +88,6 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
       valueType: 'text',
       render: (_, record) => MAP_EXAM_TYPE[record.type],
     },
-
     {
       title: (
         <FormattedMessage id="pages.examsTable.column.questionBankType.questionBankTypeLabel" />

@@ -1,7 +1,6 @@
-import { HeartOutlined, SaveOutlined, SendOutlined, FlagOutlined } from '@ant-design/icons';
-import { Card, Space, Row, Button, Typography } from 'antd';
+import { Card, Space, Typography } from 'antd';
 
-const { Title, Text } = Typography;
+const { Title } = Typography;
 
 interface Props {
   templateExam: API.TemplateExam | undefined;
@@ -13,7 +12,7 @@ const ExamHeading: React.FC<Props> = ({ templateExam, time }) => {
     <Card className="exam-heading" style={{ backgroundColor: '#003a8c', border: 0 }}>
       <Space align="center" direction="vertical" style={{ display: 'flex' }}>
         <Title level={4} style={{ color: '#ffffff' }}>
-          {templateExam?.description.toUpperCase()}
+          {templateExam?.description?.toUpperCase()}
         </Title>
         <Title level={5} style={{ color: '#ffffff' }}>
           Exam : {templateExam?.name}
@@ -23,7 +22,7 @@ const ExamHeading: React.FC<Props> = ({ templateExam, time }) => {
         </Title>
       </Space>
 
-      <Row justify="space-between">
+      {/* <Row justify="space-between">
         <Space>
           <Button icon={<HeartOutlined />}>
             <Text strong>Love</Text>
@@ -38,7 +37,7 @@ const ExamHeading: React.FC<Props> = ({ templateExam, time }) => {
         <Button icon={<FlagOutlined />} danger>
           <Text strong>Report</Text>
         </Button>
-      </Row>
+      </Row> */}
     </Card>
   );
 };
