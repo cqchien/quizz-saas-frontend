@@ -1,4 +1,4 @@
-import { API_EXAMS, API_EXAM_ONE } from '@/utils/api-routes';
+import { API_EXAMS, API_EXAM_ONE, API_OVERVIEW_EXAM } from '@/utils/api-routes';
 import request from '@/utils/request';
 
 export async function getAll(params: API.PageQuery) {
@@ -37,5 +37,12 @@ export async function updateExam(data: any, id: string) {
     method: 'PUT',
     data,
     requestType: 'json',
+  });
+}
+
+export async function overviewExam(id: string) {
+  const endpoint = API_OVERVIEW_EXAM.replace(':id', id);
+  return request<API.ApiResponse<API.Exam>>(endpoint, {
+    method: 'GET',
   });
 }

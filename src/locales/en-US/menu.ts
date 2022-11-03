@@ -20,6 +20,7 @@ export default {
   'menu.exams.exams-list': 'Exams List',
   'menu.exams.exams-create': 'Create Exam',
   'menu.exams.exams-edit': 'Edit Exam',
+  'menu.exams.exams-overview': 'Exam Dashboard',
 
   // exception
   'menu.exception.403': '403',

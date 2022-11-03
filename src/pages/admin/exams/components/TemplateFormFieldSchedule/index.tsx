@@ -1,3 +1,4 @@
+import { MAP_SCHEDULE_STATUS, SCHEDULE_STATUS } from '@/utils/constant';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ProColumns } from '@ant-design/pro-components';
 import {
@@ -81,15 +82,15 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       render: (_, record) =>
         record.status === 'not_started' ? (
           <Tag color="green" key={`${record.code}`}>
-            Not started
+            {MAP_SCHEDULE_STATUS[record.status]}
           </Tag>
         ) : record.status === 'in_progress' ? (
           <Tag color="yellow" key={`${record.code}`}>
-            In progress
+            {MAP_SCHEDULE_STATUS[record.status]}
           </Tag>
         ) : (
           <Tag color="red" key={`${record.code}`}>
-            Completed
+            {MAP_SCHEDULE_STATUS[record.status]}
           </Tag>
         ),
     },
@@ -129,7 +130,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     scheduleType: string;
     startAt: Date;
     endsAt: Date;
-    status: boolean;
+    status: string;
     assignedGroup?: string[] | undefined;
     dateRange: string[];
   }>();
@@ -156,6 +157,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       startTime: startTime,
       endTime: endTime,
       time: values.period,
+      status: SCHEDULE_STATUS.NOT_STARTED,
     };
 
     setScheduleList([...scheduleList, newSchedule]);
@@ -185,7 +187,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
           scheduleType: string;
           startAt: Date;
           endsAt: Date;
-          status: boolean;
+          status: string;
           assignedGroup?: string[] | undefined;
           dateRange: string[];
         }>

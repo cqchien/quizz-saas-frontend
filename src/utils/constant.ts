@@ -103,6 +103,36 @@ const MAP_TOPIC = {
   [TOPIC.OTHER]: 'Other',
 };
 
+const EXAM_TYPE = {
+  EXAM: 'exam',
+  QUIZZ: 'quizz',
+};
+
+const MAP_EXAM_TYPE = {
+  [EXAM_TYPE.EXAM]: 'Exam',
+  [EXAM_TYPE.QUIZZ]: 'Quizz',
+};
+
+const QUESTION_BANK_TYPE = {
+  SYSTEM: 'system',
+};
+
+const MAP_QUESTION_BANK_TYPE = {
+  [QUESTION_BANK_TYPE.SYSTEM]: 'System',
+};
+
+const SCHEDULE_STATUS = {
+  NOT_STARTED: 'not_started',
+  IN_PROGRESS: 'in_progress',
+  COMPLETED: 'completed',
+};
+
+const MAP_SCHEDULE_STATUS = {
+  [SCHEDULE_STATUS.NOT_STARTED]: 'Not started',
+  [SCHEDULE_STATUS.IN_PROGRESS]: 'In progress',
+  [SCHEDULE_STATUS.COMPLETED]: 'Completed',
+};
+
 const NUMBER_OF_QUESTION_PER_PAGE = 10;
 const NUMBER_OF_EXAM_PER_PAGE = 10;
 
@@ -126,4 +156,10 @@ export {
   NUMBER_OF_QUESTION_PER_PAGE,
   NUMBER_OF_EXAM_PER_PAGE,
   MAP_QUESTION_TYPE_SHORT,
+  EXAM_TYPE,
+  MAP_EXAM_TYPE,
+  QUESTION_BANK_TYPE,
+  MAP_QUESTION_BANK_TYPE,
+  SCHEDULE_STATUS,
+  MAP_SCHEDULE_STATUS,
 };

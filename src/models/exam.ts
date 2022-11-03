@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { createExam, getAll, getById, updateExam, deleteById } from '@/services/exam';
+import { createExam, getAll, getById, updateExam, deleteById, overviewExam } from '@/services/exam';
 import { mapBuilder } from '@/utils/function';
 import type { Effect, Reducer } from 'umi';
 
@@ -19,6 +19,7 @@ interface IExamModel {
     delete: Effect;
     create: Effect;
     update: Effect;
+    overview: Effect;
   };
   reducers: {
     updateDictionary: Reducer;
@@ -187,6 +188,30 @@ const ExamModel: IExamModel = {
       } catch (err) {
         console.error(`Error when trying to get the detailed exam:`, err);
 
+        notification.error({
+          message: 'Something went wrong',
+        });
+        return false;
+      }
+    },
+
+    *overview({ payload }, { call }) {
+      try {
+        const { examId } = payload;
+
+        const response = yield call(overviewExam, examId);
+
+        if (response.success) {
+          return response.data;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong',
+        });
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to get the detailed exam:`, err);
         notification.error({
           message: 'Something went wrong',
         });

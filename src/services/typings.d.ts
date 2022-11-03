@@ -105,7 +105,7 @@ declare namespace API {
     time?: number;
     startTime: Date;
     endTime: Date;
-    status?: string;
+    status: string;
     assignedGroup?: string[];
   };
 

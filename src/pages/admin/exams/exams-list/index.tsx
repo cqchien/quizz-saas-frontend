@@ -1,17 +1,16 @@
-import { DeleteOutlined, PlusOutlined } from '@ant-design/icons';
+import { DeleteOutlined, EyeOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { PageContainer } from '@ant-design/pro-components';
 import type { FC } from 'react';
 import { useEffect } from 'react';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Popconfirm } from 'antd';
+import { Button, Divider, Popconfirm } from 'antd';
 import { useState } from 'react';
 import { FormattedMessage, Link, useIntl } from 'umi';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
-import { NUMBER_OF_EXAM_PER_PAGE } from '@/utils/constant';
-import { Editor } from '@tinymce/tinymce-react';
+import { MAP_EXAM_TYPE, MAP_QUESTION_BANK_TYPE, NUMBER_OF_EXAM_PER_PAGE } from '@/utils/constant';
 interface IProps {
   dispatch: any;
   examList: API.Exam[];
@@ -62,41 +61,36 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
       dataIndex: 'index',
       key: 'index',
       valueType: 'indexBorder',
-      width: 48,
+      width: 20,
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.code.codeLabel" />,
       dataIndex: 'code',
       valueType: 'select',
+      width: 50,
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.name.nameLabel" />,
-      key: 'name',
+      key: 'examName',
       dataIndex: 'name',
       valueType: 'text',
+      width: 50,
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.description.descriptionLabel" />,
       key: 'description',
       dataIndex: 'description',
       valueType: 'text',
-      render: (_, record) => (
-        <Editor
-          value={record.description}
-          init={{
-            inline: true,
-            readonly: true,
-          }}
-          disabled={true}
-        />
-      ),
+      width: 50,
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.type.typeLabel" />,
       key: 'type',
       dataIndex: 'type',
       valueType: 'text',
+      render: (_, record) => MAP_EXAM_TYPE[record.type],
     },
+
     {
       title: (
         <FormattedMessage id="pages.examsTable.column.questionBankType.questionBankTypeLabel" />
@@ -104,6 +98,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
       key: 'questionBankType',
       dataIndex: 'questionBankType',
       valueType: 'text',
+      render: (_, record) => MAP_QUESTION_BANK_TYPE[record.questionBankType],
     },
     {
       title: <FormattedMessage id="pages.examsTable.column.action.actionLabel" />,
@@ -124,8 +119,13 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
           >
             <Button key={`delete_${record.id}`} type="link" icon={<DeleteOutlined />} danger />
           </Popconfirm>
+          <Divider type="vertical" />
           <Link to={`/exams/${record.id}/edit`} key={`link_${record.id}`}>
             <Button key={`edit_${record.id}`} type="link" icon={<EditTwoTone />} />
+          </Link>
+          <Divider type="vertical" />
+          <Link to={`/exams/${record.id}/overview`} key={`link_overview_${record.id}`}>
+            <Button key={`overview_${record.id}`} type="link" icon={<EyeOutlined />} />
           </Link>
         </div>,
       ],
