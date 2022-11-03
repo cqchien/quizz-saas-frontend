@@ -7,6 +7,7 @@ import { connect, FormattedMessage, useIntl } from 'umi';
 import mapStateToProps from '../../questions/mapStateToProps';
 import {
   HEURISTIC_LEVEL_STRING,
+  MAP_HEURISTIC_LEVEL,
   MAP_QUESTION_TYPE_SHORT,
   NUMBER_OF_QUESTION_PER_PAGE,
   QUESTION_TYPE_STRING,
@@ -102,6 +103,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
         [HEURISTIC_LEVEL_STRING.SYNTHESIS]: { text: HEURISTIC_LEVEL_STRING.SYNTHESIS },
         [HEURISTIC_LEVEL_STRING.EVALUATION]: { text: HEURISTIC_LEVEL_STRING.EVALUATION },
       },
+      render: (_, record) => MAP_HEURISTIC_LEVEL[record.heuristicLevel],
     },
   ];
 

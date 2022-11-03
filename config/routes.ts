@@ -63,6 +63,11 @@
         component: './admin/exams/exams-edit',
       },
       {
+        path: '/exams/:id/overview',
+        name: 'exams-overview',
+        component: './admin/exams/exams-overview',
+      },
+      {
         redirect: '/exams/list',
       },
     ],

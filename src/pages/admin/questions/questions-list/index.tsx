@@ -11,7 +11,13 @@ import ImportQuestionModal from './components/ImportQuestion';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
-import { MAP_QUESTION_TYPE_SHORT, NUMBER_OF_QUESTION_PER_PAGE } from '@/utils/constant';
+import {
+  MAP_HEURISTIC_LEVEL,
+  MAP_QUESTION_TYPE_SHORT,
+  MAP_STATUS,
+  MAP_TOPIC,
+  NUMBER_OF_QUESTION_PER_PAGE,
+} from '@/utils/constant';
 import { Editor } from '@tinymce/tinymce-react';
 interface IQuestionListProps {
   dispatch: any;
@@ -112,11 +118,13 @@ const QuestionsList: FC<IQuestionListProps> = ({
       filters: true,
       onFilter: true,
       valueType: 'select',
+      render: (_, record) => MAP_HEURISTIC_LEVEL[record.heuristicLevel],
     },
     {
       title: <FormattedMessage id="pages.questionsTable.column.topic.topicLabel" />,
       key: 'topic',
       dataIndex: 'topic',
+      render: (_, record) => MAP_TOPIC[record.topic],
     },
     {
       title: <FormattedMessage id="pages.questionsTable.column.tag.tagLabel" />,
@@ -160,13 +168,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       filters: true,
       onFilter: true,
       valueType: 'select',
-      valueEnum: {
-        all: { text: '全部', status: 'Default' },
-        close: { text: '关闭', status: 'Default' },
-        PENDING: { text: 'Pending', status: 'Processing' },
-        online: { text: '已上线', status: 'Success' },
-        error: { text: '异常', status: 'Error' },
-      },
+      render: (_, record) => MAP_STATUS[record.status],
     },
     {
       title: <FormattedMessage id="pages.questionsTable.column.action.actionLabel" />,

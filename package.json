@@ -48,6 +48,7 @@
   ],
   "dependencies": {
     "@ant-design/icons": "^4.7.0",
+    "@ant-design/plots": "^1.2.2",
     "@ant-design/pro-components": "1.1.1",
     "@ckeditor/ckeditor5-alignment": "^35.0.1",
     "@ckeditor/ckeditor5-build-classic": "^35.0.1",
@@ -65,6 +66,7 @@
     "rc-menu": "^9.1.0",
     "rc-util": "^5.16.0",
     "react": "^17.0.0",
+    "react-countup": "^6.3.2",
     "react-dev-inspector": "^1.7.0",
     "react-dom": "^17.0.0",
     "react-helmet-async": "^1.2.0",
