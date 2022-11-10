@@ -164,6 +164,18 @@ declare namespace API {
     updatedBy: User;
   };
 
+  type Group = {
+    id?: string;
+    name: string;
+    description: string;
+    members: GroupMember[];
+  };
+
+  type GroupMember = {
+    name: string;
+    email: string;
+  };
+
   // type RuleListItem = {
   //   key?: number;
   //   disabled?: boolean;
