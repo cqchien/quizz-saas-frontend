@@ -3,7 +3,6 @@ import { Checkbox } from 'antd';
 import { Button, Col, Divider, Form, Row, Space } from 'antd';
 import { calculateSize } from '@/utils/function';
 
-import type { FC } from 'react';
 import { useEffect } from 'react';
 import CustomEditor from '@/components/CustomEditor';
 import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
@@ -27,7 +26,7 @@ interface Props {
   onCancel?: any;
 }
 
-const TemplateFormFieldMultipleChoiceQuestion: FC<Props> = ({
+const TemplateFormFieldMultipleChoiceQuestion: React.FC<Props> = ({
   formField,
   formRef,
   onSubmit,
