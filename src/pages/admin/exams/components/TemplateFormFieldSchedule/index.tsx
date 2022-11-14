@@ -14,18 +14,24 @@ import {
 } from '@ant-design/pro-components';
 import { Button, Form, Popconfirm, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage } from 'umi';
+import { connect, FormattedMessage } from 'umi';
+import mapStateToProps from '../../../dashboard/dashboard-instructor/mapStateToProps';
 
 interface IProps {
   initialValues: any;
   handleChangeFieldValue: any;
   scheduleListFieldName: any;
+  dispatch: any;
+  groupList: API.Group[];
+  loading: boolean;
 }
 
 const TemplateFormFieldSchedule: React.FC<IProps> = ({
   initialValues,
   handleChangeFieldValue,
   scheduleListFieldName,
+  dispatch,
+  groupList,
 }) => {
   const [scheduleList, setScheduleList] = useState<API.Schedule[]>(
     initialValues[scheduleListFieldName],
@@ -35,6 +41,17 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     handleChangeFieldValue(scheduleList, scheduleListFieldName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheduleList]);
+
+  useEffect(() => {
+    dispatch({
+      type: 'groups/fetch',
+      payload: { params: {} },
+    });
+  }, [dispatch]);
+
+  const groupListMap = groupList.map((x) => {
+    return { label: x.name, value: x.id };
+  });
 
   const handleRemoveSchedule = (code: string) => {
     setScheduleList((current) =>
@@ -255,18 +272,9 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
           </ProFormDependency>
           <ProFormSelect
             mode="multiple"
-            options={[
-              {
-                value: 'group1',
-                label: 'Lop 12C',
-              },
-              {
-                value: 'group2',
-                label: 'Lop 11A',
-              },
-            ]}
+            options={groupListMap}
             name="assignedGroup"
-            label="Schedule to User Groups"
+            label="Schedule to a group"
             placeholder=""
           />
         </ModalForm>,
@@ -275,4 +283,4 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
   );
 };
 
-export default TemplateFormFieldSchedule;
+export default connect(mapStateToProps)(TemplateFormFieldSchedule);

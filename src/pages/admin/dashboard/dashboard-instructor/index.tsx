@@ -53,15 +53,15 @@ const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList })
 
   return (
     <Spin spinning={loading}>
-      <Row gutter={[16, 16]}>
+      <Row gutter={[48, 48]}>
         <Col span={24}>
           <FormFieldGroup onSubmit={handleGroupSubmit} />
         </Col>
         {groupList.map((x, index) => {
           return (
-            <Col span={6} key={index}>
+            <Col span={6} key={x.id}>
               <ProCard
-                key={index}
+                key={x.id}
                 bordered
                 hoverable
                 actions={[
@@ -72,7 +72,7 @@ const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList })
                   avatar={<Avatar src="https://joeschmoe.io/api/v1/random" />}
                   title={x.name}
                   description={[
-                    <Row key={index}>
+                    <Row key={x.id}>
                       <Col span={24}>
                         <Text>{x.description}</Text>
                       </Col>

@@ -1,6 +1,7 @@
 import { notification } from 'antd';
-import { takeExam, submitExam } from '@/services/userExam';
+import { getAll, takeExam, submitExam } from '@/services/userExam';
 import type { Effect, Reducer } from 'umi';
+import { mapBuilder } from '@/utils/function';
 
 const NAMESPACE = 'userExamsNamespace';
 export interface IUserExamState {
@@ -14,6 +15,7 @@ interface IUserExamModel {
   effects: {
     takeExam: Effect;
     submitExam: Effect;
+    fetch: Effect;
   };
   reducers: {
     updateDictionary: Reducer;
@@ -30,6 +32,39 @@ const UserExamModel: IUserExamModel = {
   },
 
   effects: {
+    *fetch({ payload }, { call, put }) {
+      try {
+        const { params } = payload;
+        const response = yield call(getAll, params);
+
+        if (Array.isArray(response.data) && response.success) {
+          const { mapping: dic } = mapBuilder(response.data, 'id');
+          const newPagingParams = {
+            current: response.meta.page,
+            pageSize: response.meta.take,
+            total: response.meta.itemCount,
+          };
+          yield put({
+            type: 'updateDictionary',
+            payload: { data: dic, pagingParams: newPagingParams },
+          });
+          return true;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong',
+        });
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to get exams:`, err);
+        notification.error({
+          message: 'Something went wrong',
+        });
+        return false;
+      }
+    },
+
     *takeExam({ payload }, { call, put }) {
       try {
         const { userExamId } = payload;
