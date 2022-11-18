@@ -151,6 +151,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
   return (
     <PageContainer>
       <ProTable<API.Exam>
+        className="criclebox"
         dataSource={examList}
         headerTitle={intl.formatMessage({
           id: 'pages.examsTable.title',

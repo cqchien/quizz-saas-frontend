@@ -15,7 +15,7 @@ import {
 import { Button, Form, Popconfirm, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { connect, FormattedMessage } from 'umi';
-import mapStateToProps from '../../../dashboard/dashboard-instructor/mapStateToProps';
+import mapStateToProps from '../../../groups/mapStateToProps';
 
 interface IProps {
   initialValues: any;
@@ -183,6 +183,7 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
 
   return (
     <ProTable<API.Schedule>
+      className="criclebox"
       dataSource={scheduleList}
       search={false}
       columns={scheduleTableColumns}

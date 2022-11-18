@@ -74,15 +74,32 @@
   },
   {
     path: '/user-exams',
+    name: 'userExams',
     access: 'admin',
+    icon: 'safetyCertificate',
     hideChildrenInMenu: true,
     routes: [
+      {
+        path: '/user-exams/list',
+        name: 'user-exams-list',
+        component: './admin/user-exams/user-exams-list',
+      },
       {
         path: '/user-exams/:id/take-exam',
         name: 'exams-exam',
         component: './admin/exams/exams-exam',
       },
+      {
+        redirect: '/user-exams/list',
+      },
     ],
+  },
+  {
+    path: '/groups',
+    name: 'groups',
+    access: 'admin',
+    icon: 'group',
+    component: './admin/groups',
   },
   {
     path: '/',

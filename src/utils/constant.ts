@@ -129,6 +129,17 @@ const SCHEDULE_STATUS = {
   COMPLETED: 'completed',
 };
 
+const USER_EXAM_STATUS = {
+  NOT_STARTED: 'not_started',
+  IN_PROGRESS: 'in_progress',
+  SUBMITTED: 'submitted',
+};
+
+const USER_EXAM_RESULT = {
+  FAILED: 'Failed',
+  PASSED: 'Passed',
+};
+
 const MAP_SCHEDULE_STATUS = {
   [SCHEDULE_STATUS.NOT_STARTED]: 'Not started',
   [SCHEDULE_STATUS.IN_PROGRESS]: 'In progress',
@@ -166,4 +177,6 @@ export {
   MAP_QUESTION_BANK_TYPE,
   SCHEDULE_STATUS,
   MAP_SCHEDULE_STATUS,
+  USER_EXAM_STATUS,
+  USER_EXAM_RESULT,
 };

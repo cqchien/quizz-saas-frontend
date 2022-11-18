@@ -1,4 +1,4 @@
-import { UsergroupAddOutlined, MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
+import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { Button, Form, Space } from 'antd';
 import formSchema from '../../schemas/groupSchema';
@@ -18,7 +18,7 @@ const FormFieldMember: React.FC<Props> = ({ onSubmit, group }) => {
       key={group.id}
       title={`Add members for ${group.name}`}
       trigger={
-        <Button key={`adduser_${group.id}`} type="link" icon={<UsergroupAddOutlined />}>
+        <Button key={`adduser_${group.id}`} type="primary" style={{ width: '250px' }}>
           Add member
         </Button>
       }

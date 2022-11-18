@@ -22,6 +22,12 @@ export default {
   'menu.exams.exams-edit': 'Edit Exam',
   'menu.exams.exams-overview': 'Exam Dashboard',
 
+  // User Exam
+  'menu.userExams': 'Your exams',
+
+  // Group
+  'menu.groups': 'Your groups',
+
   // exception
   'menu.exception.403': '403',
   'menu.exception.404': '404',
