@@ -10,7 +10,7 @@ import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { Button, Col, Pagination, Row, Space, Spin, Tooltip, Typography } from 'antd';
 import moment from 'moment';
 import { useEffect } from 'react';
-import { connect } from 'umi';
+import { connect, FormattedMessage, useHistory } from 'umi';
 import mapStateToProps from '../mapStateToProps';
 
 interface IProps {
@@ -22,6 +22,7 @@ interface IProps {
 
 const { Title } = Typography;
 const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagingParams }) => {
+  const history = useHistory();
   useEffect(() => {
     dispatch({
       type: 'userExamsNamespace/fetch',
@@ -42,34 +43,39 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
   };
 
   const getButtonStype = (thisSchedule: API.Schedule, userExam: API.UserExam) => {
-    if (thisSchedule?.status != SCHEDULE_STATUS.IN_PROGRESS) {
-      const mapStatus = MAP_SCHEDULE_STATUS[thisSchedule?.status as string];
-      return {
-        color: '#722ed1',
-        text: MAP_SCHEDULE_STATUS[thisSchedule?.status as string],
-        title: `This exam have ${mapStatus?.toLowerCase()}`,
-      };
-    } else {
-      if (userExam.status == USER_EXAM_STATUS.SUBMITTED) {
-        switch (userExam.resultStatus) {
-          case USER_EXAM_RESULT.PASSED:
-            return {
-              color: '#52c41a',
-              text: USER_EXAM_RESULT.PASSED,
-              title: `You have passed this exam`,
-            };
+    if (userExam.status == USER_EXAM_STATUS.SUBMITTED) {
+      switch (userExam.resultStatus) {
+        case USER_EXAM_RESULT.PASSED:
+          return {
+            color: '#52c41a',
+            text: USER_EXAM_RESULT.PASSED,
+            title: <FormattedMessage id="component.examCard.buttonHint.passedExam" />,
+          };
 
-          case USER_EXAM_RESULT.FAILED:
-            return {
-              color: '#f5222d',
-              text: USER_EXAM_RESULT.FAILED,
-              title: `You have failed this exam`,
-            };
-        }
+        case USER_EXAM_RESULT.FAILED:
+          return {
+            color: '#f5222d',
+            text: USER_EXAM_RESULT.FAILED,
+            title: <FormattedMessage id="component.examCard.buttonHint.failedExam" />,
+          };
+      }
+    } else {
+      if (thisSchedule?.status != SCHEDULE_STATUS.IN_PROGRESS) {
+        const mapStatus = MAP_SCHEDULE_STATUS[thisSchedule?.status as string];
+        return {
+          color: '#722ed1',
+          text: MAP_SCHEDULE_STATUS[thisSchedule?.status as string],
+          title: `This exam have ${mapStatus?.toLowerCase()}`,
+        };
       } else {
-        return { color: '', text: 'VISIT EXAM', title: `Click me to do this exam !!!` };
+        return {
+          color: '',
+          text: <FormattedMessage id="component.examCard.buttonTitle.visitExam" />,
+          title: <FormattedMessage id="component.examCard.buttonHint.visitExam" />,
+        };
       }
     }
+    return null;
   };
 
   return (
@@ -104,12 +110,14 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
                     </Space>
                     <Tooltip title={buttonStyle.title}>
                       <Button
-                        href={
-                          thisSchedule?.status == SCHEDULE_STATUS.IN_PROGRESS &&
-                          x.status != USER_EXAM_STATUS.SUBMITTED
-                            ? `/user-exams/${x.id}/take-exam`
-                            : '#'
-                        }
+                        onClick={() => {
+                          history.push(
+                            thisSchedule?.status == SCHEDULE_STATUS.IN_PROGRESS &&
+                              x.status != USER_EXAM_STATUS.SUBMITTED
+                              ? `/user-exams/${x.id}/take-exam`
+                              : '#',
+                          );
+                        }}
                         type="primary"
                         style={{ width: '250px', background: buttonStyle.color }}
                       >

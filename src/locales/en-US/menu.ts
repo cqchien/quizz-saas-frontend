@@ -24,6 +24,7 @@ export default {
 
   // User Exam
   'menu.userExams': 'Your exams',
+  'menu.userExams.user-exams-list': 'Your exams',
 
   // Group
   'menu.groups': 'Your groups',
