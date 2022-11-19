@@ -151,6 +151,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
   return (
     <PageContainer>
       <ProTable<API.Exam>
+        className="criclebox"
         dataSource={examList}
         headerTitle={intl.formatMessage({
           id: 'pages.examsTable.title',
@@ -159,7 +160,6 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
           pageSize: pagingParams ? pagingParams.pageSize : NUMBER_OF_EXAM_PER_PAGE,
           total: pagingParams ? pagingParams.total : 0,
           defaultCurrent: pagingParams ? pagingParams.current : 1,
-          showSizeChanger: true,
           onChange: paginationChange,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
         }}

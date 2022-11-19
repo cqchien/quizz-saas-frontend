@@ -219,6 +219,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
   return (
     <PageContainer>
       <ProTable<API.Question>
+        className="criclebox"
         dataSource={questionList}
         headerTitle={intl.formatMessage({
           id: 'pages.questionsTable.title',
@@ -227,7 +228,6 @@ const QuestionsList: FC<IQuestionListProps> = ({
           pageSize: pagingParams ? pagingParams.pageSize : NUMBER_OF_QUESTION_PER_PAGE,
           total: pagingParams ? pagingParams.total : 0,
           defaultCurrent: pagingParams ? pagingParams.current : 1,
-          showSizeChanger: true,
           onChange: paginationChange,
           showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
         }}
