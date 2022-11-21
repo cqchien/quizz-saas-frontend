@@ -61,7 +61,7 @@ const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList })
           {groupList.map((x, index) => {
             return (
               <Col span={6} key={x.id}>
-                <ProCard className="criclebox" key={x.id} bordered hoverable>
+                <ProCard className="circlebox" key={x.id} bordered hoverable>
                   <Space align="center" direction="vertical" style={{ display: 'flex' }}>
                     <Title level={3}>{x.name}</Title>
 

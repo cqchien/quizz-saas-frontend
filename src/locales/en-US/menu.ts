@@ -16,18 +16,18 @@ export default {
   'menu.questions.questions-edit': 'Edit Question',
 
   // Admin - Exam Management
-  'menu.exams': 'Exams',
+  'menu.exams': 'Exam Templates',
   'menu.exams.exams-list': 'Exams List',
   'menu.exams.exams-create': 'Create Exam',
   'menu.exams.exams-edit': 'Edit Exam',
   'menu.exams.exams-overview': 'Exam Dashboard',
 
   // User Exam
-  'menu.userExams': 'Your exams',
+  'menu.userExams': 'Your Exams',
   'menu.userExams.user-exams-list': 'Your exams',
 
   // Group
-  'menu.groups': 'Your groups',
+  'menu.groups': 'Your Groups',
 
   // exception
   'menu.exception.403': '403',

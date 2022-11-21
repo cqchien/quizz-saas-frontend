@@ -1,5 +1,5 @@
 import { notification } from 'antd';
-import { getAll, takeExam, submitExam } from '@/services/userExam';
+import { getAll, takeExam, submitExam, overviewUserExam } from '@/services/userExam';
 import type { Effect, Reducer } from 'umi';
 import { mapBuilder } from '@/utils/function';
 
@@ -16,6 +16,7 @@ interface IUserExamModel {
     takeExam: Effect;
     submitExam: Effect;
     fetch: Effect;
+    overview: Effect;
   };
   reducers: {
     updateDictionary: Reducer;
@@ -119,6 +120,30 @@ const UserExamModel: IUserExamModel = {
       } catch (err) {
         console.error(`Error when trying to get the detailed exam:`, err);
 
+        notification.error({
+          message: 'Something went wrong',
+        });
+        return false;
+      }
+    },
+
+    *overview({ payload }, { call }) {
+      try {
+        const { userExamId } = payload;
+
+        const response = yield call(overviewUserExam, userExamId);
+
+        if (response.success) {
+          return response.data;
+        }
+
+        notification.error({
+          message: response.message || 'Something went wrong',
+        });
+
+        return false;
+      } catch (err) {
+        console.error(`Error when trying to get the detailed user exam:`, err);
         notification.error({
           message: 'Something went wrong',
         });

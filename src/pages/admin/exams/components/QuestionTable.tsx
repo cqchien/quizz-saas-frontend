@@ -156,7 +156,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
   return (
     <Card>
       <ProTable<API.Question>
-        className="criclebox"
+        className="circlebox"
         dataSource={questionList}
         search={false}
         rowSelection={{

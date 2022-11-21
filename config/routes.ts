@@ -90,6 +90,11 @@
         component: './admin/exams/exams-exam',
       },
       {
+        path: '/user-exams/:id/overview',
+        name: 'exams-exam-overview',
+        component: './admin/user-exams/user-exams-overview',
+      },
+      {
         redirect: '/user-exams/list',
       },
     ],

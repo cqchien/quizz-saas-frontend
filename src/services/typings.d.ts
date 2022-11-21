@@ -86,6 +86,7 @@ declare namespace API {
     questions: string[] | Question[];
     setting: Setting;
     schedules: Schedule[];
+    userExams: UserExam[];
   };
 
   type Setting = {
@@ -133,6 +134,7 @@ declare namespace API {
     scheduleCode: string;
     score: number;
     total: number;
+    numberOfCorrectAnswer?: number;
     resultStatus: string;
     questionBankType: string;
     questions: QuestionAnswerGet[];
