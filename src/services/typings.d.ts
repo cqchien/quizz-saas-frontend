@@ -107,7 +107,7 @@ declare namespace API {
     startTime: Date;
     endTime: Date;
     status: string;
-    assignedGroup?: string[];
+    assignedGroup?: string | Group;
   };
 
   type SubmitExamData = {

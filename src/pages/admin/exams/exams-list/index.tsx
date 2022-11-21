@@ -6,17 +6,14 @@ import { useEffect } from 'react';
 import { ProTable } from '@ant-design/pro-components';
 import { Button, Divider, Popconfirm, Tooltip } from 'antd';
 import { useState } from 'react';
-import { FormattedMessage, Link, useIntl } from 'umi';
+import { FormattedMessage, Link, useHistory, useIntl } from 'umi';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
-import {
-  MAP_EXAM_TYPE,
-  MAP_QUESTION_BANK_TYPE,
-  NUMBER_OF_EXAM_PER_PAGE,
-  SCHEDULE_STATUS,
-} from '@/utils/constant';
+import { MAP_EXAM_TYPE, MAP_QUESTION_BANK_TYPE, NUMBER_OF_EXAM_PER_PAGE } from '@/utils/constant';
 import ModalAddSchedule from '../components/ModalAddSchedule';
+import { prepareScheduleInfo } from '@/utils/function';
+import { getInitialValue } from '../schemas/getInitialValues';
 interface IProps {
   dispatch: any;
   examList: API.Exam[];
@@ -27,6 +24,7 @@ interface IProps {
 const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => {
   const intl = useIntl();
 
+  const history = useHistory();
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
     name: {
       show: false,
@@ -67,31 +65,34 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
     return <Button key={`schedule_${id}`} type="link" icon={<ScheduleOutlined />} />;
   };
 
-  const handleScheduleSubmit = async (values: any) => {
-    let startTime;
-    let endTime;
-
-    if (values.scheduleType === 'Fixed') {
-      startTime = new Date(values.startAt);
-      endTime = new Date(values.startAt);
-      endTime = new Date(endTime.setMinutes(endTime.getMinutes() + values.period));
-    } else {
-      startTime = new Date(values.dateRange[0]);
-      endTime = new Date(values.dateRange[1]);
-    }
-
-    const newSchedule: API.Schedule = {
-      code: `ES${new Date().toISOString().slice(0, 19).replace(/-/g, '').replace(/:/g, '')}`,
-      startTime: startTime,
-      endTime: endTime,
-      time: values.period,
-      status: SCHEDULE_STATUS.NOT_STARTED,
-      assignedGroup: values.assignedGroup,
-    };
-
-    console.log('TODO hanle', newSchedule);
-    //setScheduleList([...scheduleList, newSchedule]);
-    return true;
+  const handleScheduleSubmit = async (id: string, values: any) => {
+    const newSchedule = prepareScheduleInfo(values);
+    dispatch({
+      type: 'exams/getDetail',
+      payload: {
+        examId: id,
+      },
+    }).then((result: API.Exam) => {
+      const cb = () => {
+        history.push('/exams');
+      };
+      const initExam = getInitialValue(result);
+      const updatedExam = {
+        ...initExam,
+        schedules: [...initExam.schedules, newSchedule],
+        questions: initExam.questions.map((x: API.Question) => x.id),
+      };
+      return dispatch({
+        type: 'exams/update',
+        payload: {
+          exam: updatedExam,
+          examId: id,
+          cb,
+        },
+      }).then(() => {
+        return true;
+      });
+    });
   };
 
   const examTableColumns: ProColumns<API.Exam>[] = [
@@ -173,7 +174,9 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
           <Tooltip title="Add new schedule">
             <ModalAddSchedule
               trigger={getModalAddScheduleTrigger(record.id as string)}
-              handleScheduleSubmit={handleScheduleSubmit}
+              handleScheduleSubmit={(values: any) =>
+                handleScheduleSubmit(record.id as string, values)
+              }
             />
           </Tooltip>
         </div>,

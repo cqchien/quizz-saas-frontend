@@ -1,4 +1,5 @@
 import { MAP_SCHEDULE_STATUS, SCHEDULE_STATUS } from '@/utils/constant';
+import { prepareScheduleInfo } from '@/utils/function';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
@@ -117,27 +118,8 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
   ];
 
   const handleScheduleSubmit = async (values: any) => {
-    let startTime;
-    let endTime;
-
-    if (values.scheduleType === 'Fixed') {
-      startTime = new Date(values.startAt);
-      endTime = new Date(values.startAt);
-      endTime = new Date(endTime.setMinutes(endTime.getMinutes() + values.period));
-    } else {
-      startTime = new Date(values.dateRange[0]);
-      endTime = new Date(values.dateRange[1]);
-    }
-
-    const newSchedule: API.Schedule = {
-      code: `ES${new Date().toISOString().slice(0, 19).replace(/-/g, '').replace(/:/g, '')}`,
-      startTime: startTime,
-      endTime: endTime,
-      time: values.period,
-      status: SCHEDULE_STATUS.NOT_STARTED,
-      assignedGroup: values.assignedGroup,
-    };
-
+    const newSchedule: API.Schedule = prepareScheduleInfo(values);
+    console.log(newSchedule);
     setScheduleList([...scheduleList, newSchedule]);
     return true;
   };

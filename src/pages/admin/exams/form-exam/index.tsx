@@ -46,12 +46,9 @@ const ExamForm: React.FC<IExamForm> = ({ exam }) => {
       return handleViewExam(id);
     };
 
-    const examInfo: API.Exam = {
+    let examInfo: API.Exam = {
       ...value,
-      code: `EXAM${new Date().toISOString().slice(0, 19).replace(/-/g, '').replace(/:/g, '')}`,
       defaultQuestionNumber: value.questions.length,
-      type: 'exam',
-      questionBankType: 'system',
       questions: value.questions.map((x: API.Question) => x.id),
     };
 
@@ -68,6 +65,11 @@ const ExamForm: React.FC<IExamForm> = ({ exam }) => {
         return result;
       });
     }
+
+    examInfo = {
+      ...examInfo,
+      code: `EXAM${new Date().toISOString().slice(0, 19).replace(/-/g, '').replace(/:/g, '')}`,
+    };
 
     return dispatch({
       type: 'exams/create',
