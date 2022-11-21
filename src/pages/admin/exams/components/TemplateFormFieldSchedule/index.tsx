@@ -1,37 +1,23 @@
 import { MAP_SCHEDULE_STATUS, SCHEDULE_STATUS } from '@/utils/constant';
 import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
 import type { ProColumns } from '@ant-design/pro-components';
-import {
-  ProTable,
-  ModalForm,
-  ProFormRadio,
-  ProFormDependency,
-  ProFormGroup,
-  ProFormDateTimePicker,
-  ProFormDigit,
-  ProFormDateTimeRangePicker,
-  ProFormSelect,
-} from '@ant-design/pro-components';
-import { Button, Form, Popconfirm, Tag } from 'antd';
+import { ProTable } from '@ant-design/pro-components';
+import { Button, Popconfirm, Tag } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { connect, FormattedMessage } from 'umi';
-import mapStateToProps from '../../../groups/mapStateToProps';
+import { FormattedMessage } from 'umi';
+
+import ModalAddSchedule from '../ModalAddSchedule';
 
 interface IProps {
   initialValues: any;
   handleChangeFieldValue: any;
   scheduleListFieldName: any;
-  dispatch: any;
-  groupList: API.Group[];
-  loading: boolean;
 }
 
 const TemplateFormFieldSchedule: React.FC<IProps> = ({
   initialValues,
   handleChangeFieldValue,
   scheduleListFieldName,
-  dispatch,
-  groupList,
 }) => {
   const [scheduleList, setScheduleList] = useState<API.Schedule[]>(
     initialValues[scheduleListFieldName],
@@ -41,17 +27,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     handleChangeFieldValue(scheduleList, scheduleListFieldName);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [scheduleList]);
-
-  useEffect(() => {
-    dispatch({
-      type: 'groups/fetch',
-      payload: { params: {} },
-    });
-  }, [dispatch]);
-
-  const groupListMap = groupList.map((x) => {
-    return { label: x.name, value: x.id };
-  });
 
   const handleRemoveSchedule = (code: string) => {
     setScheduleList((current) =>
@@ -141,21 +116,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
     },
   ];
 
-  const [formSchedule] = Form.useForm<{
-    period: number;
-    code: string;
-    scheduleType: string;
-    startAt: Date;
-    endsAt: Date;
-    status: string;
-    assignedGroup?: string[] | undefined;
-    dateRange: string[];
-  }>();
-
-  const disabledDate = (current: any) => {
-    return current < new Date();
-  };
-
   const handleScheduleSubmit = async (values: any) => {
     let startTime;
     let endTime;
@@ -175,15 +135,25 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       endTime: endTime,
       time: values.period,
       status: SCHEDULE_STATUS.NOT_STARTED,
+      assignedGroup: values.assignedGroup,
     };
 
     setScheduleList([...scheduleList, newSchedule]);
     return true;
   };
 
+  const getModalAddScheduleTrigger = () => {
+    return (
+      <Button type="primary">
+        <PlusOutlined />
+        New schedule
+      </Button>
+    );
+  };
+
   return (
     <ProTable<API.Schedule>
-      className="criclebox"
+      className="circlebox"
       dataSource={scheduleList}
       search={false}
       columns={scheduleTableColumns}
@@ -199,89 +169,14 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       rowKey="id"
       dateFormatter="string"
       toolBarRender={() => [
-        <ModalForm<{
-          period: number;
-          code: string;
-          scheduleType: string;
-          startAt: Date;
-          endsAt: Date;
-          status: string;
-          assignedGroup?: string[] | undefined;
-          dateRange: string[];
-        }>
+        <ModalAddSchedule
           key="key"
-          form={formSchedule}
-          title="New Schedule"
-          trigger={
-            <Button type="primary">
-              <PlusOutlined />
-              New Schedule
-            </Button>
-          }
-          autoFocusFirstInput
-          modalProps={{
-            destroyOnClose: true,
-            onCancel: () => console.log('run'),
-          }}
-          submitTimeout={2000}
-          onFinish={handleScheduleSubmit}
-        >
-          <ProFormRadio.Group
-            label="Schedule Type"
-            name="scheduleType"
-            initialValue="Fixed"
-            options={['Fixed', 'Flexible']}
-          />
-
-          <ProFormDependency name={['scheduleType']}>
-            {({ scheduleType }) => {
-              if (scheduleType === 'Fixed') {
-                return (
-                  <ProFormGroup>
-                    <ProFormDateTimePicker
-                      width="sm"
-                      name="startAt"
-                      label="Start at"
-                      placeholder=""
-                      fieldProps={{
-                        disabledDate: disabledDate,
-                        minuteStep: 5,
-                        format: 'YYYY-MM-DD HH:mm',
-                      }}
-                    />
-                    <ProFormDigit
-                      width="sm"
-                      name="period"
-                      label="Grace Period to Join (Minutes)"
-                      initialValue={15}
-                    />
-                  </ProFormGroup>
-                );
-              }
-              return (
-                <ProFormDateTimeRangePicker
-                  name="dateRange"
-                  label="Date range"
-                  placeholder={['Start at', 'End at']}
-                  fieldProps={{
-                    minuteStep: 5,
-                    format: 'YYYY-MM-DD HH:mm',
-                  }}
-                />
-              );
-            }}
-          </ProFormDependency>
-          <ProFormSelect
-            mode="multiple"
-            options={groupListMap}
-            name="assignedGroup"
-            label="Schedule to a group"
-            placeholder=""
-          />
-        </ModalForm>,
+          handleScheduleSubmit={handleScheduleSubmit}
+          trigger={getModalAddScheduleTrigger()}
+        />,
       ]}
     />
   );
 };
 
-export default connect(mapStateToProps)(TemplateFormFieldSchedule);
+export default TemplateFormFieldSchedule;

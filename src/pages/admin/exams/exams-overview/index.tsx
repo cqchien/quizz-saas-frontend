@@ -1,9 +1,12 @@
+import { USER_EXAM_RESULT, USER_EXAM_STATUS } from '@/utils/constant';
 import { Line } from '@ant-design/plots';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMount } from 'ahooks';
-import { Calendar, Card, Col, Row, Space, Spin, Typography } from 'antd';
+import { Button, Calendar, Card, Col, Row, Space, Spin, Tooltip, Typography } from 'antd';
 import { connect } from 'dva';
+import { Moment } from 'moment';
 import { useState } from 'react';
+import ModalListUser from './components/ModalListUser';
 import NumberCard from './components/numberCard';
 interface IProps {
   id: string;
@@ -14,7 +17,13 @@ interface IProps {
 const { Text, Title } = Typography;
 
 const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
-  const [examOverview, setExamOverview] = useState();
+  const [examOverview, setExamOverview] = useState<API.Exam>();
+  const [computedNumbers, setComputedNumbers] = useState<{
+    totalQuestions: number;
+    totalSchedules: number | undefined;
+    participants: number | undefined;
+    passPercentage: number;
+  }>();
 
   const [data, setData] = useState([]);
 
@@ -51,6 +60,8 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     },
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
+
   const getLineChartData = (result: any) => {
     const current = new Date();
     const days = new Date(current.getFullYear(), 9, 0).getDate();
@@ -69,15 +80,34 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     return userPerDays;
   };
 
+  const computeNumbers = (examInfo: API.Exam) => {
+    const numberUserPass = examInfo?.userExams?.filter(
+      (x) => x.resultStatus == USER_EXAM_RESULT.PASSED,
+    );
+    const numberUserTake = examInfo?.userExams?.map(
+      (x) => x.resultStatus in [USER_EXAM_RESULT.FAILED, USER_EXAM_RESULT.PASSED],
+    );
+    const passPercentage = (numberUserPass.length / numberUserTake.length) * 100.0;
+    return {
+      totalQuestions: examInfo?.defaultQuestionNumber,
+      totalSchedules: examInfo?.schedules.length,
+      participants: examInfo?.userExams
+        ?.filter((x) => x.status == USER_EXAM_STATUS.SUBMITTED)
+        .map((x) => x.user.id).length,
+      passPercentage: passPercentage,
+    };
+  };
+
   useMount(() => {
     dispatch({
       type: 'exams/overview',
       payload: {
         examId: id,
       },
-    }).then((result) => {
+    }).then((result: API.Exam) => {
       setExamOverview(result);
       setData(getLineChartData(result));
+      setComputedNumbers(computeNumbers(result));
     });
   });
 
@@ -118,41 +148,39 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
               icon="question"
               color="rgb(100 234 145)"
               title="Total Questions"
-              number={examOverview?.defaultQuestionNumber}
+              number={computedNumbers?.totalQuestions}
             />
           </Col>
-          <Col key="" lg={6} md={12}>
+          <Col key="totalSchedules" lg={6} md={12}>
             <NumberCard
               icon="schedule"
               color="rgb(216 151 235)"
               title="Total Schedules"
-              number={examOverview?.schedules.length}
+              number={computedNumbers?.totalSchedules}
             />
           </Col>
-          <Col key="" lg={6} md={12}>
-            <NumberCard
-              icon="team"
-              color="rgb(143 201 251)"
-              title="Participants"
-              number={examOverview?.userExams?.map((x) => x.user.id).length}
-            />
+          <Col key="participants" lg={6} md={12} onClick={() => setIsModalOpen(true)}>
+            <Tooltip title="Click me to view participant's exam details">
+              <Button style={{ display: 'none' }} />
+              <NumberCard
+                icon="team"
+                color="rgb(143 201 251)"
+                title="Participants"
+                number={computedNumbers?.participants}
+              />
+            </Tooltip>
           </Col>
-          <Col key="" lg={6} md={12}>
+          <Col key="passPercentage" lg={6} md={12}>
             <NumberCard
               icon="alert"
               color="rgb(246 152 153)"
-              title="Pass Percentage (%)"
-              number={
-                (examOverview?.userExams?.map((x) => {
-                  if (x.resultStatus == 'Passed') return x.resultStatus;
-                }).length /
-                  examOverview?.userExams.length) *
-                100
-              }
+              title="Pass Percentage"
+              number={computedNumbers?.passPercentage}
+              percent={true}
             />
           </Col>
           <Col lg={18} md={24}>
-            <Card>
+            <Card className="circlebox">
               <Line {...config} />
             </Card>
           </Col>
@@ -160,11 +188,11 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
             <Row gutter={[0, 24]}>
               <Col lg={24} md={12}>
                 <Card
-                  bordered={false}
+                  className="circlebox"
+                  style={{ background: 'rgb(6 57 112)' }}
                   bodyStyle={{
                     padding: 0,
                     height: 100,
-                    background: 'rgb(6 57 112)',
                     justifyContent: 'center',
                     display: 'flex',
                   }}
@@ -190,6 +218,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
               </Col>
               <Col lg={24} md={12}>
                 <Card
+                  className="circlebox"
                   bordered={false}
                   bodyStyle={{
                     padding: 0,
@@ -202,6 +231,15 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
             </Row>
           </Col>
         </Row>
+        <ModalListUser
+          isModalOpen={isModalOpen}
+          setIsModalOpen={setIsModalOpen}
+          userExams={
+            examOverview?.userExams?.filter(
+              (x) => x.status == USER_EXAM_STATUS.SUBMITTED,
+            ) as API.UserExam[]
+          }
+        />
       </PageContainer>
     </Spin>
   );

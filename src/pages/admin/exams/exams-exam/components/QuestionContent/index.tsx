@@ -1,59 +1,77 @@
 import { ProCard } from '@ant-design/pro-components';
 import { Editor } from '@tinymce/tinymce-react';
-import { Row, Divider, Radio, Space, Typography } from 'antd';
+import { Row, Radio, Space, Col, Divider } from 'antd';
 import React, { useEffect, useState } from 'react';
 
-const { Text } = Typography;
-
 interface Props {
-  currentQuestion: API.Question | undefined;
-  onSelectOption: any;
+  currentQuestion: API.Question;
+  onSelectOption?: any;
   questionAnswers: API.QuestionAnswer[];
+  currentIndex: number;
+  proCardStyle?: any;
+  proCardActions?: any;
+  hasDivider?: boolean;
 }
 
-const QuestionContent: React.FC<Props> = ({ currentQuestion, onSelectOption, questionAnswers }) => {
+const QuestionContent: React.FC<Props> = ({
+  currentQuestion,
+  onSelectOption,
+  questionAnswers,
+  currentIndex,
+  proCardStyle,
+  proCardActions,
+  hasDivider,
+}) => {
   const [selectedValue, setSelectedValue] = useState<number | undefined>();
 
   useEffect(() => {
-    const questionAnswer = questionAnswers.filter((x) => x.questionId == currentQuestion?.id)[0];
-    if (questionAnswer) {
-      setSelectedValue(questionAnswer.answerOrder);
-    } else {
-      setSelectedValue(undefined);
+    if (questionAnswers) {
+      const questionAnswer = questionAnswers.filter((x) => x.questionId == currentQuestion?.id)[0];
+      if (questionAnswer) {
+        setSelectedValue(questionAnswer.answerOrder);
+      } else {
+        setSelectedValue(undefined);
+      }
     }
   }, [currentQuestion, questionAnswers]);
 
   return (
-    <ProCard style={{ height: '400px', overflow: 'auto' }}>
+    <ProCard style={proCardStyle} actions={proCardActions}>
       {currentQuestion && (
         <Row gutter={[0, 8]}>
-          <Editor
-            value={currentQuestion.question}
-            init={{
-              inline: true,
-              readonly: true,
-            }}
-            disabled={true}
-          />
-          <Divider>
-            <Text type="secondary">Answers</Text>
-          </Divider>
-          <Radio.Group key={currentQuestion.id} onChange={onSelectOption} value={selectedValue}>
-            <Space direction="vertical">
-              {currentQuestion.options?.map((x) => (
-                <Radio key={`${currentQuestion.id}_${x.order}`} value={x.order}>
-                  <Editor
-                    value={x.option}
-                    init={{
-                      inline: true,
-                      readonly: true,
-                    }}
-                    disabled={true}
-                  />
-                </Radio>
-              ))}
-            </Space>
-          </Radio.Group>
+          <Col span={24}>
+            {hasDivider && (
+              <Divider orientation="left" orientationMargin="0">{`Question ${
+                currentIndex + 1
+              }`}</Divider>
+            )}
+            <Editor
+              value={currentQuestion.question}
+              init={{
+                inline: true,
+                readonly: true,
+              }}
+              disabled={true}
+            />
+          </Col>
+          <Col span={24}>
+            <Radio.Group key={currentQuestion.id} onChange={onSelectOption} value={selectedValue}>
+              <Space direction="vertical">
+                {currentQuestion.options?.map((x) => (
+                  <Radio key={`${currentQuestion.id}_${x.order}`} value={x.order}>
+                    <Editor
+                      value={x.option}
+                      init={{
+                        inline: true,
+                        readonly: true,
+                      }}
+                      disabled={true}
+                    />
+                  </Radio>
+                ))}
+              </Space>
+            </Radio.Group>
+          </Col>
         </Row>
       )}
     </ProCard>

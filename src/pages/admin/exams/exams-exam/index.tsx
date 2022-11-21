@@ -4,7 +4,6 @@ import {
   ArrowRightOutlined,
   ClockCircleOutlined,
 } from '@ant-design/icons';
-import { ProCard } from '@ant-design/pro-components';
 import { useMount } from 'ahooks';
 import type { RadioChangeEvent } from 'antd';
 import { Result, Statistic } from 'antd';
@@ -156,13 +155,14 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
         ) : (
           <Row gutter={[48, 0]} className="exam-content w-100">
             <Col offset={2} span={12} className="exam-main-content">
-              <ProCard title={`Question ${currentIndex + 1}`} actions={examMainContentActions}>
-                <QuestionContent
-                  currentQuestion={currentQuestion}
-                  onSelectOption={onSelectOption}
-                  questionAnswers={questionAnswers}
-                />
-              </ProCard>
+              <QuestionContent
+                currentIndex={currentIndex}
+                proCardActions={examMainContentActions}
+                proCardStyle={{ height: '400px', overflow: 'auto' }}
+                currentQuestion={currentQuestion as API.Question}
+                onSelectOption={onSelectOption}
+                questionAnswers={questionAnswers}
+              />
             </Col>
             <Col span={8} className="do-exam-wrapper">
               <Card>

@@ -1,4 +1,4 @@
-import { Card, Space, Typography } from 'antd';
+import { Col, Row, Space, Typography } from 'antd';
 
 const { Title } = Typography;
 
@@ -9,19 +9,20 @@ interface Props {
 
 const ExamHeading: React.FC<Props> = ({ templateExam, time }) => {
   return (
-    <Card className="exam-heading" style={{ backgroundColor: '#003a8c', border: 0 }}>
-      <Space align="center" direction="vertical" style={{ display: 'flex' }}>
-        <Title level={4} style={{ color: '#ffffff' }}>
-          {templateExam?.description?.toUpperCase()}
-        </Title>
-        <Title level={5} style={{ color: '#ffffff' }}>
-          Exam : {templateExam?.name}
-        </Title>
-        <Title level={5} style={{ color: '#ffffff' }}>
-          Time: {time} minutes
-        </Title>
-      </Space>
-
+    <Row style={{ backgroundColor: '#003a8c', border: 0 }}>
+      <Col span={12} offset={6}>
+        <Space align="center" direction="vertical" style={{ display: 'flex' }}>
+          <Title level={4} style={{ color: '#ffffff' }}>
+            {templateExam?.description?.toUpperCase()}
+          </Title>
+          <Title level={5} style={{ color: '#ffffff' }}>
+            {templateExam?.name}
+          </Title>
+          <Title level={5} style={{ color: '#ffffff' }}>
+            Time: {time} minutes
+          </Title>
+        </Space>
+      </Col>
       {/* <Row justify="space-between">
         <Space>
           <Button icon={<HeartOutlined />}>
@@ -38,7 +39,7 @@ const ExamHeading: React.FC<Props> = ({ templateExam, time }) => {
           <Text strong>Report</Text>
         </Button>
       </Row> */}
-    </Card>
+    </Row>
   );
 };
 

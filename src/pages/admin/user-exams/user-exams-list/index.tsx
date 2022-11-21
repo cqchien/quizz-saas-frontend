@@ -78,6 +78,32 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
     return null;
   };
 
+  const handleCardOnClick = (
+    userExamStatus: string,
+    scheduleStatus: string,
+    userExamId: string,
+  ) => {
+    if (
+      scheduleStatus == SCHEDULE_STATUS.COMPLETED &&
+      userExamStatus == USER_EXAM_STATUS.SUBMITTED
+    ) {
+      history.push(`/user-exams/${userExamId}/overview`);
+    }
+  };
+
+  const handleCardButtonOnClick = (
+    userExamStatus: string,
+    scheduleStatus: string,
+    userExamId: string,
+  ) => {
+    if (
+      scheduleStatus == SCHEDULE_STATUS.IN_PROGRESS &&
+      userExamStatus != USER_EXAM_STATUS.SUBMITTED
+    ) {
+      history.push(`/user-exams/${userExamId}/take-exam`);
+    }
+  };
+
   return (
     <Spin spinning={loading}>
       <PageContainer>
@@ -91,7 +117,15 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
 
             return (
               <Col span={6} key={x.id}>
-                <ProCard className="criclebox" key={x.id} bordered hoverable>
+                <ProCard
+                  className="circlebox"
+                  key={x.id}
+                  bordered
+                  hoverable
+                  onClick={() =>
+                    handleCardOnClick(x.status, (thisSchedule as API.Schedule).status, x.id)
+                  }
+                >
                   <Space align="center" direction="vertical" style={{ display: 'flex' }}>
                     <Title level={3}>{x.name}</Title>
                     <Space align="start" direction="vertical" style={{ display: 'flex' }}>
@@ -110,14 +144,13 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
                     </Space>
                     <Tooltip title={buttonStyle.title}>
                       <Button
-                        onClick={() => {
-                          history.push(
-                            thisSchedule?.status == SCHEDULE_STATUS.IN_PROGRESS &&
-                              x.status != USER_EXAM_STATUS.SUBMITTED
-                              ? `/user-exams/${x.id}/take-exam`
-                              : '#',
-                          );
-                        }}
+                        onClick={() =>
+                          handleCardButtonOnClick(
+                            x.status,
+                            (thisSchedule as API.Schedule).status,
+                            x.id,
+                          )
+                        }
                         type="primary"
                         style={{ width: '250px', background: buttonStyle.color }}
                       >

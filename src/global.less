@@ -65,23 +65,27 @@ button {
   border-radius: 10px !important;
 }
 
-.ant-card.criclebox {
+.ant-card.circlebox {
   border-radius: 12px;
   box-shadow: 0 20px 27px #0000000d;
 }
 
-.ant-pro-card.criclebox,
-.criclebox .ant-pro-card {
-  border-radius: 12px;
+.ant-pro-card.circlebox,
+.ant-card.circlebox,
+.circlebox .ant-card,
+.circlebox + .ant-pro-card,
+.circlebox .ant-picker-calendar,
+.circlebox .ant-picker-panel {
+  border-radius: 12px !important;
   box-shadow: 0 20px 27px #0000000d;
 }
 
-.ant-card.criclebox .project-ant {
+.ant-card.circlebox .project-ant {
   padding-right: 24px;
   padding-left: 24px;
 }
 
-.ant-card.criclebox table th {
+.ant-card.circlebox table th {
   padding-top: 14px;
   padding-right: 24px;
   padding-bottom: 14px;
@@ -109,4 +113,9 @@ button {
   color: #545454 !important;
   font-family: 'NoirPro', sans-serif;
   font-variant: tabular-nums;
+}
+
+.resize-number {
+  font-weight: 600;
+  font-size: 32px;
 }

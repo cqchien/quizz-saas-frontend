@@ -219,7 +219,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
   return (
     <PageContainer>
       <ProTable<API.Question>
-        className="criclebox"
+        className="circlebox"
         dataSource={questionList}
         headerTitle={intl.formatMessage({
           id: 'pages.questionsTable.title',
