@@ -73,5 +73,18 @@ export default {
     setting: {
       name: 'setting',
     },
+
+    type: {
+      name: 'type',
+    },
+    questionBankType: {
+      name: 'questionBankType',
+    },
+    code: {
+      name: 'code',
+    },
+    defaultQuestionNumber: {
+      name: 'defaultQuestionNumber',
+    },
   },
 };

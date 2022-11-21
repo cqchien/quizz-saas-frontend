@@ -1,3 +1,5 @@
+import { SCHEDULE_STATUS } from './constant';
+
 export function mapBuilder(
   data: any[],
   field: string = 'id',
@@ -22,4 +24,27 @@ export function calculateSize(size: number) {
   }
 
   return 0;
+}
+
+export function prepareScheduleInfo(values: any) {
+  let startTime;
+  let endTime;
+
+  if (values.scheduleType === 'Fixed') {
+    startTime = new Date(values.startAt);
+    endTime = new Date(values.startAt);
+    endTime = new Date(endTime.setMinutes(endTime.getMinutes() + values.period));
+  } else {
+    startTime = new Date(values.dateRange[0]);
+    endTime = new Date(values.dateRange[1]);
+  }
+
+  return {
+    code: `ES${new Date().toISOString().slice(0, 19).replace(/-/g, '').replace(/:/g, '')}`,
+    startTime: startTime,
+    endTime: endTime,
+    time: Number(values.period),
+    status: SCHEDULE_STATUS.NOT_STARTED,
+    assignedGroup: values.assignedGroup,
+  };
 }

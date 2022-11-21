@@ -9,7 +9,7 @@ import {
   ProFormSelect,
 } from '@ant-design/pro-components';
 import { Form } from 'antd';
-import React, { useEffect } from 'react';
+import React from 'react';
 import { connect } from 'umi';
 import mapStateToProps from '../../../../admin/groups/mapStateToProps';
 import formSchema from '../../schemas/scheduleSchema';
@@ -29,12 +29,15 @@ const ModalAddSchedule: React.FC<Props> = ({
   trigger,
 }) => {
   const { formField } = formSchema;
-  useEffect(() => {
-    dispatch({
-      type: 'groups/fetch',
-      payload: { params: {} },
-    });
-  }, [dispatch]);
+
+  const handleVisibleChange = (value: boolean) => {
+    if (value) {
+      dispatch({
+        type: 'groups/fetch',
+        payload: { params: {} },
+      });
+    }
+  };
 
   const groupListMap = groupList?.map((x) => {
     return { label: x.name, value: x.id };
@@ -75,6 +78,7 @@ const ModalAddSchedule: React.FC<Props> = ({
       onFinish={handleScheduleSubmit}
       modalProps={{ okText: 'Add', cancelText: 'Cancel' }}
       width={'500px'}
+      onVisibleChange={handleVisibleChange}
     >
       <ProFormRadio.Group
         label={formField.scheduleType.label}

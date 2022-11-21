@@ -107,7 +107,7 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
   return (
     <Spin spinning={loading}>
       <PageContainer>
-        <Row gutter={[48, 48]}>
+        <Row gutter={[48, 48]} align="middle">
           {userExamList.map((x) => {
             const thisSchedule = x.templateExam.schedules.find((y) => y.code == x.scheduleCode);
             const buttonStyle: { color: string; text: string; title: string } = getButtonStype(
@@ -163,18 +163,20 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
             );
           })}
 
-          <Col span={12} offset={6}>
-            {userExamList && pagingParams && (
-              <Pagination
-                pageSize={NUMBER_OF_EXAM_CARD_PER_PAGE}
-                total={pagingParams.total}
-                defaultCurrent={1}
-                onChange={paginationChange}
-                showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
-                showSizeChanger={false}
-              />
-            )}
-          </Col>
+          {userExamList && pagingParams && (
+            <Col span={24}>
+              <Space align="center" direction="vertical" style={{ display: 'flex' }}>
+                <Pagination
+                  pageSize={NUMBER_OF_EXAM_CARD_PER_PAGE}
+                  total={pagingParams.total}
+                  defaultCurrent={1}
+                  onChange={paginationChange}
+                  showTotal={(total, range) => `${range[0]}-${range[1]} of ${total} items`}
+                  showSizeChanger={false}
+                />
+              </Space>
+            </Col>
+          )}
         </Row>
       </PageContainer>
     </Spin>
