@@ -6,6 +6,7 @@ import { Button, Card, Select } from 'antd';
 import { connect, FormattedMessage, useIntl } from 'umi';
 import mapStateToProps from '../../questions/mapStateToProps';
 import {
+  DISPATCH_TYPE,
   HEURISTIC_LEVEL_STRING,
   MAP_HEURISTIC_LEVEL,
   MAP_QUESTION_BANK_TYPE,
@@ -133,14 +134,14 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
 
   useEffect(() => {
     dispatch({
-      type: 'questions/fetch',
+      type: DISPATCH_TYPE.QUESTIONS_FETCH,
       payload: { params: filterParams },
     });
   }, [dispatch, filterParams]);
 
   const paginationChange = (page: number, pageSize?: number) => {
     dispatch({
-      type: 'questions/fetch',
+      type: DISPATCH_TYPE.QUESTIONS_FETCH,
       payload: { params: { ...filterParams, page: page, take: pageSize } },
     });
   };
@@ -192,7 +193,9 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
           <Select
             key="typeSelector"
             options={mapQuestionBankTypeOptions}
-            placeholder="Select bank type"
+            placeholder={
+              <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.questionBank.title" />
+            }
             onChange={(value) => {
               setFilterParams({ ...filterParams, bankType: value });
             }}
@@ -200,7 +203,9 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
           <Select
             key="topicSelector"
             options={mapTopicOptions}
-            placeholder="Select topic"
+            placeholder={
+              <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.topic.title" />
+            }
             onChange={(value) => {
               setFilterParams({ ...filterParams, topic: value });
             }}

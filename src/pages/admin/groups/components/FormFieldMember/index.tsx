@@ -1,6 +1,7 @@
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import { ModalForm, ProFormText } from '@ant-design/pro-components';
 import { Button, Form, Space } from 'antd';
+import { FormattedMessage } from 'umi';
 import formSchema from '../../schemas/groupSchema';
 
 interface Props {
@@ -19,7 +20,7 @@ const FormFieldMember: React.FC<Props> = ({ onSubmit, group }) => {
       title={`Add members for ${group.name}`}
       trigger={
         <Button key={`adduser_${group.id}`} type="primary" style={{ width: '250px' }}>
-          Add member
+          <FormattedMessage id="component.form.action.addMemberButton.title" />
         </Button>
       }
       autoFocusFirstInput
@@ -57,7 +58,9 @@ const FormFieldMember: React.FC<Props> = ({ onSubmit, group }) => {
                   rules={[
                     {
                       type: 'email',
-                      message: 'The input is not valid E-mail!',
+                      message: (
+                        <FormattedMessage id="component.form.step.groupMembers.formField.memberEmail.errMsgMail" />
+                      ),
                     },
                     {
                       required: formField.memberEmail.required,
@@ -70,7 +73,7 @@ const FormFieldMember: React.FC<Props> = ({ onSubmit, group }) => {
             ))}
             <Form.Item>
               <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                Add member information
+                <FormattedMessage id="component.form.action.addMember.title" />
               </Button>
             </Form.Item>
           </>

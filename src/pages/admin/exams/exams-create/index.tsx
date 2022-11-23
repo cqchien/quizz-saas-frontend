@@ -5,7 +5,7 @@ import ExamForm from '../form-exam';
 const ExamCreationPage: React.FC = () => {
   return (
     <PageContainer>
-      <ProCard>
+      <ProCard className="circlebox customized-exam-form-button">
         <ExamForm />
       </ProCard>
     </PageContainer>

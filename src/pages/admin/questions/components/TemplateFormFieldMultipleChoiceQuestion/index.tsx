@@ -217,7 +217,7 @@ const TemplateFormFieldMultipleChoiceQuestion: React.FC<Props> = ({
 
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} block icon={<PlusCircleFilled />}>
-                    <FormattedMessage id="component.form.createQuestion.addQuestion" />
+                    <FormattedMessage id="component.form.createQuestion.addOption" />
                   </Button>
                 </Form.Item>
               </>

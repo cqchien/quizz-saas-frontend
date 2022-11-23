@@ -8,6 +8,7 @@ import { getInitialValue } from '../schemas/getInitialValues';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import TemplateFormFieldExam from '../components/TemplateFormFieldExam';
 import { Spin } from 'antd';
+import { DISPATCH_TYPE } from '@/utils/constant';
 
 interface IExamForm {
   exam?: API.Exam;
@@ -54,7 +55,7 @@ const ExamForm: React.FC<IExamForm> = ({ exam }) => {
 
     if (exam) {
       return dispatch({
-        type: 'exams/update',
+        type: DISPATCH_TYPE.EXAMS_UPDATE,
         payload: {
           exam: examInfo,
           examId: exam.id,
@@ -72,7 +73,7 @@ const ExamForm: React.FC<IExamForm> = ({ exam }) => {
     };
 
     return dispatch({
-      type: 'exams/create',
+      type: DISPATCH_TYPE.EXAMS_CREATE,
       payload: { exam: examInfo, cb },
     }).then((result: any) => {
       setLoading(false);

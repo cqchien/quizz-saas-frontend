@@ -1,4 +1,4 @@
-import { SCHEDULE_STATUS } from './constant';
+import { SCHEDULE_STATUS, SCHEDULE_TYPE } from './constant';
 
 export function mapBuilder(
   data: any[],
@@ -30,7 +30,7 @@ export function prepareScheduleInfo(values: any) {
   let startTime;
   let endTime;
 
-  if (values.scheduleType === 'Fixed') {
+  if (values.scheduleType === SCHEDULE_TYPE.FIXED) {
     startTime = new Date(values.startAt);
     endTime = new Date(values.startAt);
     endTime = new Date(endTime.setMinutes(endTime.getMinutes() + values.period));

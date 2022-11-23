@@ -10,7 +10,12 @@ import { FormattedMessage, Link, useHistory, useIntl } from 'umi';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
-import { MAP_EXAM_TYPE, MAP_QUESTION_BANK_TYPE, NUMBER_OF_EXAM_PER_PAGE } from '@/utils/constant';
+import {
+  DISPATCH_TYPE,
+  MAP_EXAM_TYPE,
+  MAP_QUESTION_BANK_TYPE,
+  NUMBER_OF_EXAM_PER_PAGE,
+} from '@/utils/constant';
 import ModalAddSchedule from '../components/ModalAddSchedule';
 import { prepareScheduleInfo } from '@/utils/function';
 import { getInitialValue } from '../schemas/getInitialValues';
@@ -34,12 +39,12 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
 
   const handleRemoveExam = (examId: string) => {
     dispatch({
-      type: 'exams/delete',
+      type: DISPATCH_TYPE.EXAMS_DELETE,
       payload: { examId: examId },
     }).then((res: any) => {
       if (res) {
         dispatch({
-          type: 'exams/fetch',
+          type: DISPATCH_TYPE.EXAMS_FETCH,
           payload: { params: { page: 1, take: NUMBER_OF_EXAM_PER_PAGE } },
         });
       }
@@ -49,7 +54,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
   const handleSearch = (value: string) => {
     console.log(value);
     dispatch({
-      type: 'exams/fetch',
+      type: DISPATCH_TYPE.EXAMS_FETCH,
       payload: {
         params: {
           page: 1,
@@ -62,13 +67,19 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
   };
 
   const getModalAddScheduleTrigger = (id: string) => {
-    return <Button key={`schedule_${id}`} type="link" icon={<ScheduleOutlined />} />;
+    return (
+      <Tooltip
+        title={<FormattedMessage id="pages.examsTable.column.action.newScheduleTooltip.title" />}
+      >
+        <Button key={`schedule_${id}`} type="link" icon={<ScheduleOutlined />} />
+      </Tooltip>
+    );
   };
 
   const handleScheduleSubmit = async (id: string, values: any) => {
     const newSchedule = prepareScheduleInfo(values);
     dispatch({
-      type: 'exams/getDetail',
+      type: DISPATCH_TYPE.EXAMS_DETAILS,
       payload: {
         examId: id,
       },
@@ -83,7 +94,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
         questions: initExam.questions.map((x: API.Question) => x.id),
       };
       return dispatch({
-        type: 'exams/update',
+        type: DISPATCH_TYPE.EXAMS_UPDATE,
         payload: {
           exam: updatedExam,
           examId: id,
@@ -166,19 +177,21 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
           </Link>
           <Divider type="vertical" />
           <Link to={`/exams/${record.id}/overview`} key={`link_overview_${record.id}`}>
-            <Tooltip title="View exam statistics">
+            <Tooltip
+              title={
+                <FormattedMessage id="pages.examsTable.column.action.viewExamStatistics.title" />
+              }
+            >
               <Button key={`overview_${record.id}`} type="link" icon={<EyeOutlined />} />
             </Tooltip>
           </Link>
           <Divider type="vertical" />
-          <Tooltip title="Add new schedule">
-            <ModalAddSchedule
-              trigger={getModalAddScheduleTrigger(record.id as string)}
-              handleScheduleSubmit={(values: any) =>
-                handleScheduleSubmit(record.id as string, values)
-              }
-            />
-          </Tooltip>
+          <ModalAddSchedule
+            trigger={getModalAddScheduleTrigger(record.id as string)}
+            handleScheduleSubmit={(values: any) =>
+              handleScheduleSubmit(record.id as string, values)
+            }
+          />
         </div>,
       ],
     },
@@ -186,7 +199,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
 
   useEffect(() => {
     dispatch({
-      type: 'exams/fetch',
+      type: DISPATCH_TYPE.EXAMS_FETCH,
       payload: { params: { page: 1, take: NUMBER_OF_EXAM_PER_PAGE } },
     });
   }, [dispatch]);
@@ -198,7 +211,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
     };
 
     dispatch({
-      type: 'exams/fetch',
+      type: DISPATCH_TYPE.EXAMS_FETCH,
       payload: { params: params },
     });
   };

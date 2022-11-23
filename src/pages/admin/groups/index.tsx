@@ -1,3 +1,4 @@
+import { DISPATCH_TYPE } from '@/utils/constant';
 import { CrownOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { Row, Col, Typography, Spin, Space } from 'antd';
@@ -15,38 +16,36 @@ interface IProps {
 
 const { Title } = Typography;
 const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList }) => {
-  useEffect(() => {
+  const fetchData = () => {
     dispatch({
-      type: 'groups/fetch',
+      type: DISPATCH_TYPE.GROUPS_FETCH,
       payload: { params: {} },
     });
+  };
+
+  useEffect(() => {
+    fetchData();
   }, [dispatch]);
 
   const handleGroupSubmit = async (values: any) => {
     dispatch({
-      type: 'groups/create',
+      type: DISPATCH_TYPE.GROUPS_CREATE,
       payload: { group: values },
     }).then(() => {
-      dispatch({
-        type: 'groups/fetch',
-        payload: { params: {} },
-      });
+      fetchData();
     });
     return true;
   };
 
   const handleAddUser = async (values: any, group: API.Group) => {
     dispatch({
-      type: 'groups/update',
+      type: DISPATCH_TYPE.GROUPS_UPDATE,
       payload: {
         group: { ...group, members: [...group.members, ...values.members] },
         groupId: group.id,
       },
     }).then(() => {
-      dispatch({
-        type: 'groups/fetch',
-        payload: { params: {} },
-      });
+      fetchData();
     });
     return true;
   };

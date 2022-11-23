@@ -1,3 +1,5 @@
+import { SCHEDULE_TYPE } from '@/utils/constant';
+
 export default {
   formField: {
     scheduleType: {
@@ -6,7 +8,7 @@ export default {
       errMsg: 'This field is required',
       required: true,
       placeholder: '',
-      options: ['Fixed'], // 'Flexible'
+      options: [SCHEDULE_TYPE.FIXED], // 'Flexible'
     },
     startAt: {
       name: 'startAt',

@@ -3,6 +3,7 @@ import { ProCard } from '@ant-design/pro-components';
 import { Editor } from '@tinymce/tinymce-react';
 import { Card, Col, Row } from 'antd';
 import React from 'react';
+import { FormattedMessage } from 'umi';
 
 interface IQuestionListProps {
   selectedQuestions: API.Question[];
@@ -22,7 +23,11 @@ const SelectedQuestionsTable: React.FC<IQuestionListProps> = ({
   };
 
   return (
-    <ProCard title="There are your selected question">
+    <ProCard
+      title={
+        <FormattedMessage id="component.form.createExam.questionsTab.selectedQuestions.title" />
+      }
+    >
       {selectedQuestions.map((item) => {
         return (
           <Card key={item.id}>

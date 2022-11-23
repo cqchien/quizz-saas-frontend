@@ -1,13 +1,7 @@
 import { useSetForm } from '@/context/FormContext';
 import type { ProFormInstance } from '@ant-design/pro-components';
 import { ProFormTextArea } from '@ant-design/pro-components';
-import {
-  StepsForm,
-  ProFormText,
-  ProFormSelect,
-  ProFormDigit,
-  ProFormSwitch,
-} from '@ant-design/pro-components';
+import { StepsForm, ProFormText, ProFormDigit, ProFormSwitch } from '@ant-design/pro-components';
 import { Form, Row, Col, Button } from 'antd';
 import { Content } from 'antd/lib/layout/layout';
 import React, { useEffect, useRef, useState } from 'react';
@@ -54,6 +48,37 @@ const TemplateFormFieldExam: React.FC<Props> = ({
     handleChangeFieldValue(selectedQuestions, formField.questionList.name);
   }, [selectedQuestions]);
 
+  const getSubmmiter = (props: any) => {
+    if (props.step === 0) {
+      return (
+        <Button type="primary" onClick={() => props.onSubmit?.()}>
+          Next
+        </Button>
+      );
+    }
+
+    if (props.step === 1 || props.step === 2) {
+      return [
+        <>
+          <Button key="pre" onClick={() => props.onPre?.()}>
+            Previous
+          </Button>
+          <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
+            Next
+          </Button>
+        </>,
+      ];
+    }
+
+    return [
+      <Button key="gotoTwo" onClick={() => props.onPre?.()}>
+        Previous
+      </Button>,
+      <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
+        Finish
+      </Button>,
+    ];
+  };
   return (
     initialValues && (
       <StepsForm
@@ -67,35 +92,7 @@ const TemplateFormFieldExam: React.FC<Props> = ({
         }}
         formRef={formRef}
         submitter={{
-          render: (props) => {
-            if (props.step === 0) {
-              return (
-                <Button type="primary" onClick={() => props.onSubmit?.()}>
-                  Next
-                </Button>
-              );
-            }
-
-            if (props.step === 1 || props.step === 2) {
-              return [
-                <Button key="pre" onClick={() => props.onPre?.()}>
-                  Previous
-                </Button>,
-                <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
-                  Next
-                </Button>,
-              ];
-            }
-
-            return [
-              <Button key="gotoTwo" onClick={() => props.onPre?.()}>
-                Previous
-              </Button>,
-              <Button type="primary" key="goToTree" onClick={() => props.onSubmit?.()}>
-                Finish
-              </Button>,
-            ];
-          },
+          render: (props) => getSubmmiter(props),
         }}
       >
         <StepsForm.StepForm
@@ -129,16 +126,6 @@ const TemplateFormFieldExam: React.FC<Props> = ({
                   required: formField.description.required,
                 },
               ]}
-            />
-            <ProFormSelect
-              name={formField.tags.name}
-              label={formField.tags.label}
-              placeholder={formField.tags.placeholder}
-              fieldProps={{ mode: 'tags' }}
-              options={['MATH', 'MUSIC'].map((item) => ({
-                label: item,
-                value: item,
-              }))}
             />
           </Content>
         </StepsForm.StepForm>
