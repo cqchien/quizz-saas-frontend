@@ -91,7 +91,7 @@
       },
       {
         path: '/user-exams/:id/overview',
-        name: 'exams-exam-overview',
+        name: 'user-exams-overview',
         component: './admin/user-exams/user-exams-overview',
       },
       {

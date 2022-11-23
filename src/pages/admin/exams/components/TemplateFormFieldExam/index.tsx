@@ -107,6 +107,10 @@ const TemplateFormFieldExam: React.FC<Props> = ({
           <Content
             style={{ marginBottom: '24px', width: '1024px', height: '600px', overflow: 'auto' }}
           >
+            <ProFormText name={formField.type.name} hidden />
+            <ProFormText name={formField.questionBankType.name} hidden />
+            <ProFormText name={formField.code.name} hidden />
+            <ProFormText name={formField.defaultQuestionNumber.name} hidden />
             <ProFormText
               name={formField.name.name}
               label={formField.name.label}

@@ -25,7 +25,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     participants: number | undefined;
     passPercentage: number;
   }>();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
 
   const config = {
@@ -35,7 +35,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     seriesField: 'name',
     yAxis: {
       title: {
-        text: <FormattedMessage id="pages.overviewExam.lineChart.yAxis.title" />,
+        text: 'Number of paticipants', //<FormattedMessage id="pages.overviewExam.lineChart.yAxis.title" />,
         style: {
           fontSize: 16,
         },
@@ -43,7 +43,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     },
     xAxis: {
       title: {
-        text: <FormattedMessage id="pages.overviewExam.lineChart.xAxis.title" />,
+        text: 'Day in this month', //<FormattedMessage id="pages.overviewExam.lineChart.xAxis.title" />,
         style: {
           fontSize: 16,
         },
@@ -61,20 +61,16 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     },
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const getLineChartData = (result: any) => {
     const current = new Date();
     const days = new Date(current.getFullYear(), 9, 0).getDate();
     const userPerDays: { name: string; day: number; number: number }[] = [];
-
     Array.from(Array(days).keys()).map((x: number) => {
       const day = x + 1;
       const examUserOnDate = result?.userExams?.filter(
         (y: any) => new Date(y.createdAt).getDate() == day,
       );
       const number = examUserOnDate?.length;
-
       const userPerDay = { name: 'Participants', day: day, number: number };
       userPerDays.push(userPerDay);
     });

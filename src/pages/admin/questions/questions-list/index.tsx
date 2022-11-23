@@ -132,7 +132,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
         return defaultRender(_);
       },
       render: (_, record) => (
-        <Space>
+        <Space key={`tags_space_${record.id}`}>
           {(record.tags || []).map((tag) => (
             <Tag color="cyan" key={`${tag}_${record.id}`}>
               {tag}
@@ -174,7 +174,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       render: (text, record) => [
         <div key={record?.id}>
           <Popconfirm
-            key={record.id}
+            key={`${record.id}_delete_confirm`}
             title={
               <FormattedMessage id="pages.questionsTable.column.action.confirmDeleteQuestionMessage" />
             }
@@ -184,10 +184,15 @@ const QuestionsList: FC<IQuestionListProps> = ({
             okText="Yes"
             cancelText="No"
           >
-            <Button key={record.id} type="link" icon={<DeleteOutlined />} danger />
+            <Button
+              key={`${record.id}_delete_button`}
+              type="link"
+              icon={<DeleteOutlined />}
+              danger
+            />
           </Popconfirm>
-          <Link to={`/questions/${record.id}/edit`} key={record.id}>
-            <Button key={record.id} type="link" icon={<EditTwoTone />} />
+          <Link to={`/questions/${record.id}/edit`} key={`${record.id}_edit_link`}>
+            <Button key={`${record.id}_edit_button`} type="link" icon={<EditTwoTone />} />
           </Link>
         </div>,
       ],
@@ -237,8 +242,8 @@ const QuestionsList: FC<IQuestionListProps> = ({
           },
 
           actions: [
-            <Link to={'/questions/create'} key="createButton">
-              <Button type="primary" icon={<PlusOutlined />}>
+            <Link to={'/questions/create'} key="createButtonLink">
+              <Button type="primary" icon={<PlusOutlined />} key="createButton">
                 <span>
                   <FormattedMessage id="pages.questionsTable.column.action.createLabel" />
                 </span>
