@@ -12,6 +12,7 @@ import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
 import {
+  DISPATCH_TYPE,
   MAP_HEURISTIC_LEVEL,
   MAP_QUESTION_TYPE_SHORT,
   MAP_STATUS,
@@ -41,31 +42,30 @@ const QuestionsList: FC<IQuestionListProps> = ({
     },
   });
 
+  const fetchData = (params: any) => {
+    dispatch({
+      type: DISPATCH_TYPE.QUESTIONS_FETCH,
+      payload: { params: params },
+    });
+  };
+
   const handleRemoveQuestion = (questionId: string) => {
     dispatch({
-      type: 'questions/delete',
+      type: DISPATCH_TYPE.QUESTIONS_DELETE,
       payload: { questionId: questionId },
     }).then((res: any) => {
       if (res) {
-        dispatch({
-          type: 'questions/fetch',
-          payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
-        });
+        fetchData({ page: 1, take: NUMBER_OF_QUESTION_PER_PAGE });
       }
     });
   };
 
   const handleSearch = (value: string) => {
-    dispatch({
-      type: 'questions/fetch',
-      payload: {
-        params: {
-          page: 1,
-          take: NUMBER_OF_QUESTION_PER_PAGE,
-          searchField: 'question',
-          searchValue: value,
-        },
-      },
+    fetchData({
+      page: 1,
+      take: NUMBER_OF_QUESTION_PER_PAGE,
+      searchField: 'question',
+      searchValue: value,
     });
   };
 
@@ -74,16 +74,13 @@ const QuestionsList: FC<IQuestionListProps> = ({
     const formData = new FormData();
 
     const cb = () => {
-      dispatch({
-        type: 'questions/fetch',
-        payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
-      });
+      fetchData({ page: 1, take: NUMBER_OF_QUESTION_PER_PAGE });
     };
 
     formData.append('file', uploadedFile.originFileObj, uploadedFile.name);
 
     return dispatch({
-      type: 'questions/import',
+      type: DISPATCH_TYPE.QUESTIONS_IMPORT,
       payload: {
         data: formData,
         cb,
@@ -198,21 +195,13 @@ const QuestionsList: FC<IQuestionListProps> = ({
   ];
 
   useEffect(() => {
-    dispatch({
-      type: 'questions/fetch',
-      payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
-    });
+    fetchData({ page: 1, take: NUMBER_OF_QUESTION_PER_PAGE });
   }, [dispatch]);
 
   const paginationChange = (page: number, pageSize?: number) => {
-    const params: API.PageQuery = {
+    fetchData({
       page: page,
       take: pageSize,
-    };
-
-    dispatch({
-      type: 'questions/fetch',
-      payload: { params: params },
     });
   };
 

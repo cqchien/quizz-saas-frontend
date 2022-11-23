@@ -1,4 +1,4 @@
-import { QUESTION_TYPE } from '@/utils/constant';
+import { DISPATCH_TYPE, QUESTION_TYPE } from '@/utils/constant';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { useMount } from 'ahooks';
 import { Spin } from 'antd';
@@ -20,7 +20,7 @@ const QuestionUpdationPage: FC<IQuestionUpdationPage> = ({
 }) => {
   useMount(() => {
     dispatch({
-      type: 'questions/getDetail',
+      type: DISPATCH_TYPE.QUESTIONS_DETAILS,
       payload: {
         questionId: id,
       },
@@ -49,7 +49,7 @@ export default connect(({ loading, questions }: any, { match }: any) => {
   const { dictionary } = questions;
   return {
     id,
-    loadingInfo: loading.effects['questions/getDetail'],
+    loadingInfo: loading.effects[DISPATCH_TYPE.QUESTIONS_DETAILS],
     question: dictionary[id] || {},
   };
 })(QuestionUpdationPage);

@@ -174,10 +174,14 @@ const DISPATCH_TYPE = {
   QUESTIONS_CREATE: 'questions/create',
   QUESTIONS_UPDATE: 'questions/update',
   QUESTIONS_DELETE: 'questions/delete',
+  QUESTIONS_DETAILS: 'questions/getDetail',
+  QUESTIONS_IMPORT: 'questions/import',
 
   // USER_EXAMS
+  USER_EXAMS_FETCH: 'userExamsNamespace/fetch',
   USER_EXAMS_TAKE_EXAM: 'userExamsNamespace/takeExam',
   USER_EXAMS_SUBMIT_EXAM: 'userExamsNamespace/submitExam',
+  USER_EXAMS_OVERVIEW: 'userExamsNamespace/overview',
 };
 
 export {

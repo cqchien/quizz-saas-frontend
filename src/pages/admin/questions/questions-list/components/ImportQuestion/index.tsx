@@ -62,8 +62,8 @@ const ImportQuestionModal: React.FC<IImportQuestionsModal> = ({ handleImport }) 
         {...props}
         max={1}
         accept={ACCEPT_EXCEL_FILE}
-        title={'Click or drag file to this area to upload'}
-        description="Upload excel file"
+        title={<FormattedMessage id="component.modal.importQuestionModal.title" />}
+        description={<FormattedMessage id="component.modal.importQuestionModal.description" />}
       />
     </ModalForm>
   );

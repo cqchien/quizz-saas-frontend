@@ -1,3 +1,4 @@
+import { DISPATCH_TYPE } from '@/utils/constant';
 import { useMount } from 'ahooks';
 import { Col, Row, Spin } from 'antd';
 import { useState } from 'react';
@@ -16,7 +17,7 @@ const UserExamOverview: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
 
   useMount(() => {
     dispatch({
-      type: 'userExamsNamespace/overview',
+      type: DISPATCH_TYPE.USER_EXAMS_OVERVIEW,
       payload: {
         userExamId: id,
       },
@@ -69,6 +70,6 @@ export default connect(({ loading }: any, { match }: any) => {
   const { id } = match.params;
   return {
     id,
-    loadingInfo: loading.effects['userExamsNamespace/overview'],
+    loadingInfo: loading.effects[DISPATCH_TYPE.USER_EXAMS_OVERVIEW],
   };
 })(UserExamOverview);

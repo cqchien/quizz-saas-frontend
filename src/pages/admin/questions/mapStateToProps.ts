@@ -1,3 +1,4 @@
+import { DISPATCH_TYPE } from '@/utils/constant';
 import orderBy from 'lodash/orderBy';
 
 export default (state: { questions: any; loading: any }) => {
@@ -7,6 +8,6 @@ export default (state: { questions: any; loading: any }) => {
   return {
     questionList: orderBy(questionList, 'createdAt', 'desc'),
     pagingParams: pagingParams,
-    loading: loading.effects['questions/fetch'],
+    loading: loading.effects[DISPATCH_TYPE.QUESTIONS_FETCH],
   };
 };

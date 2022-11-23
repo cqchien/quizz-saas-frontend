@@ -1,4 +1,9 @@
 export default {
+  // Form create question
+  'component.modal.importQuestionModal.title': 'Click or drag file to this area to upload',
+  'component.modal.importQuestionModal.description': 'Upload excel file',
+
+  //
   'component.tagSelect.expand': 'Expand',
   'component.tagSelect.collapse': 'Collapse',
   'component.tagSelect.all': 'All',
