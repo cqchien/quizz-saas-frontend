@@ -150,6 +150,40 @@ const NUMBER_OF_QUESTION_PER_PAGE = 10;
 const NUMBER_OF_EXAM_PER_PAGE = 10;
 const NUMBER_OF_EXAM_CARD_PER_PAGE = 8;
 
+const SCHEDULE_TYPE = {
+  FIXED: 'Fixed',
+  FLEXIBLE: 'Flexible',
+};
+
+const DISPATCH_TYPE = {
+  // EXAMS
+  EXAMS_FETCH: 'exams/fetch',
+  EXAMS_CREATE: 'exams/create',
+  EXAMS_UPDATE: 'exams/update',
+  EXAMS_DELETE: 'exams/delete',
+  EXAMS_DETAILS: 'exams/getDetail',
+  EXAMS_OVERVIEW: 'exams/overview',
+
+  // GROUPS
+  GROUPS_FETCH: 'groups/fetch',
+  GROUPS_CREATE: 'groups/create',
+  GROUPS_UPDATE: 'groups/update',
+
+  // QUESTIONS
+  QUESTIONS_FETCH: 'questions/fetch',
+  QUESTIONS_CREATE: 'questions/create',
+  QUESTIONS_UPDATE: 'questions/update',
+  QUESTIONS_DELETE: 'questions/delete',
+  QUESTIONS_DETAILS: 'questions/getDetail',
+  QUESTIONS_IMPORT: 'questions/import',
+
+  // USER_EXAMS
+  USER_EXAMS_FETCH: 'userExamsNamespace/fetch',
+  USER_EXAMS_TAKE_EXAM: 'userExamsNamespace/takeExam',
+  USER_EXAMS_SUBMIT_EXAM: 'userExamsNamespace/submitExam',
+  USER_EXAMS_OVERVIEW: 'userExamsNamespace/overview',
+};
+
 export {
   ROLES,
   QUESTION_TYPE,
@@ -179,4 +213,6 @@ export {
   MAP_SCHEDULE_STATUS,
   USER_EXAM_STATUS,
   USER_EXAM_RESULT,
+  SCHEDULE_TYPE,
+  DISPATCH_TYPE,
 };

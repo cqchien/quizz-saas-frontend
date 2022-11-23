@@ -1,4 +1,4 @@
-import { USER_EXAM_RESULT, USER_EXAM_STATUS } from '@/utils/constant';
+import { DISPATCH_TYPE, USER_EXAM_RESULT, USER_EXAM_STATUS } from '@/utils/constant';
 import { Line } from '@ant-design/plots';
 import { PageContainer } from '@ant-design/pro-components';
 import { useMount } from 'ahooks';
@@ -6,6 +6,7 @@ import { Button, Calendar, Card, Col, Row, Space, Spin, Tooltip, Typography } fr
 import { connect } from 'dva';
 import { Moment } from 'moment';
 import { useState } from 'react';
+import { FormattedMessage } from 'umi';
 import ModalListUser from './components/ModalListUser';
 import NumberCard from './components/numberCard';
 interface IProps {
@@ -24,7 +25,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     participants: number | undefined;
     passPercentage: number;
   }>();
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
   const [data, setData] = useState([]);
 
   const config = {
@@ -34,7 +35,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     seriesField: 'name',
     yAxis: {
       title: {
-        text: 'Number of paticipants',
+        text: 'Number of paticipants', //<FormattedMessage id="pages.overviewExam.lineChart.yAxis.title" />,
         style: {
           fontSize: 16,
         },
@@ -42,7 +43,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     },
     xAxis: {
       title: {
-        text: 'Day in this month',
+        text: 'Day in this month', //<FormattedMessage id="pages.overviewExam.lineChart.xAxis.title" />,
         style: {
           fontSize: 16,
         },
@@ -60,20 +61,16 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     },
   };
 
-  const [isModalOpen, setIsModalOpen] = useState(false);
-
   const getLineChartData = (result: any) => {
     const current = new Date();
     const days = new Date(current.getFullYear(), 9, 0).getDate();
     const userPerDays: { name: string; day: number; number: number }[] = [];
-
     Array.from(Array(days).keys()).map((x: number) => {
       const day = x + 1;
       const examUserOnDate = result?.userExams?.filter(
-        (y) => new Date(y.createdAt).getDate() == day,
+        (y: any) => new Date(y.createdAt).getDate() == day,
       );
       const number = examUserOnDate?.length;
-
       const userPerDay = { name: 'Participants', day: day, number: number };
       userPerDays.push(userPerDay);
     });
@@ -100,7 +97,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
 
   useMount(() => {
     dispatch({
-      type: 'exams/overview',
+      type: DISPATCH_TYPE.EXAMS_OVERVIEW,
       payload: {
         examId: id,
       },
@@ -147,7 +144,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
             <NumberCard
               icon="question"
               color="rgb(100 234 145)"
-              title="Total Questions"
+              title={<FormattedMessage id="pages.overviewExam.statistics.totalQuestions.title" />}
               number={computedNumbers?.totalQuestions}
             />
           </Col>
@@ -155,17 +152,21 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
             <NumberCard
               icon="schedule"
               color="rgb(216 151 235)"
-              title="Total Schedules"
+              title={<FormattedMessage id="pages.overviewExam.statistics.totalSchedules.title" />}
               number={computedNumbers?.totalSchedules}
             />
           </Col>
           <Col key="participants" lg={6} md={12} onClick={() => setIsModalOpen(true)}>
-            <Tooltip title="Click me to view participant's exam details">
+            <Tooltip
+              title={
+                <FormattedMessage id="pages.overviewExam.statistics.participants.participantsTooltip.title" />
+              }
+            >
               <Button style={{ display: 'none' }} />
               <NumberCard
                 icon="team"
                 color="rgb(143 201 251)"
-                title="Participants"
+                title={<FormattedMessage id="pages.overviewExam.statistics.participants.title" />}
                 number={computedNumbers?.participants}
               />
             </Tooltip>
@@ -174,7 +175,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
             <NumberCard
               icon="alert"
               color="rgb(246 152 153)"
-              title="Pass Percentage"
+              title={<FormattedMessage id="pages.overviewExam.statistics.passPercentage.title" />}
               number={computedNumbers?.passPercentage}
               percent={true}
             />
@@ -249,6 +250,6 @@ export default connect(({ loading }: any, { match }: any) => {
   const { id } = match.params;
   return {
     id,
-    loadingInfo: loading.effects['exams/overview'],
+    loadingInfo: loading.effects[DISPATCH_TYPE.EXAMS_OVERVIEW],
   };
 })(ExamOverviewPage);

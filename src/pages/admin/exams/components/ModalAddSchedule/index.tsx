@@ -1,3 +1,4 @@
+import { DISPATCH_TYPE, SCHEDULE_TYPE } from '@/utils/constant';
 import {
   ModalForm,
   ProFormRadio,
@@ -10,7 +11,7 @@ import {
 } from '@ant-design/pro-components';
 import { Form } from 'antd';
 import React from 'react';
-import { connect } from 'umi';
+import { connect, FormattedMessage } from 'umi';
 import mapStateToProps from '../../../../admin/groups/mapStateToProps';
 import formSchema from '../../schemas/scheduleSchema';
 
@@ -33,7 +34,7 @@ const ModalAddSchedule: React.FC<Props> = ({
   const handleVisibleChange = (value: boolean) => {
     if (value) {
       dispatch({
-        type: 'groups/fetch',
+        type: DISPATCH_TYPE.GROUPS_FETCH,
         payload: { params: {} },
       });
     }
@@ -71,7 +72,7 @@ const ModalAddSchedule: React.FC<Props> = ({
     }>
       key="key"
       form={formSchedule}
-      title="New schedule"
+      title={<FormattedMessage id="component.form.addSchedule.title" />}
       trigger={trigger}
       autoFocusFirstInput
       submitTimeout={2000}
@@ -83,13 +84,13 @@ const ModalAddSchedule: React.FC<Props> = ({
       <ProFormRadio.Group
         label={formField.scheduleType.label}
         name={formField.scheduleType.name}
-        initialValue="Fixed"
+        initialValue={SCHEDULE_TYPE.FIXED}
         options={formField.scheduleType.options}
       />
 
       <ProFormDependency name={[formField.scheduleType.name]}>
         {({ scheduleType }) => {
-          if (scheduleType === 'Fixed') {
+          if (scheduleType === SCHEDULE_TYPE.FIXED) {
             return (
               <ProFormGroup>
                 <ProFormDateTimePicker

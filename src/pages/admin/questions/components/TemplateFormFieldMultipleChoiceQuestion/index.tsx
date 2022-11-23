@@ -2,7 +2,6 @@ import type { FormInstance } from 'antd';
 import { Checkbox } from 'antd';
 import { Button, Col, Divider, Form, Row, Space } from 'antd';
 import { calculateSize } from '@/utils/function';
-
 import { useEffect } from 'react';
 import CustomEditor from '@/components/CustomEditor';
 import { MinusCircleFilled, PlusCircleFilled } from '@ant-design/icons';
@@ -90,7 +89,7 @@ const TemplateFormFieldMultipleChoiceQuestion: React.FC<Props> = ({
   };
 
   const handleInputTags = (value: string[]) => {
-    formRef.setFieldValue('tags', value);
+    formRef.setFieldValue(formField.tags.name, value);
   };
 
   return (
@@ -217,7 +216,7 @@ const TemplateFormFieldMultipleChoiceQuestion: React.FC<Props> = ({
 
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} block icon={<PlusCircleFilled />}>
-                    <FormattedMessage id="component.form.createQuestion.addQuestion" />
+                    <FormattedMessage id="component.form.createQuestion.addOption" />
                   </Button>
                 </Form.Item>
               </>

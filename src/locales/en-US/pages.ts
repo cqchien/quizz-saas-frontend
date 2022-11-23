@@ -79,6 +79,8 @@ export default {
   'pages.examsTable.column.questionBankType.questionBankTypeLabel': 'Question Bank',
   'pages.examsTable.column.action.confirmDeleteExamMessage': 'Are you sure to delete this exam?',
   'pages.examsTable.column.action.actionLabel': 'Action',
+  'pages.examsTable.column.action.newScheduleTooltip.title': 'Add new schedule',
+  'pages.examsTable.column.action.viewExamStatistics.title': 'View exam statistics',
 
   // Create exam
   'pages.createExam.tab.tabName.examDetails': 'Details',
@@ -86,6 +88,16 @@ export default {
   'pages.createExam.tab.tabName.examQuestions': 'Questions',
   'pages.createExam.tab.tabName.examSchedules': 'Schedules',
   'pages.createExam.validate.required.requiredMessage': 'This field is required',
+
+  // Overview exam
+  'pages.overviewExam.lineChart.yAxis.title': 'Number of paticipants',
+  'pages.overviewExam.lineChart.xAxis.title': 'Day in this month',
+  'pages.overviewExam.statistics.totalQuestions.title': 'Total Questions',
+  'pages.overviewExam.statistics.totalSchedules.title': 'Total Schedules',
+  'pages.overviewExam.statistics.participants.title': 'Participants',
+  'pages.overviewExam.statistics.participants.participantsTooltip.title':
+    "Click me to view participant's exam details",
+  'pages.overviewExam.statistics.passPercentage.title': 'Pass Percentage',
 
   // Schedules table
   'pages.schedulesTable.title': 'Schedules List',

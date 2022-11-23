@@ -6,7 +6,7 @@ import { useSetForm } from '@/context/FormContext';
 import TemplateFormFieldMultipleChoiceQuestion from '../components/TemplateFormFieldMultipleChoiceQuestion';
 import formSchema from '../schemas/questionSchema';
 import { getInitialValue } from '../schemas/getInitialValues';
-import { QUESTION_TYPE } from '@/utils/constant';
+import { DISPATCH_TYPE, QUESTION_TYPE } from '@/utils/constant';
 
 interface IMultipleChoiceQuestionForm {
   question?: API.Question;
@@ -47,7 +47,7 @@ const MultipleChoiceQuestionForm: FC<IMultipleChoiceQuestionForm> = ({ question 
 
     if (question) {
       return dispatch({
-        type: 'questions/update',
+        type: DISPATCH_TYPE.QUESTIONS_UPDATE,
         payload: {
           question: questionInfo,
           questionId: question.id,
@@ -57,7 +57,7 @@ const MultipleChoiceQuestionForm: FC<IMultipleChoiceQuestionForm> = ({ question 
     }
 
     return dispatch({
-      type: 'questions/create',
+      type: DISPATCH_TYPE.QUESTIONS_CREATE,
       payload: { question: questionInfo, cb },
     });
   };

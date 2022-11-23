@@ -1,3 +1,4 @@
+import { DISPATCH_TYPE } from '@/utils/constant';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
 import { useMount } from 'ahooks';
 import { Spin } from 'antd';
@@ -14,7 +15,7 @@ interface IExamUpdationPage {
 const ExamUpdationPage: FC<IExamUpdationPage> = ({ id, dispatch, loadingInfo, exam }) => {
   useMount(() => {
     dispatch({
-      type: 'exams/getDetail',
+      type: DISPATCH_TYPE.EXAMS_DETAILS,
       payload: {
         examId: id,
       },
@@ -37,7 +38,7 @@ export default connect(({ loading, exams }: any, { match }: any) => {
   const { dictionary } = exams;
   return {
     id,
-    loadingInfo: loading.effects['exams/getDetail'],
+    loadingInfo: loading.effects[DISPATCH_TYPE.EXAMS_DETAILS],
     exam: dictionary[id] || {},
   };
 })(ExamUpdationPage);

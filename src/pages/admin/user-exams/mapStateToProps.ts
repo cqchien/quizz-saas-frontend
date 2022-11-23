@@ -1,3 +1,4 @@
+import { DISPATCH_TYPE } from '@/utils/constant';
 import orderBy from 'lodash/orderBy';
 
 export default (state: { userExamsNamespace: any; loading: any }) => {
@@ -7,6 +8,6 @@ export default (state: { userExamsNamespace: any; loading: any }) => {
   return {
     userExamList: orderBy(userExamList, 'createdAt', 'desc'),
     pagingParams: pagingParams,
-    loading: loading.effects['userExamsNamespace/fetch'],
+    loading: loading.effects[DISPATCH_TYPE.USER_EXAMS_FETCH],
   };
 };

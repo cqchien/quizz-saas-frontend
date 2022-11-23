@@ -12,6 +12,7 @@ import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
 import { EditTwoTone } from '@ant-design/icons';
 import {
+  DISPATCH_TYPE,
   MAP_HEURISTIC_LEVEL,
   MAP_QUESTION_TYPE_SHORT,
   MAP_STATUS,
@@ -41,31 +42,30 @@ const QuestionsList: FC<IQuestionListProps> = ({
     },
   });
 
+  const fetchData = (params: any) => {
+    dispatch({
+      type: DISPATCH_TYPE.QUESTIONS_FETCH,
+      payload: { params: params },
+    });
+  };
+
   const handleRemoveQuestion = (questionId: string) => {
     dispatch({
-      type: 'questions/delete',
+      type: DISPATCH_TYPE.QUESTIONS_DELETE,
       payload: { questionId: questionId },
     }).then((res: any) => {
       if (res) {
-        dispatch({
-          type: 'questions/fetch',
-          payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
-        });
+        fetchData({ page: 1, take: NUMBER_OF_QUESTION_PER_PAGE });
       }
     });
   };
 
   const handleSearch = (value: string) => {
-    dispatch({
-      type: 'questions/fetch',
-      payload: {
-        params: {
-          page: 1,
-          take: NUMBER_OF_QUESTION_PER_PAGE,
-          searchField: 'question',
-          searchValue: value,
-        },
-      },
+    fetchData({
+      page: 1,
+      take: NUMBER_OF_QUESTION_PER_PAGE,
+      searchField: 'question',
+      searchValue: value,
     });
   };
 
@@ -74,16 +74,13 @@ const QuestionsList: FC<IQuestionListProps> = ({
     const formData = new FormData();
 
     const cb = () => {
-      dispatch({
-        type: 'questions/fetch',
-        payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
-      });
+      fetchData({ page: 1, take: NUMBER_OF_QUESTION_PER_PAGE });
     };
 
     formData.append('file', uploadedFile.originFileObj, uploadedFile.name);
 
     return dispatch({
-      type: 'questions/import',
+      type: DISPATCH_TYPE.QUESTIONS_IMPORT,
       payload: {
         data: formData,
         cb,
@@ -135,7 +132,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
         return defaultRender(_);
       },
       render: (_, record) => (
-        <Space>
+        <Space key={`tags_space_${record.id}`}>
           {(record.tags || []).map((tag) => (
             <Tag color="cyan" key={`${tag}_${record.id}`}>
               {tag}
@@ -177,7 +174,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       render: (text, record) => [
         <div key={record?.id}>
           <Popconfirm
-            key={record.id}
+            key={`${record.id}_delete_confirm`}
             title={
               <FormattedMessage id="pages.questionsTable.column.action.confirmDeleteQuestionMessage" />
             }
@@ -187,10 +184,15 @@ const QuestionsList: FC<IQuestionListProps> = ({
             okText="Yes"
             cancelText="No"
           >
-            <Button key={record.id} type="link" icon={<DeleteOutlined />} danger />
+            <Button
+              key={`${record.id}_delete_button`}
+              type="link"
+              icon={<DeleteOutlined />}
+              danger
+            />
           </Popconfirm>
-          <Link to={`/questions/${record.id}/edit`} key={record.id}>
-            <Button key={record.id} type="link" icon={<EditTwoTone />} />
+          <Link to={`/questions/${record.id}/edit`} key={`${record.id}_edit_link`}>
+            <Button key={`${record.id}_edit_button`} type="link" icon={<EditTwoTone />} />
           </Link>
         </div>,
       ],
@@ -198,21 +200,13 @@ const QuestionsList: FC<IQuestionListProps> = ({
   ];
 
   useEffect(() => {
-    dispatch({
-      type: 'questions/fetch',
-      payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE } },
-    });
+    fetchData({ page: 1, take: NUMBER_OF_QUESTION_PER_PAGE });
   }, [dispatch]);
 
   const paginationChange = (page: number, pageSize?: number) => {
-    const params: API.PageQuery = {
+    fetchData({
       page: page,
       take: pageSize,
-    };
-
-    dispatch({
-      type: 'questions/fetch',
-      payload: { params: params },
     });
   };
 
@@ -248,8 +242,8 @@ const QuestionsList: FC<IQuestionListProps> = ({
           },
 
           actions: [
-            <Link to={'/questions/create'} key="createButton">
-              <Button type="primary" icon={<PlusOutlined />}>
+            <Link to={'/questions/create'} key="createButtonLink">
+              <Button type="primary" icon={<PlusOutlined />} key="createButton">
                 <span>
                   <FormattedMessage id="pages.questionsTable.column.action.createLabel" />
                 </span>

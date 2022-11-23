@@ -2,6 +2,7 @@ import { PlusOutlined, MinusCircleOutlined } from '@ant-design/icons';
 import { StepsForm, ProFormText, ProFormTextArea } from '@ant-design/pro-components';
 import { Button, Modal, Form, Space } from 'antd';
 import React, { useState } from 'react';
+import { FormattedMessage, useIntl } from 'umi';
 import formSchema from '../../schemas/groupSchema';
 
 interface Props {
@@ -11,17 +12,20 @@ interface Props {
 const FormFieldGroup: React.FC<Props> = ({ onSubmit }) => {
   const { formField } = formSchema;
   const [visible, setVisible] = useState(false);
+  const intl = useIntl();
   return (
     <>
       <Button type="primary" onClick={() => setVisible(true)}>
         <PlusOutlined />
-        New group
+        <FormattedMessage id="component.form.action.addGroup.title" />
       </Button>
       <StepsForm
         onFinish={onSubmit}
         formProps={{
           validateMessages: {
-            required: 'This field is required',
+            required: intl.formatMessage({
+              id: 'component.form.validateMessages.required',
+            }),
           },
         }}
         submitter={{
@@ -46,7 +50,7 @@ const FormFieldGroup: React.FC<Props> = ({ onSubmit }) => {
         stepsFormRender={(dom, submitter) => {
           return (
             <Modal
-              title="Create your group"
+              title={<FormattedMessage id="component.form.modal.addGroup.title" />}
               width={800}
               onCancel={() => setVisible(false)}
               open={visible}
@@ -66,7 +70,9 @@ const FormFieldGroup: React.FC<Props> = ({ onSubmit }) => {
           members: any[];
         }>
           name="base"
-          title="Group information"
+          title={intl.formatMessage({
+            id: 'component.form.step.groupInformation.title',
+          })}
           onFinish={async () => {
             return true;
           }}
@@ -94,7 +100,12 @@ const FormFieldGroup: React.FC<Props> = ({ onSubmit }) => {
             ]}
           />
         </StepsForm.StepForm>
-        <StepsForm.StepForm name="checkbox" title="Group members">
+        <StepsForm.StepForm
+          name="checkbox"
+          title={intl.formatMessage({
+            id: 'component.form.step.groupMembers.title',
+          })}
+        >
           <Form.List name={formField.members.name} initialValue={[]}>
             {(fields, { add, remove }) => (
               <>
@@ -120,7 +131,9 @@ const FormFieldGroup: React.FC<Props> = ({ onSubmit }) => {
                       rules={[
                         {
                           type: 'email',
-                          message: 'The input is not valid E-mail!',
+                          message: (
+                            <FormattedMessage id="component.form.step.groupMembers.formField.memberEmail.errMsgMail" />
+                          ),
                         },
                         {
                           required: formField.memberEmail.required,
@@ -133,7 +146,7 @@ const FormFieldGroup: React.FC<Props> = ({ onSubmit }) => {
                 ))}
                 <Form.Item>
                   <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                    Add member information
+                    <FormattedMessage id="component.form.action.addMember.title" />
                   </Button>
                 </Form.Item>
               </>

@@ -1,5 +1,6 @@
 import { Typography, Card, Row, Col, Button } from 'antd';
 import React from 'react';
+import { FormattedMessage } from 'umi';
 
 const QuestionStateStyle: React.CSSProperties = {
   width: '24px',
@@ -35,7 +36,9 @@ const ExamSummary: React.FC<Props> = ({
               background: '#063970',
             }}
           />
-          <Text strong>Answered</Text>
+          <Text strong>
+            <FormattedMessage id="component.doExam.examSummary.hint.answered" />
+          </Text>
         </Col>
         <Col className="gutter-row" span={12}>
           <div
@@ -44,10 +47,14 @@ const ExamSummary: React.FC<Props> = ({
               background: '#eeeee4',
             }}
           />
-          <Text strong>Not answered</Text>
+          <Text strong>
+            <FormattedMessage id="component.doExam.examSummary.hint.notAnswered" />
+          </Text>
         </Col>
         <Col span={24}>
-          <Text type="secondary">Click on button to view question</Text>
+          <Text type="secondary">
+            <FormattedMessage id="component.doExam.examSummary.hint.viewQuestion" />
+          </Text>
         </Col>
         <Col className="gutter-row" span={24}>
           <Row gutter={[16, 16]}>
@@ -84,7 +91,7 @@ const ExamSummary: React.FC<Props> = ({
           onClick={onSubmitExam}
         >
           <Title level={2} style={{ color: '#ffffff' }}>
-            FINISH
+            <FormattedMessage id="component.doExam.action.finish.title" />
           </Title>
         </Button>
       </Row>

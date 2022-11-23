@@ -2,6 +2,7 @@ import { FundViewOutlined } from '@ant-design/icons';
 import { Modal, List, Avatar, Button, Tooltip } from 'antd';
 import React from 'react';
 import { useHistory } from 'react-router-dom';
+import { FormattedMessage } from 'umi';
 
 interface IProps {
   isModalOpen: boolean;
@@ -13,7 +14,7 @@ const ModalListUser: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, userExam
   const history = useHistory();
   return (
     <Modal
-      title="List of users who have done this exam"
+      title={<FormattedMessage id="component.modalListUser.title" />}
       open={isModalOpen}
       onCancel={() => setIsModalOpen(false)}
       okButtonProps={{ hidden: true }}
@@ -35,7 +36,11 @@ const ModalListUser: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, userExam
                 title={item.user.name}
                 description={item.user.email}
               />
-              <Tooltip title="View exam result of this person">
+              <Tooltip
+                title={
+                  <FormattedMessage id="component.modalListUser.action.viewExamResult.viewExamResultTooltip.title" />
+                }
+              >
                 <Button
                   type="primary"
                   shape="circle"

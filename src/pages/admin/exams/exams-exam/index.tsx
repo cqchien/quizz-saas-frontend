@@ -1,3 +1,4 @@
+import { DISPATCH_TYPE, USER_EXAM_RESULT } from '@/utils/constant';
 import {
   CheckOutlined,
   ArrowLeftOutlined,
@@ -11,7 +12,7 @@ import { Button, Card, Space } from 'antd';
 import { Row, Col } from 'antd';
 import Countdown from 'antd/lib/statistic/Countdown';
 import { useEffect, useState } from 'react';
-import { connect } from 'umi';
+import { connect, FormattedMessage } from 'umi';
 import ExamHeading from './components/ExamHeading';
 import ExamSummary from './components/ExamSummary';
 import QuestionContent from './components/QuestionContent';
@@ -34,7 +35,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
 
   useMount(() => {
     dispatch({
-      type: 'userExamsNamespace/takeExam',
+      type: DISPATCH_TYPE.USER_EXAMS_TAKE_EXAM,
       payload: {
         userExamId: id,
       },
@@ -84,7 +85,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
 
   const onSubmitExam = () => {
     dispatch({
-      type: 'userExamsNamespace/submitExam',
+      type: DISPATCH_TYPE.USER_EXAMS_SUBMIT_EXAM,
       payload: {
         examSubmit: {
           answers: questionAnswers,
@@ -106,7 +107,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
         console.log(questionAnswers);
       }}
     >
-      View result
+      <FormattedMessage id="component.doExam.questionContentCard.action.viewResult.title" />
     </Button>,
     <Button
       key="previousQuestion"
@@ -115,7 +116,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       disabled={!userExam?.setting.viewPassQuestion || currentIndex == 0}
       onClick={() => setCurrentIndex(currentIndex - 1)}
     >
-      Previous
+      <FormattedMessage id="component.doExam.questionContentCard.action.previous.title" />
     </Button>,
     <Button
       key="nextQuestion"
@@ -124,7 +125,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       disabled={!userExam?.setting.viewNextQuestion || currentIndex + 1 == questionList?.length}
       onClick={() => setCurrentIndex(currentIndex + 1)}
     >
-      Next
+      <FormattedMessage id="component.doExam.questionContentCard.action.next.title" />
     </Button>,
   ];
 
@@ -136,11 +137,13 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       <Col span={24}>
         {isSubmited ? (
           <Result
-            status={examResult?.resultStatus == 'Failed' ? 'error' : 'success'}
+            status={examResult?.resultStatus == USER_EXAM_RESULT.FAILED ? 'error' : 'success'}
             title={
-              examResult?.resultStatus == 'Failed'
-                ? 'Sorry, you failed'
-                : 'Congratulations, you have successfully completed the exam'
+              examResult?.resultStatus == USER_EXAM_RESULT.FAILED ? (
+                <FormattedMessage id="component.doExam.result.failed.title" />
+              ) : (
+                <FormattedMessage id="component.doExam.result.passed.title" />
+              )
             }
             extra={[
               <Statistic

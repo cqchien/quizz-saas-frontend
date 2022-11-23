@@ -1,4 +1,5 @@
 import {
+  DISPATCH_TYPE,
   MAP_SCHEDULE_STATUS,
   NUMBER_OF_EXAM_CARD_PER_PAGE,
   SCHEDULE_STATUS,
@@ -25,7 +26,7 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
   const history = useHistory();
   useEffect(() => {
     dispatch({
-      type: 'userExamsNamespace/fetch',
+      type: DISPATCH_TYPE.USER_EXAMS_FETCH,
       payload: { params: { page: 1, take: NUMBER_OF_EXAM_CARD_PER_PAGE } },
     });
   }, [dispatch]);
@@ -37,7 +38,7 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
     };
 
     dispatch({
-      type: 'userExamsNamespace/fetch',
+      type: DISPATCH_TYPE.USER_EXAMS_FETCH,
       payload: { params: params },
     });
   };
