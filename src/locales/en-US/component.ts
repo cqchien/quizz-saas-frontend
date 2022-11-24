@@ -1,4 +1,7 @@
 export default {
+  // Heading
+  'component.user.logout.title': 'Logout',
+
   // Form create question
   'component.modal.importQuestionModal.title': 'Click or drag file to this area to upload',
   'component.modal.importQuestionModal.description': 'Upload excel file',
