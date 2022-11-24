@@ -205,6 +205,12 @@ declare namespace API {
     password?: string;
   };
 
+  type RegisterParams = {
+    name?: string;
+    email?: string;
+    password?: string;
+  };
+
   // type NoticeIconList = {
   //   data?: NoticeIconItem[];
   //   /** 列表的内容总数 */

@@ -15,6 +15,15 @@ export default {
   'pages.login.loginWith': 'Login with :',
   'pages.login.registerAccount': 'Register Account',
 
+  'pages.register.accountRegister.tab': 'Account Register',
+  'pages.register.alreadyHaveAccount.text': 'Already have an account? ',
+  'pages.register.name.placeholder': 'Username',
+  'pages.register.name.required': 'Please input your name!',
+  'pages.register.confirm.placeholder': 'Confirm Password',
+  'pages.register.confirm.required': 'Please reinput your password!',
+  'pages.register.failure': 'Register failed, please try again!',
+  'pages.register.success': 'Register successful!',
+
   // Questions table
   'pages.questionsTable.title': 'Questions List',
   'pages.questionsTable.column.question.questionLabel': 'Question',
