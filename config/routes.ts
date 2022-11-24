@@ -14,6 +14,10 @@
     component: './admin/dashboard',
   },
   {
+    path: '/admin/models',
+    file: './admin/dashboard/face-detect/models',
+  },
+  {
     path: '/questions',
     name: 'questions',
     access: 'admin',
