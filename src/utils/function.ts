@@ -33,7 +33,7 @@ export function prepareScheduleInfo(values: any) {
   if (values.scheduleType === SCHEDULE_TYPE.FIXED) {
     startTime = new Date(values.startAt);
     endTime = new Date(values.startAt);
-    endTime = new Date(endTime.setMinutes(endTime.getMinutes() + values.period));
+    endTime = new Date(endTime.setMinutes(endTime.getMinutes() + Number(values.period)));
   } else {
     startTime = new Date(values.dateRange[0]);
     endTime = new Date(values.dateRange[1]);
