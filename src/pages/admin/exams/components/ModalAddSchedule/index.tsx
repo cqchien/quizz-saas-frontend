@@ -75,7 +75,6 @@ const ModalAddSchedule: React.FC<Props> = ({
       title={<FormattedMessage id="component.form.addSchedule.title" />}
       trigger={trigger}
       autoFocusFirstInput
-      submitTimeout={2000}
       onFinish={handleScheduleSubmit}
       modalProps={{ okText: 'Add', cancelText: 'Cancel' }}
       width={'500px'}

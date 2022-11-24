@@ -8,6 +8,6 @@ export default (state: { exams: any; loading: any }) => {
   return {
     examList: orderBy(examList, 'createdAt', 'desc'),
     pagingParams: pagingParams,
-    loading: loading.effects[DISPATCH_TYPE.EXAMS_FETCH],
+    loading: loading.effects[(DISPATCH_TYPE.EXAMS_FETCH, DISPATCH_TYPE.EXAMS_UPDATE)],
   };
 };
