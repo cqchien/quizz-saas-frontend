@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import * as faceapi from 'face-api.js';
 import { useEffect } from 'react';
-import './styles.module.css';
+import { notification } from 'antd';
 
 const DetectComponent: React.FC = () => {
   // const { previewStream, status, startRecording, stopRecording, mediaBlobUrl } =
@@ -9,10 +9,12 @@ const DetectComponent: React.FC = () => {
   //     video: true,
   //   });
 
-  const videoHeight = 480;
-  const videoWidth = 640;
+  const videoHeight = 180;
+  const videoWidth = 340;
   const videoRef = useRef<HTMLVideoElement>();
   const canvasRef = useRef<HTMLCanvasElement>();
+  let timeOutOfTheCam = 0;
+  let numberOfTime = 0;
 
   const startVideo = async () => {
     try {
@@ -21,18 +23,14 @@ const DetectComponent: React.FC = () => {
       });
 
       if (!videoRef.current) {
-        console.log('video not exist');
         return;
       }
 
       videoRef.current.srcObject = mediaStream;
-
     } catch (error) {
-      console.error(error)
+      console.error(error);
     }
   };
-
-
 
   useEffect(() => {
     const loadModels = async () => {
@@ -54,7 +52,7 @@ const DetectComponent: React.FC = () => {
   }, [videoRef]);
 
   useEffect(() => {
-    if(!videoRef.current) {
+    if (!videoRef.current) {
       return;
     }
 
@@ -64,31 +62,70 @@ const DetectComponent: React.FC = () => {
 
       // document.body.append(canvas)
       // canvas.classList.add('canvas');
-      const displaySize = { width: videoRef.current?.width || 0, height: videoRef.current?.height || 0}
-      faceapi.matchDimensions(canvasRef.current, displaySize)
-      setInterval(async () => {
-        const detections = await faceapi.detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions()).withFaceLandmarks().withFaceExpressions();
-        const resizedDetections = faceapi.resizeResults(detections, displaySize)
-        canvasRef.current.getContext('2d')?.clearRect(0, 0, videoWidth, videoHeight)
-        faceapi.draw.drawDetections(canvasRef.current, resizedDetections)
+      const displaySize = {
+        width: videoRef.current?.width || 0,
+        height: videoRef.current?.height || 0,
+      };
+      faceapi.matchDimensions(canvasRef.current, displaySize);
 
-        console.log(detections);
-      }, 100)
-    })
-  }, [videoRef])
+      const intervalId = setInterval(async () => {
+        const detections = await faceapi
+          .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
+          .withFaceLandmarks()
+          .withFaceExpressions();
+        const resizedDetections = faceapi.resizeResults(detections, displaySize);
+        canvasRef.current.getContext('2d')?.clearRect(0, 0, videoWidth, videoHeight);
+        faceapi.draw.drawDetections(canvasRef.current, resizedDetections);
+
+        if (detections.length === 0) {
+          timeOutOfTheCam += 100;
+        } else {
+          timeOutOfTheCam = 0;
+          numberOfTime = 0;
+        }
+
+        if (timeOutOfTheCam === 5 * 1000) {
+          numberOfTime += 1;
+          timeOutOfTheCam = 0;
+        }
+
+        if (numberOfTime > 0 && numberOfTime < 3 && timeOutOfTheCam === 0) {
+          notification.warning({
+            message: `You are out of camera ${numberOfTime} times. If you out of camera 3 times, you will be forced to submit exam`,
+            duration: 3000,
+          });
+        }
+
+        if (numberOfTime === 5) {
+          notification.error({
+            message: `You are out of camera ${numberOfTime} times, so you will be forced to submit.`,
+            duration: 3000,
+          });
+
+          clearInterval(intervalId);
+          // call API
+
+          return;
+        }
+      }, 100);
+    });
+  }, [videoRef]);
 
   return (
-    <div style={{display: 'flex', justifyContent: 'center'}}>
-      <video
-        ref={videoRef}
-        autoPlay
-        muted
-        width={videoWidth}
-        height={videoHeight}
-      />
-      <canvas style={{position: 'absolute'}} ref={canvasRef} />
+    <div
+      style={{
+        display: 'flex',
+        justifyContent: 'end',
+        width: '100%',
+        position: 'absolute',
+        bottom: '0',
+        top: 'auto',
+      }}
+    >
+      <video ref={videoRef} autoPlay muted width={videoWidth} height={videoHeight} />
+      <canvas style={{ position: 'absolute' }} ref={canvasRef} />
     </div>
   );
-}
+};
 
 export default DetectComponent;
