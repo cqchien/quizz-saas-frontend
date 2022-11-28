@@ -1,6 +1,6 @@
 import Footer from '@/components/Footer';
 import { login } from '@/services/auth';
-import { setToken } from '@/utils/authority';
+import { setToken, setUser } from '@/utils/authority';
 import { ROLES } from '@/utils/constant';
 import { GoogleCircleFilled, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, PageLoading, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
@@ -59,6 +59,7 @@ const Login: React.FC = () => {
         });
 
         setToken(token?.accessToken);
+        setUser(user);
 
         await setInitialState((state) => ({
           ...state,

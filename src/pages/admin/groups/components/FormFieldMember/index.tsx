@@ -19,7 +19,7 @@ const FormFieldMember: React.FC<Props> = ({ onSubmit, group }) => {
       key={group.id}
       title={`Add members for ${group.name}`}
       trigger={
-        <Button key={`adduser_${group.id}`} type="primary" style={{ width: '250px' }}>
+        <Button key={`adduser_${group.id}`} type="primary">
           <FormattedMessage id="component.form.action.addMemberButton.title" />
         </Button>
       }

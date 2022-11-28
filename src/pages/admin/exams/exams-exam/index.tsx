@@ -1,3 +1,4 @@
+import DetectComponent from '@/components/FaceDetect';
 import { DISPATCH_TYPE, USER_EXAM_RESULT } from '@/utils/constant';
 import {
   CheckOutlined,
@@ -32,6 +33,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
   const [currentQuestionId, setCurrentQuestionId] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const [intervalId, setIntervalId] = useState();
   const history = useHistory();
   useMount(() => {
     dispatch({
@@ -84,11 +86,16 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
   };
 
   const onSubmitExam = () => {
+    let latestquestionAnswers;
+    setQuestionAnswers((x) => {
+      latestquestionAnswers = x;
+      return x;
+    });
     dispatch({
       type: DISPATCH_TYPE.USER_EXAMS_SUBMIT_EXAM,
       payload: {
         examSubmit: {
-          answers: questionAnswers,
+          answers: latestquestionAnswers,
         },
         userExamId: id,
       },
@@ -139,6 +146,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       );
       setIsSubmited(true);
     });
+    clearInterval(intervalId);
   };
 
   const examMainContentActions = [
@@ -196,7 +204,9 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
                   <Space align="center">
                     <ClockCircleOutlined style={{ fontSize: '32px', color: '#003a8c' }} />
                     <Countdown
-                      value={new Date(schedule?.endTime ? schedule?.endTime : '').getTime()} //Date.now() + 1000 * 60 * 30
+                      value={
+                        new Date(schedule?.endTime ? schedule?.endTime : '').getTime() - 1000 * 2
+                      } //Date.now() + 1000 * 60 * 30
                       onFinish={onSubmitExam}
                       valueStyle={{ color: '#003a8c' }}
                     />
@@ -214,6 +224,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
           </Row>
         )}
       </Col>
+      <DetectComponent onSubmitExam={onSubmitExam} setIntervalId={setIntervalId} />
     </Row>
   ) : (
     <></>

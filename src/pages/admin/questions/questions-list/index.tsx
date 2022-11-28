@@ -17,9 +17,12 @@ import {
   MAP_QUESTION_TYPE_SHORT,
   MAP_STATUS,
   MAP_TOPIC,
+  MODE,
   NUMBER_OF_QUESTION_PER_PAGE,
+  ROLES,
 } from '@/utils/constant';
 import { Editor } from '@tinymce/tinymce-react';
+import { getUser } from '@/utils/authority';
 interface IQuestionListProps {
   dispatch: any;
   questionList: API.Question[];
@@ -34,7 +37,6 @@ const QuestionsList: FC<IQuestionListProps> = ({
   loading,
 }) => {
   const intl = useIntl();
-
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
     name: {
       show: false,
@@ -43,9 +45,10 @@ const QuestionsList: FC<IQuestionListProps> = ({
   });
 
   const fetchData = (params: any) => {
+    const user = getUser();
     dispatch({
       type: DISPATCH_TYPE.QUESTIONS_FETCH,
-      payload: { params: params },
+      payload: { params: { ...params, type: user.role == ROLES.ADMIN ? '' : MODE.PRIVATE } },
     });
   };
 

@@ -68,7 +68,8 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     Array.from(Array(days).keys()).map((x: number) => {
       const day = x + 1;
       const examUserOnDate = result?.userExams?.filter(
-        (y: any) => new Date(y.createdAt).getDate() == day,
+        (y: API.UserExam) =>
+          new Date(y.createdAt).getDate() == day && y.resultStatus !== USER_EXAM_RESULT.NOTSET,
       );
       const number = examUserOnDate?.length;
       const userPerDay = { name: 'Participants', day: day, number: number };

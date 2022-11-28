@@ -138,6 +138,7 @@ const USER_EXAM_STATUS = {
 const USER_EXAM_RESULT = {
   FAILED: 'Failed',
   PASSED: 'Passed',
+  NOTSET: 'Not Set',
 };
 
 const MAP_SCHEDULE_STATUS = {

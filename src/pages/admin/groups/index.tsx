@@ -1,7 +1,6 @@
 import { DISPATCH_TYPE } from '@/utils/constant';
-import { CrownOutlined, UserOutlined } from '@ant-design/icons';
 import { PageContainer, ProCard } from '@ant-design/pro-components';
-import { Row, Col, Typography, Spin, Space } from 'antd';
+import { Row, Col, Spin, Space, Avatar } from 'antd';
 import { useEffect } from 'react';
 import { connect } from 'umi';
 import FormFieldGroup from './components/FormFieldGroup';
@@ -14,7 +13,6 @@ interface IProps {
   loading: boolean;
 }
 
-const { Title } = Typography;
 const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList }) => {
   const fetchData = () => {
     dispatch({
@@ -60,22 +58,26 @@ const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList })
           {groupList.map((x, index) => {
             return (
               <Col span={6} key={x.id}>
-                <ProCard className="circlebox" key={x.id} bordered hoverable>
-                  <Space align="center" direction="vertical" style={{ display: 'flex' }}>
-                    <Title level={3}>{x.name}</Title>
-
-                    <Space align="start" direction="vertical" style={{ display: 'flex' }}>
-                      <Title className="card-text" level={5}>
-                        <CrownOutlined style={{ fontSize: '24px', color: '#08c' }} />
-                        {` ${x.description}`}
-                      </Title>
-
-                      <Title className="card-text" level={5}>
-                        <UserOutlined style={{ fontSize: '24px', color: '#08c' }} />
-                        {` ${x.members.length} members`}
-                      </Title>
-                    </Space>
-
+                <ProCard className="circlebox ant-card-head-title" key={x.id} bordered hoverable>
+                  <Space direction="vertical" size={15} style={{ display: 'flex' }}>
+                    <Avatar.Group style={{ alignItems: 'center' }}>
+                      <Avatar
+                        style={{
+                          width: '74px',
+                          height: '74px',
+                          lineHeight: '74px',
+                          fontSize: '18px',
+                        }}
+                        size={74}
+                        shape="square"
+                        src="https://i.pinimg.com/564x/d6/e3/f8/d6e3f8f4df79883e8bb27394a558a38d.jpg"
+                      />
+                      <div className="avatar-info">
+                        <h4 className="font-semibold m-0">{x.name}</h4>
+                        <p>{` ${x.members.length} members`}</p>
+                      </div>
+                    </Avatar.Group>
+                    <p>{` ${x.description}`}</p>
                     <FormFieldMember key={x.id} index={index} group={x} onSubmit={handleAddUser} />
                   </Space>
                 </ProCard>

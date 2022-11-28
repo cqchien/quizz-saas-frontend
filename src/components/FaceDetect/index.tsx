@@ -1,9 +1,15 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
 import { useEffect } from 'react';
 import { notification } from 'antd';
 
-const DetectComponent: React.FC = () => {
+interface IProps {
+  onSubmitExam: any;
+  setIntervalId: any;
+}
+
+const DetectComponent: React.FC<IProps> = ({ onSubmitExam, setIntervalId }) => {
+  const [numberOfTime, setNumberOfTime] = useState(0);
   // const { previewStream, status, startRecording, stopRecording, mediaBlobUrl } =
   //   useReactMediaRecorder({
   //     video: true,
@@ -13,8 +19,8 @@ const DetectComponent: React.FC = () => {
   const videoWidth = 340;
   const videoRef = useRef<HTMLVideoElement>();
   const canvasRef = useRef<HTMLCanvasElement>();
+  const limitTimeOutOfTheCam = 3;
   let timeOutOfTheCam = 0;
-  let numberOfTime = 0;
 
   const startVideo = async () => {
     try {
@@ -69,6 +75,7 @@ const DetectComponent: React.FC = () => {
       faceapi.matchDimensions(canvasRef.current, displaySize);
 
       const intervalId = setInterval(async () => {
+        let intervalNumberOfTime = numberOfTime;
         const detections = await faceapi
           .detectAllFaces(videoRef.current, new faceapi.TinyFaceDetectorOptions())
           .withFaceLandmarks()
@@ -81,35 +88,40 @@ const DetectComponent: React.FC = () => {
           timeOutOfTheCam += 100;
         } else {
           timeOutOfTheCam = 0;
-          numberOfTime = 0;
+          setNumberOfTime(0);
         }
 
         if (timeOutOfTheCam === 5 * 1000) {
-          numberOfTime += 1;
+          setNumberOfTime((x) => {
+            intervalNumberOfTime = x + 1;
+            return x + 1;
+          });
           timeOutOfTheCam = 0;
         }
 
-        if (numberOfTime > 0 && numberOfTime < 3 && timeOutOfTheCam === 0) {
+        if (intervalNumberOfTime > 0 && intervalNumberOfTime < 3 && timeOutOfTheCam === 0) {
           notification.warning({
-            message: `You are out of camera ${numberOfTime} times. If you out of camera 3 times, you will be forced to submit exam`,
-            duration: 3000,
+            message: `You are out of camera ${intervalNumberOfTime} times. If you out of camera ${limitTimeOutOfTheCam} times, you will be forced to submit exam`,
           });
         }
 
-        if (numberOfTime === 5) {
+        if (intervalNumberOfTime >= limitTimeOutOfTheCam) {
           notification.error({
-            message: `You are out of camera ${numberOfTime} times, so you will be forced to submit.`,
-            duration: 3000,
+            message: `You are out of camera ${intervalNumberOfTime} times, so you will be forced to submit.`,
           });
-
           clearInterval(intervalId);
-          // call API
-
           return;
         }
       }, 100);
+      setIntervalId(intervalId);
     });
   }, [videoRef]);
+
+  useEffect(() => {
+    if (numberOfTime >= limitTimeOutOfTheCam) {
+      onSubmitExam();
+    }
+  }, [numberOfTime]);
 
   return (
     <div

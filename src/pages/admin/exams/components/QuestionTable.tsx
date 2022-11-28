@@ -13,9 +13,12 @@ import {
   MAP_QUESTION_TYPE_SHORT,
   MAP_TOPIC,
   NUMBER_OF_QUESTION_PER_PAGE,
+  QUESTION_BANK_TYPE,
   QUESTION_TYPE_STRING,
+  ROLES,
 } from '@/utils/constant';
 import { Editor } from '@tinymce/tinymce-react';
+import { getUser } from '@/utils/authority';
 
 interface IQuestionListProps {
   dispatch: any;
@@ -26,15 +29,13 @@ interface IQuestionListProps {
 }
 
 type FilterParams = {
-  page: number;
-  take: number;
   topic?: string;
-  bankType?: string;
+  type?: string;
 };
 
-const mapQuestionBankTypeOptions = Object.keys(MAP_QUESTION_BANK_TYPE).map((topic: string) => ({
-  label: MAP_QUESTION_BANK_TYPE[topic],
-  value: topic,
+const mapQuestionBankTypeOptions = Object.keys(MAP_QUESTION_BANK_TYPE).map((type: string) => ({
+  label: MAP_QUESTION_BANK_TYPE[type],
+  value: type,
 }));
 
 const mapTopicOptions = Object.keys(MAP_TOPIC).map((topic: string) => ({
@@ -47,13 +48,18 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
   questionList,
   pagingParams,
   handleSelectQuestion,
+  loading,
 }) => {
   const intl = useIntl();
+  const user = getUser();
 
-  const [filterParams, setFilterParams] = useState<FilterParams>({
-    page: 1,
-    take: NUMBER_OF_QUESTION_PER_PAGE,
-  });
+  const [filterParams, setFilterParams] = useState<FilterParams>(
+    user.role !== ROLES.ADMIN
+      ? {
+          type: QUESTION_BANK_TYPE.SYSTEM,
+        }
+      : {},
+  );
 
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
     name: {
@@ -135,7 +141,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
   useEffect(() => {
     dispatch({
       type: DISPATCH_TYPE.QUESTIONS_FETCH,
-      payload: { params: filterParams },
+      payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE, ...filterParams } },
     });
   }, [dispatch, filterParams]);
 
@@ -158,6 +164,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
     <Card>
       <ProTable<API.Question>
         className="circlebox"
+        loading={loading}
         dataSource={questionList}
         search={false}
         rowSelection={{
@@ -190,26 +197,31 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
         }}
         dateFormatter="string"
         toolBarRender={() => [
-          <Select
-            key="typeSelector"
-            options={mapQuestionBankTypeOptions}
-            placeholder={
-              <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.questionBank.title" />
-            }
-            onChange={(value) => {
-              setFilterParams({ ...filterParams, bankType: value });
-            }}
-          />,
-          <Select
-            key="topicSelector"
-            options={mapTopicOptions}
-            placeholder={
-              <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.topic.title" />
-            }
-            onChange={(value) => {
-              setFilterParams({ ...filterParams, topic: value });
-            }}
-          />,
+          user.role !== ROLES.ADMIN && (
+            <Select
+              key="typeSelector"
+              options={mapQuestionBankTypeOptions}
+              placeholder={
+                <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.questionBank.title" />
+              }
+              onChange={(value) => {
+                setFilterParams({ ...filterParams, type: value });
+              }}
+            />
+          ),
+          user.role !== ROLES.ADMIN && (
+            <Select
+              key="topicSelector"
+              options={mapTopicOptions}
+              placeholder={
+                <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.topic.title" />
+              }
+              allowClear
+              onChange={(value) => {
+                setFilterParams({ ...filterParams, topic: value });
+              }}
+            />
+          ),
           <Button type="primary" key="show" onClick={handleSelectButton}>
             Select question
           </Button>,

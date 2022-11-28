@@ -54,7 +54,7 @@
   {
     path: '/exams',
     name: 'exams',
-    access: 'admin',
+    access: 'admin, user',
     icon: 'book',
     hideChildrenInMenu: true,
     routes: [
@@ -86,7 +86,7 @@
   {
     path: '/user-exams',
     name: 'userExams',
-    access: 'admin',
+    access: 'admin, user',
     icon: 'safetyCertificate',
     hideChildrenInMenu: true,
     routes: [
@@ -113,7 +113,7 @@
   {
     path: '/groups',
     name: 'groups',
-    access: 'admin',
+    access: 'admin, user',
     icon: 'group',
     component: './admin/groups',
   },
