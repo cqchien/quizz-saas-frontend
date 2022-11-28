@@ -7,12 +7,12 @@ import {
 } from '@ant-design/icons';
 import { useMount } from 'ahooks';
 import type { RadioChangeEvent } from 'antd';
-import { Result, Statistic } from 'antd';
 import { Button, Card, Space } from 'antd';
 import { Row, Col } from 'antd';
 import Countdown from 'antd/lib/statistic/Countdown';
 import { useEffect, useState } from 'react';
-import { connect, FormattedMessage } from 'umi';
+import Swal from 'sweetalert2';
+import { connect, FormattedMessage, useHistory } from 'umi';
 import ExamHeading from './components/ExamHeading';
 import ExamSummary from './components/ExamSummary';
 import QuestionContent from './components/QuestionContent';
@@ -24,7 +24,6 @@ interface IProps {
 }
 
 const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
-  const [examResult, setExamResult] = useState<any>();
   const [isSubmited, setIsSubmited] = useState<boolean>(false);
   const [schedule, setSchedule] = useState<API.Schedule>();
   const [questionList, setQuestionList] = useState<API.Question[]>([]);
@@ -33,6 +32,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
   const [currentQuestionId, setCurrentQuestionId] = useState<string>('');
   const [currentIndex, setCurrentIndex] = useState(0);
 
+  const history = useHistory();
   useMount(() => {
     dispatch({
       type: DISPATCH_TYPE.USER_EXAMS_TAKE_EXAM,
@@ -93,7 +93,50 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
         userExamId: id,
       },
     }).then((result: any) => {
-      setExamResult(result);
+      Swal.fire(
+        result?.resultStatus == USER_EXAM_RESULT.FAILED
+          ? {
+              icon: 'error',
+              title: 'Sorry, you failed',
+              text: `You have ${
+                (result?.numberOfCorrectAnswer / result?.questions.length) * 100
+              }/100 point`,
+              width: 600,
+              padding: '3em',
+              timerProgressBar: true,
+              color: '#716add',
+              didClose: () => {
+                history.push('/user-exams/list');
+              },
+              background: '#fff no-repeat',
+              backdrop: `
+                rgba(0,0,0,0.4)
+                left top
+                no-repeat
+              `,
+            }
+          : {
+              icon: 'success',
+              title: 'Congratulations, you passed',
+              text: `You have ${
+                (result?.numberOfCorrectAnswer / result?.questions.length) * 100
+              }/100 point`,
+              width: 600,
+              padding: '3em',
+              timerProgressBar: true,
+              color: '#716add',
+              didClose: () => {
+                history.push('/user-exams/list');
+              },
+              background: 'rgb(255,252,243)',
+              backdrop: `
+                  rgba(0,0,123,0.4)
+                   url("https://sweetalert2.github.io/images/nyan-cat.gif")
+                  left top
+                  no-repeat
+                `,
+            },
+      );
       setIsSubmited(true);
     });
   };
@@ -135,27 +178,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
         <ExamHeading templateExam={userExam.templateExam} time={schedule?.time} />
       </Col>
       <Col span={24}>
-        {isSubmited ? (
-          <Result
-            status={examResult?.resultStatus == USER_EXAM_RESULT.FAILED ? 'error' : 'success'}
-            title={
-              examResult?.resultStatus == USER_EXAM_RESULT.FAILED ? (
-                <FormattedMessage id="component.doExam.result.failed.title" />
-              ) : (
-                <FormattedMessage id="component.doExam.result.passed.title" />
-              )
-            }
-            extra={[
-              <Statistic
-                key="percent"
-                value={(examResult?.numberOfCorrectAnswer / examResult?.questions.length) * 100}
-                precision={2}
-                valueStyle={{ color: '#3f8600' }}
-                suffix="%"
-              />,
-            ]}
-          />
-        ) : (
+        {!isSubmited && (
           <Row gutter={[48, 0]} className="exam-content w-100">
             <Col offset={2} span={12} className="exam-main-content">
               <QuestionContent

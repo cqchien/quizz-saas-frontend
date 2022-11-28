@@ -7,9 +7,16 @@
     component: './auth/login',
   },
   {
+    name: 'register',
+    path: '/register',
+    layout: false,
+    hideInMenu: true,
+    component: './auth/register',
+  },
+  {
     path: '/admin',
     name: 'dashboard',
-    access: 'admin',
+    access: 'admin, user',
     icon: 'dashboard',
     component: './admin/dashboard',
   },
@@ -20,7 +27,7 @@
   {
     path: '/questions',
     name: 'questions',
-    access: 'admin',
+    access: 'admin, user',
     icon: 'container',
     hideChildrenInMenu: true,
     routes: [

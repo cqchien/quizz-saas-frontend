@@ -4,9 +4,9 @@ import { setToken } from '@/utils/authority';
 import { ROLES } from '@/utils/constant';
 import { GoogleCircleFilled, LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, PageLoading, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
-import { notification, Tabs } from 'antd';
+import { Button, notification, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
-import { FormattedMessage, history, useIntl, useModel } from 'umi';
+import { FormattedMessage, history, Link, useIntl, useModel } from 'umi';
 import styles from './index.less';
 
 const Login: React.FC = () => {
@@ -30,7 +30,6 @@ const Login: React.FC = () => {
       }
     };
     fetchUserInfo();
-
     if (initialState?.currentUser) {
       if (!history) return;
       const { query } = history.location;
@@ -95,6 +94,15 @@ const Login: React.FC = () => {
             <LoginForm
               logo={<img alt="logo" src="/logo.svg" />}
               title="Knowled"
+              submitter={{
+                render: (props) => {
+                  return (
+                    <Button type="primary" onClick={() => props.submit?.()} block>
+                      Login
+                    </Button>
+                  );
+                },
+              }}
               subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
               initialValues={{
                 autoLogin: true,
@@ -156,13 +164,15 @@ const Login: React.FC = () => {
                 <ProFormCheckbox noStyle name="autoLogin">
                   <FormattedMessage id="pages.login.rememberMe" />
                 </ProFormCheckbox>
-                <a
+                <Link
+                  to="/register"
                   style={{
                     float: 'right',
                   }}
+                  className="font-bold text-dark"
                 >
-                  <FormattedMessage id="pages.login.forgotPassword" />
-                </a>
+                  <FormattedMessage id="pages.login.registerAccount" />
+                </Link>
               </div>
             </LoginForm>
           </div>

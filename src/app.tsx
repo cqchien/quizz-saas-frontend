@@ -6,6 +6,7 @@ import GlobalHeaderRight from './components/RightContent';
 import { getCurrentUser } from './services/user';
 
 const loginPath = '/login';
+const registerPath = '/register';
 
 export const initialStateConfig = {
   loading: <PageLoading />,
@@ -31,11 +32,13 @@ export async function getInitialState(): Promise<{
   };
 
   if (history.location.pathname !== loginPath) {
-    const currentUser = await fetchUserInfo();
-    return {
-      fetchUserInfo,
-      currentUser,
-    };
+    if (history.location.pathname !== registerPath) {
+      const currentUser = await fetchUserInfo();
+      return {
+        fetchUserInfo,
+        currentUser,
+      };
+    }
   }
   return {
     fetchUserInfo,
@@ -50,7 +53,11 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
     onPageChange: () => {
       const { location } = history;
       // 如果没有登录，重定向到 login
-      if (!initialState?.currentUser && location.pathname !== loginPath) {
+      if (
+        !initialState?.currentUser &&
+        location.pathname !== loginPath &&
+        location.pathname !== registerPath
+      ) {
         history.push(loginPath);
       }
     },

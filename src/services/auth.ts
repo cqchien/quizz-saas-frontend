@@ -6,3 +6,10 @@ export async function login(body: API.LoginParams) {
     data: body,
   });
 }
+
+export async function register(body: API.RegisterParams) {
+  return request<API.ApiResponse<API.LoginResponse>>('/auth/register', {
+    method: 'POST',
+    data: body,
+  });
+}
