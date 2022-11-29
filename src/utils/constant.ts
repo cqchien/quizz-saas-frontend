@@ -185,6 +185,14 @@ const DISPATCH_TYPE = {
   USER_EXAMS_OVERVIEW: 'userExamsNamespace/overview',
 };
 
+const MY_COLOR = {
+  WHITE: '#ffffff',
+  CORRECT_ANSWER: '#52c41a', //green-6
+  WRONG_ANSWER: '#f5222d', //red-6
+  NOT_ANSWERED: '#eeeee4',
+  ANSWERED: '#063970',
+};
+
 export {
   ROLES,
   QUESTION_TYPE,
@@ -216,4 +224,5 @@ export {
   USER_EXAM_RESULT,
   SCHEDULE_TYPE,
   DISPATCH_TYPE,
+  MY_COLOR,
 };

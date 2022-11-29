@@ -9,14 +9,19 @@ interface Props {
 
 const ExamHeading: React.FC<Props> = ({ templateExam, time }) => {
   return (
-    <Row style={{ backgroundColor: '#003a8c', border: 0 }}>
+    <Row
+      style={{
+        backgroundImage: 'url(https://storage.tracnghiem.vn/public/images/header-exam-bg.png)',
+        backgroundColor: 'rgb(27 69 129)',
+        border: 0,
+        height: '200px',
+      }}
+      align="middle"
+    >
       <Col span={12} offset={6}>
         <Space align="center" direction="vertical" style={{ display: 'flex' }}>
           <Title level={4} style={{ color: '#ffffff' }}>
             {templateExam?.description?.toUpperCase()}
-          </Title>
-          <Title level={5} style={{ color: '#ffffff' }}>
-            {templateExam?.name}
           </Title>
           <Title level={5} style={{ color: '#ffffff' }}>
             Time: {time} minutes

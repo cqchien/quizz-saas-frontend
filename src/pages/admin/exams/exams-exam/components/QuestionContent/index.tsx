@@ -1,6 +1,6 @@
 import { ProCard } from '@ant-design/pro-components';
 import { Editor } from '@tinymce/tinymce-react';
-import { Row, Radio, Space, Col, Divider } from 'antd';
+import { Row, Radio, Space, Col } from 'antd';
 import React, { useEffect, useState } from 'react';
 
 interface Props {
@@ -10,7 +10,6 @@ interface Props {
   currentIndex: number;
   proCardStyle?: any;
   proCardActions?: any;
-  hasDivider?: boolean;
 }
 
 const QuestionContent: React.FC<Props> = ({
@@ -20,7 +19,6 @@ const QuestionContent: React.FC<Props> = ({
   currentIndex,
   proCardStyle,
   proCardActions,
-  hasDivider,
 }) => {
   const [selectedValue, setSelectedValue] = useState<number | undefined>();
 
@@ -36,15 +34,15 @@ const QuestionContent: React.FC<Props> = ({
   }, [currentQuestion, questionAnswers]);
 
   return (
-    <ProCard style={proCardStyle} actions={proCardActions}>
+    <ProCard
+      className="circlebox"
+      style={proCardStyle}
+      actions={proCardActions}
+      title={`Question ${currentIndex + 1}`}
+    >
       {currentQuestion && (
         <Row gutter={[0, 8]}>
           <Col span={24}>
-            {hasDivider && (
-              <Divider orientation="left" orientationMargin="0">{`Question ${
-                currentIndex + 1
-              }`}</Divider>
-            )}
             <Editor
               value={currentQuestion.question}
               init={{

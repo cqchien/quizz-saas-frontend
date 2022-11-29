@@ -188,7 +188,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       <Col span={24}>
         {!isSubmited && (
           <Row gutter={[48, 0]} className="exam-content w-100">
-            <Col offset={2} span={12} className="exam-main-content">
+            <Col offset={3} span={10} className="exam-main-content">
               <QuestionContent
                 currentIndex={currentIndex}
                 proCardActions={examMainContentActions}
@@ -198,7 +198,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
                 questionAnswers={questionAnswers}
               />
             </Col>
-            <Col span={8} className="do-exam-wrapper">
+            <Col span={7} className="do-exam-wrapper">
               <Card>
                 <Space direction="horizontal" style={{ width: '100%', justifyContent: 'center' }}>
                   <Space align="center">

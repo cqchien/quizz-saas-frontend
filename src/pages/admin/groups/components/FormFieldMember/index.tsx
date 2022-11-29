@@ -4,6 +4,23 @@ import { Button, Form, Space } from 'antd';
 import { FormattedMessage } from 'umi';
 import formSchema from '../../schemas/groupSchema';
 
+const formItemLayout = {
+  labelCol: {
+    xs: { span: 24 },
+    sm: { span: 8 },
+  },
+  wrapperCol: {
+    xs: { span: 24 },
+    sm: { span: 16 },
+  },
+};
+const formItemLayoutWithOutLabel = {
+  wrapperCol: {
+    xs: { span: 24, offset: 0 },
+    sm: { span: 24, offset: 0 },
+  },
+};
+
 interface Props {
   group: API.Group;
   index: number;
@@ -30,18 +47,20 @@ const FormFieldMember: React.FC<Props> = ({ onSubmit, group }) => {
         okText: 'Save',
         cancelText: 'Cancel',
       }}
-      submitTimeout={2000}
       onFinish={(vs: any) => onSubmit(vs, group)}
+      layout="horizontal"
     >
       <Form.List name={formField.members.name} initialValue={[]}>
         {(fields, { add, remove }) => (
           <>
-            {fields.map(({ key, name, ...restField }) => (
-              <Space key={key} style={{ display: 'flex', marginBottom: 8 }} align="baseline">
+            {fields.map(({ key, name, ...restField }, index) => (
+              <Space key={key} style={{ display: 'flex' }} align="baseline">
+                {index !== 0 && <div style={{ paddingLeft: '88px' }} />}
                 <ProFormText
                   {...restField}
+                  {...(index === 0 ? formItemLayout : formItemLayoutWithOutLabel)}
+                  label={index === 0 ? 'Passengers' : ''}
                   name={[name, formField.memberName.name]}
-                  label={formField.memberName.label}
                   placeholder={formField.memberName.placeholder}
                   rules={[
                     {
@@ -53,8 +72,8 @@ const FormFieldMember: React.FC<Props> = ({ onSubmit, group }) => {
                 <ProFormText
                   {...restField}
                   name={[name, formField.memberEmail.name]}
-                  label={formField.memberEmail.label}
                   placeholder={formField.memberEmail.placeholder}
+                  width="lg"
                   rules={[
                     {
                       type: 'email',

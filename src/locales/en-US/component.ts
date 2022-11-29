@@ -37,7 +37,8 @@ export default {
   // Do exam
   'component.doExam.examSummary.hint.answered': 'Answered',
   'component.doExam.examSummary.hint.notAnswered': 'Not answered',
-  'component.doExam.examSummary.hint.viewQuestion': 'Click on button to view question',
+  'component.doExam.examSummary.hint.viewQuestion': 'Question list',
+  'component.doExam.examSummary.hint.examInfomation': 'Exam infomation',
   'component.doExam.action.finish.title': 'FINISH',
   'component.doExam.questionContentCard.action.viewResult.title': 'View result',
   'component.doExam.questionContentCard.action.next.title': 'Next',
@@ -45,6 +46,10 @@ export default {
   'component.doExam.result.failed.title': 'Sorry, you failed',
   'component.doExam.result.passed.title':
     'Congratulations, you have successfully completed the exam',
+
+  // Overview exam
+  'component.overviewExam.examSummary.hint.correctAnswer': 'Correct answer',
+  'component.overviewExam.examSummary.hint.wrongAnswer': 'Wrong answer',
 
   // Modal list user
   'component.modalListUser.title': 'Answered',

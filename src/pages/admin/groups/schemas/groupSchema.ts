@@ -25,7 +25,7 @@ export default {
       label: 'Name',
       errMsg: 'Please input member name',
       required: true,
-      placeholder: '',
+      placeholder: 'Member name',
     },
 
     memberEmail: {
@@ -33,7 +33,7 @@ export default {
       label: 'Email',
       errMsg: 'Please input member email',
       required: true,
-      placeholder: '',
+      placeholder: 'Member email ',
     },
   },
 };
