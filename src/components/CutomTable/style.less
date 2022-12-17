@@ -1,0 +1,113 @@
+@import '~antd/es/style/variable.less';
+
+.customTable {
+  :global {
+    .ant-table-thead > tr > th {
+      &,
+      * {
+        font-weight: 700;
+        font-size: 11px;
+        text-transform: uppercase;
+        color: @text-color-secondary;
+      }
+    }
+
+    table tr th.ant-table-selection-column,
+    table tr td.ant-table-selection-column {
+      //padding-right: 0px;
+      padding-left: var(--padding-lg);
+    }
+
+    .ant-table-cell {
+      &::before {
+        display: none;
+      }
+    }
+
+    .ant-table-column-sorter {
+      display: none;
+    }
+
+    .ant-table-thead ::before {
+      display: none;
+    }
+
+    .ant-checkbox-disabled {
+      background-color: @gray-2;
+    }
+
+    .ant-checkbox-inner {
+      border-radius: 6px;
+    }
+
+    th.ant-table-column-sort {
+      background: unset;
+    }
+
+    td.ant-table-column-sort {
+      background: unset;
+    }
+
+    tr.ant-table-row {
+      .table-actions {
+        opacity: 1;
+      }
+
+      &:nth-child(odd) {
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right {
+          background-color: @table-bg;
+        }
+      }
+
+      &:nth-child(even) {
+        background: @table-even-bg;
+
+        .ant-table-cell-fix-left,
+        .ant-table-cell-fix-right {
+          background-color: @table-even-bg;
+        }
+      }
+
+      &:last-child {
+        td {
+          border-bottom: none;
+        }
+      }
+    }
+
+    tr.ant-table-row:hover {
+      .table-actions {
+        opacity: 1;
+      }
+
+      td {
+        background-color: @table-row-hover-bg;
+      }
+
+      .ant-table-cell-fix-left,
+      .ant-table-cell-fix-right {
+        background-color: @table-row-hover-bg;
+      }
+    }
+
+    tr.ant-table-row td:last-child svg {
+      color: var(--gray-4);
+      font-size: 20px;
+
+      &:hover {
+        color: var(--gray-5);
+        transition: color var(--animation-duration-base);
+      }
+    }
+
+    .ant-pagination {
+      margin: @margin-xl @margin-lg @margin-lg @margin-lg;
+    }
+
+    .ant-pagination-jump-prev .ant-pagination-item-container .ant-pagination-item-ellipsis,
+    .ant-pagination-jump-next .ant-pagination-item-container .ant-pagination-item-ellipsis {
+      color: @icon-color;
+    }
+  }
+}

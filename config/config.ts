@@ -5,6 +5,8 @@ import defaultSettings from './defaultSettings';
 import proxy from './proxy';
 import routes from './routes';
 
+import themeCsViolet from './themes/cs-violet/cs-violet';
+
 const { REACT_APP_ENV, API_URL, TINY_API_KEY } = process.env;
 
 export default defineConfig({
@@ -36,9 +38,7 @@ export default defineConfig({
   },
   routes,
   access: {},
-  theme: {
-    'root-entry-name': 'variable',
-  },
+  theme: themeCsViolet,
   esbuild: {},
   title: false,
   ignoreMomentLocale: true,

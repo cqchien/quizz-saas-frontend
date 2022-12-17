@@ -1,6 +1,6 @@
 import type { ResponseError } from 'umi-request';
 import { extend } from 'umi-request';
-import { notification } from 'antd';
+// import { notification } from 'antd';
 import { getToken } from '@/utils/authority';
 
 const timezone = Intl ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'Asia/Saigon';
@@ -8,12 +8,12 @@ const timezone = Intl ? Intl.DateTimeFormat().resolvedOptions().timeZone : 'Asia
 export const errorHandler = (error: ResponseError) => {
   const { response, data } = error;
 
-  if (!response) {
-    notification.error({
-      description: 'Your network is abnormal and cannot connect to the server',
-      message: 'Network is down',
-    });
-  }
+  // if (!response && !data) {
+  //   notification.error({
+  //     description: 'Your network is abnormal and cannot connect to the server',
+  //     message: 'Network is down',
+  //   });
+  // }
 
   if (data) {
     return { ...data, success: false };

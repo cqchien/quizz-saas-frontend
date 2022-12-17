@@ -20,6 +20,16 @@ const QUESTION_TYPE_STRING = {
   ORDERING_SEQUENCE: 'Ordering Sequence Question',
 };
 
+export const DATE_FORMAT = 'DD-MM-YYYY';
+export const DATE_FORMAT_MONTH = 'MM-YYYY';
+export const DATE_FORMAT_YEAR = 'YYYY';
+export const TIME_FORMAT_FULL = 'HH:mm:ss';
+export const DATE_TIME_FORMAT = 'DD-MM-YYYY HH:mm A';
+export const PAGE_LIMIT = 10;
+export const PAGE_DEFAULT = 1;
+export const DEFAULT_PAGE_OPTIONS = [10, 25, 50];
+export const SORT_DIRECTIONS = { ascend: '+', descend: '-' };
+
 const MAP_QUESTION_TYPE = {
   [QUESTION_TYPE.MULTIPLE_CHOICE_QUESTION]: 'Multiple Choice Question (MCQ)',
   [QUESTION_TYPE.FILL_IN_BLANK]: 'Fill In Blank Question (FIB)',

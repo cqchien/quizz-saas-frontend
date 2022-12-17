@@ -1,0 +1,86 @@
+@import '~antd/es/style/variable.less';
+
+.custom-card {
+  overflow: hidden;
+  transition: width 0.3s;
+
+  &.custom-card--shadow-default {
+    box-shadow: @box-shadow-base;
+  }
+
+  &.custom-card--shadow-md {
+    box-shadow: @box-shadow-md;
+  }
+
+  &.custom-card--active {
+    background-color: rgba(@component-background, 0.3);
+    border-color: @blue-4;
+    //box-shadow: @box-shadow-base;
+    //box-shadow: @card-shadow;
+    box-shadow: @shadow-2;
+    transition: box-shadow 0.15s;
+  }
+
+  &.custom-card--fixed-height .ant-card-body {
+    height: calc(100vh - 250px) !important;
+    overflow-y: auto;
+  }
+
+  &.custom-card--full-width {
+    width: 100%;
+  }
+
+  &.custom-card--full-height {
+    &::before,
+    &::after {
+      display: none;
+    }
+
+    display: flex;
+    flex-direction: column;
+
+    height: 100%;
+
+    .ant-card-head {
+      min-height: unset;
+    }
+
+    .ant-card-body {
+      flex-grow: 1;
+      margin-top: var(--border-width-base);
+      overflow: auto;
+    }
+  }
+
+  &.custom-card--shadow-none {
+    box-shadow: none;
+  }
+
+  &.custom-card--shadow-default {
+    box-shadow: @box-shadow-base;
+  }
+
+  &.custom-card--no-title-border > .ant-card-head {
+    border-bottom: 0;
+  }
+
+  .ant-card-head-title {
+    .ant-typography-edit-content {
+      transform: translateX(16px);
+    }
+
+    .ant-typography {
+      margin-bottom: 0;
+    }
+  }
+
+  .ant-typography-single-line {
+    white-space: normal;
+  }
+}
+
+.custom-card-no-padding {
+  .ant-card-body {
+    padding: 0;
+  }
+}

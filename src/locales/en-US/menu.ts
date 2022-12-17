@@ -23,13 +23,13 @@ export default {
   'menu.exams.exams-overview': 'Exam Dashboard',
 
   // User Exam
-  'menu.userExams': 'Your Exams',
-  'menu.userExams.user-exams-list': 'Your exams',
+  'menu.userExams': 'Exams',
+  'menu.userExams.user-exams-list': 'exams',
   'menu.userExams.user-exams-overview': 'Overview exam',
   'menu.userExams.exams-exam': 'Take exam',
 
   // Group
-  'menu.groups': 'Your Groups',
+  'menu.groups': 'Groups',
 
   // exception
   'menu.exception.403': '403',
