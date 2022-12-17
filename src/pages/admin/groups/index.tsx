@@ -70,7 +70,7 @@ const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList })
       },
     },
     {
-      title: '',
+      title: 'Actions',
       dataIndex: 'operation',
       width: 120,
       render: () => {

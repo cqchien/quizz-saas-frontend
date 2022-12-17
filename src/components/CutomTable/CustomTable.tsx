@@ -3,10 +3,7 @@ import CustomCard from '@/components/CustomCard/CustomCard';
 import CustomSpace from '@/components/CustomSpace/CustomSpace';
 import ArrowDownIcon from '@/components/Icons/ArrowDown';
 import ArrowUpIcon from '@/components/Icons/ArrowUp';
-import { PAGE_LIMIT } from '@/utils/constant';
-import { history } from '@@/core/history';
-import useUrlState from '@ahooksjs/use-url-state';
-import type { TablePaginationConfig, TableProps } from 'antd';
+import type { TableProps } from 'antd';
 import { Table } from 'antd';
 import classNames from 'classnames';
 import styles from './style.less';
@@ -15,26 +12,8 @@ interface CustomTableProps extends TableProps<any>, Pick<CustomCardProps, 'shado
 }
 
 const CustomTable = (props: CustomTableProps) => {
-  const { query = {} } = history.location;
-  const [ searchParams, setSearchParams ] = useUrlState({
-    ...query,
-    p: query.p ?? 1,
-    pageSize: query.limit ?? PAGE_LIMIT,
-  });
   const cls = classNames(styles.customTable, props.className);
   const { pagination, dataSource, columns, bordered, shadow, ...rest } = props;
-  const paginationConfig: false | TablePaginationConfig =
-    pagination === false || (dataSource?.length ?? 0) <= PAGE_LIMIT
-      ? false
-      : {
-        defaultPageSize: searchParams.pageSize ?? PAGE_LIMIT,
-        defaultCurrent: Number(searchParams.p) ?? 1,
-        current: Number(searchParams.p) ?? 1,
-        position: [ 'bottomCenter' ],
-        onChange: (page, pageSize) => {
-          setSearchParams({ ...searchParams, p: page, pageSize: pageSize });
-        },
-      };
 
   const columnsWithCustomSorter: any = columns?.map((column) => {
     const getAlign = () => {
@@ -102,7 +81,7 @@ const CustomTable = (props: CustomTableProps) => {
         sortDirections={[ 'ascend', 'descend', 'ascend' ]}
         dataSource={dataSource}
         className={cls}
-        pagination={paginationConfig}
+        pagination={pagination}
       />
     </CustomCard>
   );

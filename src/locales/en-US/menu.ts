@@ -16,11 +16,11 @@ export default {
   'menu.questions.questions-edit': 'Edit Question',
 
   // Admin - Exam Management
-  'menu.exams': 'Exam Templates',
-  'menu.exams.exams-list': 'Exams List',
-  'menu.exams.exams-create': 'Create Exam',
-  'menu.exams.exams-edit': 'Edit Exam',
-  'menu.exams.exams-overview': 'Exam Dashboard',
+  'menu.exams': 'Templates',
+  'menu.exams.exams-list': 'Templates',
+  'menu.exams.exams-create': 'Create Template',
+  'menu.exams.exams-edit': 'Edit Template',
+  'menu.exams.exams-overview': 'Template Dashboard',
 
   // User Exam
   'menu.userExams': 'Exams',
