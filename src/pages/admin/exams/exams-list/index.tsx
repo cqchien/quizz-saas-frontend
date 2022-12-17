@@ -1,17 +1,16 @@
-import { DashboardOutlined, DeleteOutlined, EditOutlined, EyeOutlined, ScheduleOutlined, SearchOutlined } from '@ant-design/icons';
-import { FC, useState } from 'react';
+import { DashboardOutlined, ScheduleOutlined, SearchOutlined } from '@ant-design/icons';
+import type { FC} from 'react';
+import { useState } from 'react';
 import { useEffect } from 'react';
 import { Button, Divider, Form, Input, Popconfirm, Tooltip } from 'antd';
-import { FormattedMessage, Link, useHistory, useIntl } from 'umi';
+import { FormattedMessage, Link } from 'umi';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
-import { EditTwoTone } from '@ant-design/icons';
 import ButtonAdd from '@/components/ButtonAdd/ButtonAdd';
 
 import {
   DISPATCH_TYPE,
   MAP_EXAM_TYPE,
-  MAP_QUESTION_BANK_TYPE,
   PAGE_LIMIT,
 } from '@/utils/constant';
 import ModalAddSchedule from '../components/ModalAddSchedule';
