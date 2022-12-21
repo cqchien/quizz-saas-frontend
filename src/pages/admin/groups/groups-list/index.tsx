@@ -3,20 +3,31 @@ import CustomTable from '@/components/CutomTable/CustomTable';
 import PageLayout from '@/layout/PageLayout';
 import { DATE_TIME_FORMAT, DISPATCH_TYPE } from '@/utils/constant';
 import { SearchOutlined } from '@ant-design/icons';
-import { Form, Input } from 'antd';
-import { useEffect } from 'react';
-import { connect } from 'umi';
+import { Button, Divider, Form, Input, Popconfirm } from 'antd';
+import { useEffect, useState } from 'react';
+import { connect, Link } from 'umi';
 import dayjs from 'dayjs';
-import mapStateToProps from './mapStateToProps';
-import TableActions from '@/components/TableActions/TableActions';
-
+import mapStateToProps from '../mapStateToProps';
+import useUrlState from '@ahooksjs/use-url-state';
+import { history } from '@@/core/history';
+import TrashIcon from '@/components/Icons/Trash';
+import Edit from '@/components/Icons/Edit';
 interface IProps {
   groupList: API.Group[];
   dispatch: any;
   loading: boolean;
+  loadingDelete: boolean;
 }
 
-const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList }) => {
+const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList, loadingDelete }) => {
+  const { query = {} } = history.location;
+
+  const [searchParams, setSearchParams] = useUrlState({
+    ...query,
+    search: ''
+  });
+  const [searchTerm, setSearchTerm] = useState('');
+
   useEffect(() => {
     dispatch({
       type: DISPATCH_TYPE.GROUPS_FETCH,
@@ -24,28 +35,36 @@ const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList })
     });
   }, [dispatch]);
 
-  // const handleGroupSubmit = async (values: any) => {
-  //   dispatch({
-  //     type: DISPATCH_TYPE.GROUPS_CREATE,
-  //     payload: { group: values },
-  //   }).then(() => {
-  //     fetchData();
-  //   });
-  //   return true;
-  // };
+  const handleSearch = (event: any) => {
+    const keyword = event?.target?.value ?? '';
+    setSearchTerm(keyword);
+  };
 
-  // const handleAddUser = async (values: any, group: API.Group) => {
-  //   dispatch({
-  //     type: DISPATCH_TYPE.GROUPS_UPDATE,
-  //     payload: {
-  //       group: { ...group, members: [...group.members, ...values.members] },
-  //       groupId: group.id,
-  //     },
-  //   }).then(() => {
-  //     fetchData();
-  //   });
-  //   return true;
-  // };
+  useEffect(() => {
+    const delayDebounceFn = setTimeout(() => {
+      return setSearchParams({ ...searchParams, search: searchTerm });
+    }, 300);
+
+    dispatch({
+      type: DISPATCH_TYPE.GROUPS_FETCH,
+      payload: {
+        params: {
+          name: searchParams.search
+        }
+      },
+    })
+    return () => clearTimeout(delayDebounceFn);
+  }, [dispatch, searchParams, searchTerm, setSearchParams]);
+
+  const handleRemoveGroup = async (id: string) => {
+    dispatch({
+      type: DISPATCH_TYPE.GROUPS_DELETE,
+      payload: {
+        groupId: id,
+        callback: () => history.push('/groups/list'),
+      },
+    })
+  };
 
   const columns = [
     {
@@ -73,35 +92,55 @@ const InstructorDashboard: React.FC<IProps> = ({ loading, dispatch, groupList })
       title: 'Actions',
       dataIndex: 'operation',
       width: 120,
-      render: () => {
-        return <TableActions onDelete={() => console.log('delete')} onEdit={() => console.log('edit')} />;
-      },
+      render: (_: any, record: { id: string, name: string }) => {
+        return (
+          <>
+            <Link to={`/groups/${record.id}/edit`} key={`link_${record.id}`}>
+              <Button key={`edit_${record.id}`} type="link" icon={<Edit />} />
+            </Link>
+            <Divider type="vertical" />
+            <Popconfirm
+              key={`pop_${record.id}`}
+              title={`Are you sure you want to delete ${record.name}`}
+              onConfirm={() => {
+                handleRemoveGroup(record.id);
+              }}
+              okText="Yes"
+              cancelText="No"
+            >
+              <Button key={`delete_${record.id}`} type="link" icon={<TrashIcon />} />
+            </Popconfirm>
+          </>
+        )
+      }
     },
   ];
 
   return (
-
     <PageLayout
       className="groups"
       title="All Groups"
       content=""
       extra={[
         <Form.Item name="search" key="1">
-          <Input allowClear placeholder="Search" prefix={<SearchOutlined />} onChange={() => console.log('search')} />
+          <Input allowClear placeholder="Search" prefix={<SearchOutlined />} onChange={(e) => handleSearch(e)} />
         </Form.Item>,
-        <ButtonAdd key="2" onClick={() => console.log('add')}>
-          New Group
-        </ButtonAdd>,
+        <Link to={'/groups/create'} key="createButton">
+          <ButtonAdd key="2">
+            New Group
+          </ButtonAdd>
+        </Link>,
       ]}
     >
       <CustomTable
         rowKey="name"
-        loading={loading}
+        loading={loading || loadingDelete}
         scroll={{ x: 'max-content' }}
         pagination={false}
         dataSource={groupList}
         columns={columns}
       />
+
     </PageLayout>
   )
   // return (

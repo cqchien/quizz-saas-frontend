@@ -55,6 +55,7 @@
     "@ckeditor/ckeditor5-build-classic": "^35.0.1",
     "@ckeditor/ckeditor5-build-decoupled-document": "^35.0.1",
     "@ckeditor/ckeditor5-react": "^5.0.2",
+    "@hookform/resolvers": "^2.9.10",
     "@tinymce/tinymce-react": "^4.2.0",
     "@umijs/route-utils": "^2.0.0",
     "ahooks": "^3.7.2",

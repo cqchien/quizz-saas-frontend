@@ -179,6 +179,8 @@ const DISPATCH_TYPE = {
   GROUPS_FETCH: 'groups/fetch',
   GROUPS_CREATE: 'groups/create',
   GROUPS_UPDATE: 'groups/update',
+  GROUPS_DELETE: 'groups/delete',
+  GROUPS_DETAIL: 'groups/getDetail',
 
   // QUESTIONS
   QUESTIONS_FETCH: 'questions/fetch',

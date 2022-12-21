@@ -1,6 +1,14 @@
 import { API_GROUPS, API_GROUP_ONE } from '@/utils/api-routes';
 import request from '@/utils/request';
 
+export function uploadMember(payload: FormData) {
+  return request<API.ApiResponse<API.GroupMember[]>>(`${API_GROUPS}/parse`, {
+    method: 'POST',
+    requestType: 'form',
+    data: payload,
+  });
+}
+
 export async function getAll(params: API.PageQuery) {
   return request<API.ApiResponse<API.Group[]>>(API_GROUPS, {
     method: 'GET',
@@ -23,7 +31,6 @@ export async function deleteById(id: string) {
 }
 
 export async function createGroup(data: any) {
-  console.log('Gr', data);
   return request<API.ApiResponse<API.Group>>(API_GROUPS, {
     method: 'POST',
     data,

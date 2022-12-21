@@ -14,6 +14,11 @@ declare namespace API {
     user: User;
   };
 
+  type GroupMember = {
+    name: string;
+    email: string;
+  }
+
   type Token = {
     expiresIn: number;
     accessToken: string;

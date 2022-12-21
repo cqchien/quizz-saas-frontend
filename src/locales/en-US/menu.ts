@@ -11,25 +11,28 @@ export default {
 
   // Admin - Question Management
   'menu.questions': 'Questions',
-  'menu.questions.questions-list': 'Questions List',
+  'menu.questions.questions-list': 'All Questions',
   'menu.questions.questions-create': 'Create Question',
   'menu.questions.questions-edit': 'Edit Question',
 
   // Admin - Exam Management
   'menu.exams': 'Templates',
-  'menu.exams.exams-list': 'Templates',
+  'menu.exams.exams-list': 'All Templates',
   'menu.exams.exams-create': 'Create Template',
   'menu.exams.exams-edit': 'Edit Template',
   'menu.exams.exams-overview': 'Template Dashboard',
 
   // User Exam
   'menu.userExams': 'Exams',
-  'menu.userExams.user-exams-list': 'exams',
+  'menu.userExams.user-exams-list': 'All Exams',
   'menu.userExams.user-exams-overview': 'Overview exam',
   'menu.userExams.exams-exam': 'Take exam',
 
   // Group
   'menu.groups': 'Groups',
+  'menu.groups.groups-list': 'All Groups',
+  'menu.groups.groups-edit': 'Edit Group',
+  'menu.groups.groups-create': 'Create Group',
 
   // exception
   'menu.exception.403': '403',

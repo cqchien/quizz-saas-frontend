@@ -115,7 +115,27 @@
     name: 'groups',
     access: 'admin, user',
     icon: 'group',
-    component: './admin/groups',
+    hideChildrenInMenu: true,
+    routes: [
+      {
+        path: '/groups/list',
+        name: 'groups-list',
+        component: './admin/groups/groups-list',
+      },
+      {
+        path: '/groups/create',
+        name: 'groups-create',
+        component: './admin/groups/groups-handling',
+      },
+      {
+        path: '/groups/:id/edit',
+        name: 'groups-edit',
+        component: './admin/groups/groups-handling',
+      },
+      {
+        redirect: '/groups/list',
+      },
+    ],
   },
   {
     path: '/',

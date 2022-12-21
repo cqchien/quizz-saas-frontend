@@ -10,3 +10,12 @@ export const download = (url: string, name?: string) => {
     document.body.removeChild(link);
   }
 };
+
+export const sortString = (a: string, b: string, firstLetter: boolean = true) => {
+  const first = firstLetter ? (a?.toLowerCase() ?? '')[0] : a;
+  const second = firstLetter ? (b?.toLowerCase() ?? '')[0] : b;
+  if (first > second) return 1;
+  if (first < second) return -1;
+  if (first === second) return 0;
+  return 0;
+};

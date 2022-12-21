@@ -163,7 +163,8 @@ export default {
 
   // Menu
   // ---
-  'menu-item-font-size': '@font-size-sm',
+  'menu-item-font-size': '@font-size-md',
+  'ant-pro-menu-item-title': '14px',
   'menu-inline-toplevel-item-height': '40px',
   'menu-item-height': '40px',
   'menu-item-group-height': '@line-height-base',
