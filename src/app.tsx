@@ -5,9 +5,11 @@ import { history } from 'umi';
 import GlobalHeaderRight from './components/RightContent';
 import { getCurrentUser } from './services/user';
 
-const loginPath = '/login';
-const registerPath = '/register';
-
+const pathIgnoreFetchUser = [
+  '/login',
+  '/register',
+  '/users/change-password'
+]
 export const initialStateConfig = {
   loading: <PageLoading />,
 };
@@ -26,20 +28,19 @@ export async function getInitialState(): Promise<{
         return response.data as API.User;
       }
     } catch (error) {
-      history.push(loginPath);
+      history.push('/login');
     }
     return undefined;
   };
 
-  if (history.location.pathname !== loginPath) {
-    if (history.location.pathname !== registerPath) {
-      const currentUser = await fetchUserInfo();
-      return {
-        fetchUserInfo,
-        currentUser,
-      };
-    }
+  if (!pathIgnoreFetchUser.includes(history.location.pathname)) {
+    const currentUser = await fetchUserInfo();
+    return {
+      fetchUserInfo,
+      currentUser,
+    };
   }
+
   return {
     fetchUserInfo,
   };
@@ -54,11 +55,9 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       const { location } = history;
       // 如果没有登录，重定向到 login
       if (
-        !initialState?.currentUser &&
-        location.pathname !== loginPath &&
-        location.pathname !== registerPath
+        !initialState?.currentUser && !pathIgnoreFetchUser.includes(location.pathname)
       ) {
-        history.push(loginPath);
+        history.push('/login');
       }
     },
     links: [],
@@ -71,7 +70,7 @@ export const layout: RunTimeLayoutConfig = ({ initialState, setInitialState }) =
       return (
         <>
           {children}
-          {!props.location?.pathname?.includes('/login') && (
+          {!pathIgnoreFetchUser.includes(history.location.pathname) && (
             <SettingDrawer
               disableUrlParams
               enableDarkTheme

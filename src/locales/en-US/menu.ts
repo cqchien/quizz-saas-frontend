@@ -9,6 +9,8 @@ export default {
   // Dashboard
   'menu.dashboard': 'Dashboard',
 
+  'menu.change-password': 'Change Password',
+  
   // Admin - Question Management
   'menu.questions': 'Questions',
   'menu.questions.questions-list': 'All Questions',

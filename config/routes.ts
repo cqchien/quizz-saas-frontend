@@ -14,7 +14,28 @@
     component: './auth/register',
   },
   {
+    hideInMenu: true,
+    path: '/users',
+    layout: false,
+    routes: [
+      {
+        path: '/users/change-password',
+        name: 'change-password',
+        component: './admin/changePassword',
+      },
+      {
+        path: '/users',
+        redirect: '/questions/list',
+      }
+    ],
+  },
+  {
     path: '/admin',
+    redirect: '/questions/list',
+  },
+  {
+    path: '/admin',
+    hideInMenu: true,
     name: 'dashboard',
     access: 'admin, user',
     icon: 'dashboard',

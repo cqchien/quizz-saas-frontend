@@ -4,7 +4,7 @@ import orderBy from 'lodash/orderBy';
 export default (state: { groups: any; loading: any }, { match }: any) => {
   const { groups, loading } = state;
   const { ids, dictionary } = groups;
-  const { id: groupId } = match.params;
+  const groupId = match?.params?.id;
 
   const group = dictionary[groupId];
 

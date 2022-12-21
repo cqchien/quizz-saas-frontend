@@ -13,3 +13,10 @@ export async function register(body: API.RegisterParams) {
     data: body,
   });
 }
+
+export async function changePassword(body: any, token: string) {
+  return request<API.ApiResponse<API.User>>(`/auth/change-password?token=${token}`, {
+    method: 'POST',
+    data: body,
+  });
+}
