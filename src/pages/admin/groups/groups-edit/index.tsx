@@ -3,9 +3,8 @@ import { DISPATCH_TYPE } from '@/utils/constant';
 import { Spin } from 'antd';
 import React, { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
-import { connect } from 'umi';
+import { useDispatch, useSelector } from 'umi';
 import FormUserGroup from '../components/FormUserGroup';
-import mapStateToProps from '../mapStateToProps';
 
 interface IProps {
   group: API.Group;
@@ -13,20 +12,25 @@ interface IProps {
   loadingDetail: boolean;
 }
 
-const GroupCreateAndEdit: React.FC<IProps> = ({ loadingDetail, dispatch, group }) => {
+const GroupEditPage: React.FC<IProps> = () => {
   const { id }: { id: string } = useParams();
+  const dispatch = useDispatch();
+  const loading = useSelector((state: any) => state.loading?.effects[DISPATCH_TYPE.GROUPS_DETAIL]);
+  const groups = useSelector((state: any) => state.groups?.dictionary);
+
+  const group = groups[id];
 
   useEffect(() => {
     dispatch({ type: DISPATCH_TYPE.GROUPS_DETAIL, payload: { id } });
   }, [dispatch, id]);
 
   return (
-    <PageLayout title={id ? 'Edit Group' : 'Create Group'}>
-      <Spin spinning={loadingDetail}>
+    <Spin spinning={loading}>
+      <PageLayout title="Edit Group">
         <FormUserGroup group={group} />
-      </Spin>
-    </PageLayout>
+      </PageLayout>
+    </Spin>
   );
 };
 
-export default connect(mapStateToProps)(GroupCreateAndEdit);
+export default GroupEditPage;

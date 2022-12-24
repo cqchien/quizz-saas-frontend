@@ -146,12 +146,12 @@
       {
         path: '/groups/create',
         name: 'groups-create',
-        component: './admin/groups/groups-handling',
+        component: './admin/groups/groups-create',
       },
       {
         path: '/groups/:id/edit',
         name: 'groups-edit',
-        component: './admin/groups/groups-handling',
+        component: './admin/groups/groups-edit',
       },
       {
         redirect: '/groups/list',
