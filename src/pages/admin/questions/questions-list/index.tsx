@@ -93,12 +93,6 @@ const QuestionsList: FC<IQuestionListProps> = ({
 
   const questionTableColumns: ProColumns<API.Question>[] = [
     {
-      dataIndex: 'index',
-      key: 'index',
-      valueType: 'indexBorder',
-      width: 48,
-    },
-    {
       title: <FormattedMessage id="pages.questionsTable.column.type.typeLabel" />,
       dataIndex: 'type',
       key: 'type',
@@ -137,7 +131,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
       render: (_, record) => (
         <Space key={`tags_space_${record.id}`}>
           {(record.tags || []).map((tag) => (
-            <Tag color="cyan" key={`${tag}_${record.id}`}>
+            <Tag color="purple" key={`${tag}_${record.id}`}>
               {tag}
             </Tag>
           ))}
@@ -158,6 +152,16 @@ const QuestionsList: FC<IQuestionListProps> = ({
           }}
           disabled={true}
         />
+      ),
+    },
+    {
+      title: "Level",
+      dataIndex: 'level',
+      key: 'level',
+      filters: true,
+      onFilter: true,
+      render: (_, record) => (
+        record.level
       ),
     },
     {

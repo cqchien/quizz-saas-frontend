@@ -14,7 +14,7 @@ export default {
   'warning-color': '#DFA22F',
   'normal-color': '#d9d9d9',
   'background-color-light': '#FAFAFA',
-  'disabled-color': '#00000020',
+  'disabled-color': '#757f8f',
   'disabled-bg': '#F5F5F5',
   'highlight-color': '#EE0869',
 
@@ -155,7 +155,7 @@ export default {
   'radio-wrapper-margin-right': '8px',
 
   // Border color
-  'border-color-base': colorPalette['gray-2'], // base border outline a component
+  'border-color-base': colorPalette['gray-3'], // base border outline a component
   'border-width-base': '1px', // width of the border for a component
   'border-style-base': 'solid', // style of a components border
   'border-color-split': '@border-color-base', // split border inside a component
@@ -344,8 +344,8 @@ export default {
   'switch-min-width': '44px',
   'switch-sm-min-width': '28px',
   'switch-disabled-opacity': '1',
-  // 'switch-color': '@primary-color',
-  'switch-color': 'currentColor',
+  'switch-color': '@primary-color',
+  // 'switch-color': 'currentColor',
   'switch-bg': '@white',
   'switch-shadow-color': 'fade(#00230b, 20%)',
   'switch-padding': '2px',
@@ -389,7 +389,7 @@ export default {
   'form-item-trailing-colon': 'true',
   'form-vertical-label-padding': '0 0 8px',
   'form-vertical-label-margin': '0',
-  'form-item-label-font-size': '12px',
+  'form-item-label-font-size': '13px',
   'form-item-label-height': '16px',
   'form-item-label-colon-margin-right': '8px',
   'form-item-label-colon-margin-left': '2px',
@@ -418,7 +418,8 @@ export default {
   // ---
   'process-tail-color': '@border-color-split',
   'steps-nav-arrow-color': '@border-color-split',
-  'steps-background': '@primary-color',
+  'steps-background': '#00000020',
+  'steps-border': '#00000020',
 
   // Notification
   // ---

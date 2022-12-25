@@ -1,6 +1,7 @@
+import TrashIcon from '@/components/Icons/Trash';
 import { MAP_SCHEDULE_STATUS, SCHEDULE_STATUS } from '@/utils/constant';
 import { prepareScheduleInfo } from '@/utils/function';
-import { DeleteOutlined, EditOutlined, PlusOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import type { ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
 import { Button, Popconfirm, Tag } from 'antd';
@@ -39,12 +40,6 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
 
   const scheduleTableColumns: ProColumns<API.Schedule>[] = [
     {
-      dataIndex: 'index',
-      key: 'index',
-      valueType: 'indexBorder',
-      width: 48,
-    },
-    {
       title: <FormattedMessage id="pages.schedulesTable.column.code.codeLabel" />,
       dataIndex: 'code',
       key: 'code',
@@ -66,6 +61,11 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       dataIndex: 'endTime',
       key: 'endTime',
       valueType: 'dateTime',
+    },
+    {
+      title: 'Time',
+      dataIndex: 'time',
+      key: 'time',
     },
     {
       title: <FormattedMessage id="pages.schedulesTable.column.status.statusLabel" />,
@@ -91,35 +91,29 @@ const TemplateFormFieldSchedule: React.FC<IProps> = ({
       title: <FormattedMessage id="pages.schedulesTable.column.action.actionLabel" />,
       key: 'action',
       valueType: 'option', //TODO check condition for edit and delete schedule
-      render: (text, record) => [
-        <div key={record?.code}>
-          <Popconfirm
-            title={
-              <FormattedMessage id="pages.schedulesTable.column.action.confirmDeleteScheduleMessage" />
-            }
-            onConfirm={() => {
-              handleRemoveSchedule(record.code);
-            }}
-            okText="Yes"
-            cancelText="No"
-            disabled={record.status != SCHEDULE_STATUS.NOT_STARTED}
-          >
-            <Button key={record.code} type="link" danger icon={<DeleteOutlined />} />
-          </Popconfirm>
-          <Button
-            key={record.code}
-            type="link"
-            icon={<EditOutlined />}
-            disabled={record.status != SCHEDULE_STATUS.NOT_STARTED}
-          />
-        </div>,
-      ],
+      render: (text, record) => {
+        return (
+          <>
+            <Popconfirm
+              key={`pop_${record.code}`}
+              title={`Are you sure you want to delete ${record.code}`}
+              onConfirm={() => {
+                handleRemoveSchedule(record.code);
+              }}
+              okText="Yes"
+              cancelText="No"
+              disabled={record.status != SCHEDULE_STATUS.NOT_STARTED}
+            >
+              <Button key={`delete_${record.code}`} type="link" icon={<TrashIcon />} />
+            </Popconfirm>
+          </>
+        )
+      },
     },
   ];
 
   const handleScheduleSubmit = async (values: any) => {
     const newSchedule: API.Schedule = prepareScheduleInfo(values);
-    console.log(newSchedule);
     setScheduleList([...scheduleList, newSchedule]);
     return true;
   };

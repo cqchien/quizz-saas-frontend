@@ -92,7 +92,7 @@ export default {
   'pages.examsTable.column.action.viewExamStatistics.title': 'View exam statistics',
 
   // Create exam
-  'pages.createExam.tab.tabName.examDetails': 'Details',
+  'pages.createExam.tab.tabName.examDetails': 'Information',
   'pages.createExam.tab.tabName.examSettings': 'Settings',
   'pages.createExam.tab.tabName.examQuestions': 'Questions',
   'pages.createExam.tab.tabName.examSchedules': 'Schedules',
@@ -120,7 +120,7 @@ export default {
     'Are you sure to delete this schedule?',
 
   // User start exam
-  'pages.userExam.questionsTable.hint': 'Please select question',
+  'pages.userExam.questionsTable.hint': '',
 
   'pages.admin.subPage.title': 'This page can only be viewed by Admin',
   'pages.admin.subPage.alertMessage':

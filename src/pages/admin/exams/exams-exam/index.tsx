@@ -103,46 +103,44 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
       Swal.fire(
         result?.resultStatus == USER_EXAM_RESULT.FAILED
           ? {
-              icon: 'error',
-              title: 'Sorry, you failed',
-              text: `You have ${
-                (result?.numberOfCorrectAnswer / result?.questions.length) * 100
+            icon: 'error',
+            title: 'Sorry, you failed',
+            text: `You have ${(result?.numberOfCorrectAnswer / result?.questions.length) * 100
               }/100 point`,
-              width: 600,
-              padding: '3em',
-              timerProgressBar: true,
-              color: '#716add',
-              didClose: () => {
-                history.push('/user-exams/list');
-              },
-              background: '#fff no-repeat',
-              backdrop: `
+            width: 600,
+            padding: '3em',
+            timerProgressBar: true,
+            color: '#716add',
+            didClose: () => {
+              history.push('/user-exams/list');
+            },
+            background: '#fff no-repeat',
+            backdrop: `
                 rgba(0,0,0,0.4)
                 left top
                 no-repeat
               `,
-            }
+          }
           : {
-              icon: 'success',
-              title: 'Congratulations, you passed',
-              text: `You have ${
-                (result?.numberOfCorrectAnswer / result?.questions.length) * 100
+            icon: 'success',
+            title: 'Congratulations, you passed',
+            text: `You have ${(result?.numberOfCorrectAnswer / result?.questions.length) * 100
               }/100 point`,
-              width: 600,
-              padding: '3em',
-              timerProgressBar: true,
-              color: '#716add',
-              didClose: () => {
-                history.push('/user-exams/list');
-              },
-              background: 'rgb(255,252,243)',
-              backdrop: `
+            width: 600,
+            padding: '3em',
+            timerProgressBar: true,
+            color: '#716add',
+            didClose: () => {
+              history.push('/user-exams/list');
+            },
+            background: 'rgb(255,252,243)',
+            backdrop: `
                   rgba(0,0,123,0.4)
                    url("https://sweetalert2.github.io/images/nyan-cat.gif")
                   left top
                   no-repeat
                 `,
-            },
+          },
       );
       setIsSubmited(true);
     });
@@ -224,7 +222,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
           </Row>
         )}
       </Col>
-      <DetectComponent onSubmitExam={onSubmitExam} setIntervalId={setIntervalId} />
+      {userExam.setting?.showCam && <DetectComponent onSubmitExam={onSubmitExam} setIntervalId={setIntervalId} />}
     </Row>
   ) : (
     <></>

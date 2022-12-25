@@ -99,7 +99,7 @@ declare namespace API {
     minusScorePerQuestion: number;
     viewPassQuestion: boolean;
     viewNextQuestion: boolean;
-    showAllQuestion: boolean;
+    showCam: boolean;
     timePerQuestion: number;
     shufflingExams: number;
     hideResult: boolean;

@@ -2,7 +2,7 @@ import type { Key } from 'react';
 import React, { useEffect, useState } from 'react';
 import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
 import { ProTable } from '@ant-design/pro-components';
-import { Button, Card, Select } from 'antd';
+import { Button, Card, Select, Tag } from 'antd';
 import { connect, FormattedMessage, useIntl } from 'umi';
 import mapStateToProps from '../../questions/mapStateToProps';
 import {
@@ -13,12 +13,18 @@ import {
   MAP_QUESTION_TYPE_SHORT,
   MAP_TOPIC,
   NUMBER_OF_QUESTION_PER_PAGE,
+  PAGE_LIMIT,
   QUESTION_BANK_TYPE,
+  QUESTION_TYPE,
   QUESTION_TYPE_STRING,
   ROLES,
 } from '@/utils/constant';
 import { Editor } from '@tinymce/tinymce-react';
 import { getUser } from '@/utils/authority';
+import CustomTable from '@/components/CutomTable/CustomTable';
+import CustomSpace from '@/components/CustomSpace/CustomSpace';
+import { getUsers } from '@/services/user';
+import AntTagInput from '@/components/AntTagInput';
 
 interface IQuestionListProps {
   dispatch: any;
@@ -31,6 +37,8 @@ interface IQuestionListProps {
 type FilterParams = {
   topic?: string;
   type?: string;
+  createdBy?: string;
+  tags?: string[];
 };
 
 const mapQuestionBankTypeOptions = Object.keys(MAP_QUESTION_BANK_TYPE).map((type: string) => ({
@@ -53,13 +61,9 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
   const intl = useIntl();
   const user = getUser();
 
-  const [filterParams, setFilterParams] = useState<FilterParams>(
-    user.role !== ROLES.ADMIN
-      ? {
-          type: QUESTION_BANK_TYPE.SYSTEM,
-        }
-      : {},
-  );
+  const [filterParams, setFilterParams] = useState<FilterParams>({});
+  const [users, setUsers] = useState<any>([]);
+  const [loadingGetUser, setLoadingUsers] = useState(false);
 
   const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
     name: {
@@ -71,13 +75,6 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
   const [selectedRowKeys, setSelectedRowKeys] = useState<Key[]>([]);
 
   const questionTableColumns: ProColumns<API.Question>[] = [
-    {
-      dataIndex: 'index',
-      key: 'index',
-      valueType: 'indexBorder',
-      width: 48,
-    },
-
     {
       title: <FormattedMessage id="pages.questionsTable.column.question.questionLabel" />,
       dataIndex: 'question',
@@ -104,16 +101,38 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       valueType: 'select',
       valueEnum: {
         all: { text: 'All' },
-        [QUESTION_TYPE_STRING.MULTIPLE_CHOICE_QUESTION]: {
+        [QUESTION_TYPE.MULTIPLE_CHOICE_QUESTION]: {
           text: QUESTION_TYPE_STRING.MULTIPLE_CHOICE_QUESTION,
         },
-        [QUESTION_TYPE_STRING.FILL_IN_BLANK]: { text: QUESTION_TYPE_STRING.FILL_IN_BLANK },
-        [QUESTION_TYPE_STRING.MATCH_THE_FOLLOWING]: {
+        [QUESTION_TYPE.FILL_IN_BLANK]: { text: QUESTION_TYPE_STRING.FILL_IN_BLANK },
+        [QUESTION_TYPE.MATCH_THE_FOLLOWING]: {
           text: QUESTION_TYPE_STRING.MATCH_THE_FOLLOWING,
         },
-        [QUESTION_TYPE_STRING.ORDERING_SEQUENCE]: { text: QUESTION_TYPE_STRING.ORDERING_SEQUENCE },
+        [QUESTION_TYPE.ORDERING_SEQUENCE]: { text: QUESTION_TYPE_STRING.ORDERING_SEQUENCE },
       },
       render: (_, record) => MAP_QUESTION_TYPE_SHORT[record.type],
+    },
+    {
+      title: 'Topic',
+      key: 'topic',
+      dataIndex: 'topic',
+      render: (_, record) => MAP_TOPIC[record.topic],
+    },
+    {
+      title: "Tags",
+      dataIndex: 'tags',
+      key: 'tags',
+      filters: true,
+      onFilter: true,
+      render: (_, record) => (
+        <CustomSpace key={`tags_space_${record.id}`}>
+          {(record.tags || []).map((tag) => (
+            <Tag color="purple" key={`${tag}_${record.id}`}>
+              {tag}
+            </Tag>
+          ))}
+        </CustomSpace>
+      ),
     },
     {
       title: (
@@ -136,12 +155,56 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       },
       render: (_, record) => MAP_HEURISTIC_LEVEL[record.heuristicLevel],
     },
+
+    {
+      title: "Level",
+      dataIndex: 'level',
+      key: 'level',
+      filters: true,
+      onFilter: true,
+      render: (_, record) => (
+        record.level
+      ),
+    },
+
   ];
 
   useEffect(() => {
+    const getAllUser = async () => {
+      const response = await getUsers();
+      if (response.success) {
+        setUsers(response.data);
+      }
+      setLoadingUsers(false);
+    };
+
+    setLoadingUsers(true);
+    getAllUser();
+
+  }, []);
+
+
+  useEffect(() => {
+    let params = {
+      page: 1,
+      take: PAGE_LIMIT,
+      topic: filterParams.topic,
+      type: filterParams.type,
+      createdBy: filterParams.createdBy,
+    };
+
+    if ((filterParams.tags || []).length > 0) {
+      params = {
+        ...params,
+        tags: (filterParams.tags || []).join(','),
+      }
+    }
+
     dispatch({
       type: DISPATCH_TYPE.QUESTIONS_FETCH,
-      payload: { params: { page: 1, take: NUMBER_OF_QUESTION_PER_PAGE, ...filterParams } },
+      payload: {
+        params,
+      },
     });
   }, [dispatch, filterParams]);
 
@@ -160,74 +223,92 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
     setSelectedRowKeys([]);
   };
 
+  const getCreatedBy = () => {
+    return users.map((info: any) => ({
+      label: `${info.name} (${info.email})`,
+      value: info.id,
+    }));
+  }
+
   return (
-    <Card>
-      <ProTable<API.Question>
-        className="circlebox"
-        loading={loading}
-        dataSource={questionList}
-        search={false}
-        rowSelection={{
-          selectedRowKeys,
-          onChange: (selectedKeys) => {
-            setSelectedRowKeys(selectedKeys);
-          },
-        }}
-        headerTitle={intl.formatMessage({
-          id: 'pages.userExam.questionsTable.hint',
-        })}
-        pagination={{
-          pageSize: pagingParams ? pagingParams.pageSize : NUMBER_OF_QUESTION_PER_PAGE,
-          total: pagingParams ? pagingParams.total : 0,
-          defaultCurrent: pagingParams ? pagingParams.current : 1,
-          onChange: paginationChange,
-          showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
-        }}
-        columns={questionTableColumns}
-        options={{
-          setting: false,
-          fullScreen: false,
-          reload: false,
-          density: false,
-        }}
-        rowKey="id"
-        columnsState={{
-          value: columnsStateMap,
-          onChange: setColumnsStateMap,
-        }}
-        dateFormatter="string"
-        toolBarRender={() => [
-          user.role !== ROLES.ADMIN && (
-            <Select
-              key="typeSelector"
-              options={mapQuestionBankTypeOptions}
-              placeholder={
-                <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.questionBank.title" />
-              }
-              onChange={(value) => {
-                setFilterParams({ ...filterParams, type: value });
-              }}
-            />
-          ),
-          user.role !== ROLES.ADMIN && (
-            <Select
-              key="topicSelector"
-              options={mapTopicOptions}
-              placeholder={
-                <FormattedMessage id="component.form.createExam.questionsTab.questionsTable.filter.topic.title" />
-              }
-              allowClear
-              onChange={(value) => {
-                setFilterParams({ ...filterParams, topic: value });
-              }}
-            />
-          ),
-          <Button type="primary" key="show" onClick={handleSelectButton}>
-            Select question
-          </Button>,
-        ]}
-      />
-    </Card>
+    <ProTable<API.Question>
+      loading={loading}
+      dataSource={questionList}
+      search={false}
+      rowSelection={{
+        selectedRowKeys,
+        onChange: (selectedKeys) => {
+          setSelectedRowKeys(selectedKeys);
+        },
+      }}
+      pagination={{
+        pageSize: pagingParams ? pagingParams.pageSize : PAGE_LIMIT,
+        total: pagingParams ? pagingParams.total : 0,
+        defaultCurrent: pagingParams ? pagingParams.current : 1,
+        onChange: paginationChange,
+        showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} items`,
+      }}
+      columns={questionTableColumns}
+      options={{
+        setting: false,
+        fullScreen: false,
+        reload: false,
+        density: false,
+      }}
+      rowKey="id"
+      columnsState={{
+        value: columnsStateMap,
+        onChange: setColumnsStateMap,
+      }}
+      dateFormatter="string"
+      toolBarRender={() => [
+        (
+          <AntTagInput key='tagSelector' value={filterParams.tags || []} handleInputTags={(value: any) => {
+            setFilterParams({ ...filterParams, tags: value });
+          }} />
+        ),
+        (
+          <Select
+            style={{ width: '300px' }}
+            key="createdBySelector"
+            options={getCreatedBy()}
+            allowClear
+            loading={loadingGetUser}
+            placeholder="Created By"
+            onChange={(value) => {
+              setFilterParams({ ...filterParams, createdBy: value });
+            }}
+          />
+        ),
+        (
+          <Select
+            style={{ width: '200px' }}
+            key="typeSelector"
+            options={mapQuestionBankTypeOptions}
+            placeholder="Question bank type"
+            defaultValue='system'
+            onChange={(value) => {
+              setFilterParams({ ...filterParams, type: value });
+            }}
+          />
+        ),
+        (
+          <Select
+            style={{ width: '200px' }}
+            key="topicSelector"
+            options={mapTopicOptions}
+            placeholder="Topic"
+            allowClear
+            onChange={(value) => {
+              setFilterParams({ ...filterParams, topic: value });
+            }}
+          />
+        ),
+        <Button type="primary" key="show" onClick={handleSelectButton}>
+          Select question
+        </Button>,
+      ]}
+    />
   );
 };
 

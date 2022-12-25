@@ -2,8 +2,8 @@ export default {
   formField: {
     name: {
       name: 'name',
-      label: 'Exam title',
-      errMsg: 'Please input the title of this exam',
+      label: 'Name',
+      errMsg: 'Please input the name of this exam',
       required: true,
       placeholder: '',
     },
@@ -14,9 +14,7 @@ export default {
     },
     description: {
       name: 'description',
-      label: 'Exam description',
-      errMsg: 'Please input the description of this exam',
-      required: true,
+      label: 'Description',
       placeholder: '',
     },
 
@@ -49,9 +47,9 @@ export default {
       name: 'viewNextQuestion',
       label: 'View next question',
     },
-    showAllQuestion: {
-      name: 'showAllQuestion',
-      label: 'Show all question',
+    showCam: {
+      name: 'showCam',
+      label: 'Detect face in WebCam',
     },
     hideResult: {
       name: 'hideResult',
@@ -76,12 +74,16 @@ export default {
 
     type: {
       name: 'type',
+      label: 'Type',
     },
     questionBankType: {
       name: 'questionBankType',
     },
     code: {
       name: 'code',
+      label: 'Code',
+      required: true,
+      errMsg: 'Input the code of the exam',
     },
     defaultQuestionNumber: {
       name: 'defaultQuestionNumber',

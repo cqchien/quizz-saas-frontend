@@ -5,3 +5,9 @@ export async function getCurrentUser() {
     method: 'GET',
   });
 }
+
+export async function getUsers() {
+  return request<API.ApiResponse<API.User[]>>('/users', {
+    method: 'GET',
+  });
+}

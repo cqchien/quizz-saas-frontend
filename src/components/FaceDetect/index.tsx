@@ -118,10 +118,18 @@ const DetectComponent: React.FC<IProps> = ({ onSubmitExam, setIntervalId }) => {
   }, [videoRef]);
 
   useEffect(() => {
+    const turnOffCam = async () => {
+      const mediaStream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+      });
+      mediaStream.getTracks()[0].stop();
+    }
+
     if (numberOfTime >= limitTimeOutOfTheCam) {
       onSubmitExam();
+      turnOffCam();
     }
-  }, [numberOfTime]);
+  }, [numberOfTime, onSubmitExam]);
 
   return (
     <div

@@ -1,14 +1,12 @@
-import { PageContainer, ProCard } from '@ant-design/pro-components';
+import PageLayout from '@/layout/PageLayout';
 import React from 'react';
 import ExamForm from '../form-exam';
 
 const ExamCreationPage: React.FC = () => {
   return (
-    <PageContainer>
-      <ProCard className="circlebox customized-exam-form-button">
-        <ExamForm />
-      </ProCard>
-    </PageContainer>
+    <PageLayout title="Create Template">
+      <ExamForm />
+    </PageLayout>
   );
 };
 

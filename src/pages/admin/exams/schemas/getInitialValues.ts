@@ -15,7 +15,7 @@ const {
     percentageToPass,
     viewPassQuestion,
     viewNextQuestion,
-    showAllQuestion,
+    showCam,
     hideResult,
     type,
     questionBankType,
@@ -27,8 +27,12 @@ const {
 export function getInitialValue(objectInfo?: API.Exam) {
   const scheduleListTemp: API.Schedule[] =
     objectInfo &&
-    objectInfo[scheduleList.name].map((x: any) => {
-      return { ...x, assignedGroup: (x.assignedGroup as API.Group).id };
+    (objectInfo[scheduleList.name] || []).map((x: any) => {
+      if(x.assignedGroup) {
+        return { ...x, assignedGroup: (x.assignedGroup as API.Group).id };
+      } 
+
+      return { ...x };
     });
 
   return {
@@ -55,8 +59,8 @@ export function getInitialValue(objectInfo?: API.Exam) {
         (objectInfo && objectInfo[setting.name][viewPassQuestion.name]) || true,
       [viewNextQuestion.name]:
         (objectInfo && objectInfo[setting.name][viewNextQuestion.name]) || true,
-      [showAllQuestion.name]:
-        (objectInfo && objectInfo[setting.name][showAllQuestion.name]) || false,
+      [showCam.name]:
+        (objectInfo && objectInfo[setting.name][showCam.name]) || false,
       [hideResult.name]: (objectInfo && objectInfo[setting.name][hideResult.name]) || true,
     },
   };

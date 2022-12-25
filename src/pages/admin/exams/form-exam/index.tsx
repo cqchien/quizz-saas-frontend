@@ -30,24 +30,17 @@ const ExamForm: React.FC<IExamForm> = ({ exam }) => {
     history.push('/exams');
   };
 
-  function handleViewExam(id: string) {
-    console.log(id);
-    history.push('/exams'); //history.push(`/exams/${id}/edit`);
-  }
-
   const handleSubmit = (value: any) => {
     setLoading(true);
 
     const cb = (id: string) => {
       form.current?.resetFields();
 
-      if (exam) {
-        return handleConfirmCancel();
-      }
-      return handleViewExam(id);
+      return handleConfirmCancel();
     };
 
-    let examInfo: API.Exam = {
+
+    const examInfo: API.Exam = {
       ...value,
       defaultQuestionNumber: value.questions.length,
       questions: value.questions.map((x: API.Question) => x.id),
@@ -67,18 +60,14 @@ const ExamForm: React.FC<IExamForm> = ({ exam }) => {
       });
     }
 
-    examInfo = {
-      ...examInfo,
-      code: `EXAM${new Date().toISOString().slice(0, 19).replace(/-/g, '').replace(/:/g, '')}`,
-    };
-
-    return dispatch({
+    dispatch({
       type: DISPATCH_TYPE.EXAMS_CREATE,
       payload: { exam: examInfo, cb },
     }).then((result: any) => {
       setLoading(false);
       return result;
     });
+
   };
 
   return (
