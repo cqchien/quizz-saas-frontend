@@ -230,7 +230,7 @@ const TemplateFormFieldMultipleChoiceQuestion: React.FC<Props> = ({
           <FormattedMessage id="component.form.createQuestion.cancel" />
         </Button>
         <Button htmlType="submit" block type="primary" size="middle">
-          {initialValues ? (
+          {initialValues.question ? (
             <FormattedMessage id="component.form.createQuestion.update" />
           ) : (
             <FormattedMessage id="component.form.createQuestion.create" />
