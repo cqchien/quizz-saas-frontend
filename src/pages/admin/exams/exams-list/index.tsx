@@ -51,7 +51,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
       if (res) {
         dispatch({
           type: DISPATCH_TYPE.EXAMS_FETCH,
-          payload: { params: { page: 1, take: PAGE_LIMIT } },
+          payload: { params: { page: searchParams.page, take: PAGE_LIMIT } },
         });
       }
     });
@@ -186,9 +186,9 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
   useEffect(() => {
     dispatch({
       type: DISPATCH_TYPE.EXAMS_FETCH,
-      payload: { params: { page: 1, take: PAGE_LIMIT } },
+      payload: { params: { page: searchParams.page, take: PAGE_LIMIT } },
     });
-  }, [dispatch]);
+  }, [dispatch, searchParams.page]);
 
   useEffect(() => {
     const delayDebounceFn = setTimeout(() => {
@@ -225,7 +225,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
           <Input allowClear placeholder="Search" prefix={<SearchOutlined />} onChange={(e) => handleSearch(e)} />
         </Form.Item>,
         <Link to={'/exams/create'} key="createButton">
-          <ButtonAdd key="AddPolicy" size="middle">
+          <ButtonAdd key="addTemplate" size="middle">
             Add Template
           </ButtonAdd>
         </Link>,
