@@ -1,0 +1,92 @@
+@import '~antd/es/style/variable.less';
+
+.pageContainer {
+  margin-top: 0px !important;
+
+  :global {
+    .btn-back {
+      transform: translateY(8px);
+
+      svg {
+        &,
+        path {
+          color: @primary-color;
+          stroke: @primary-color;
+        }
+      }
+    }
+
+    .ant-page-header-heading-title {
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+
+      .ant-skeleton.ant-skeleton-element {
+        display: flex;
+      }
+
+      .sub-title {
+        line-height: 1;
+        font-size: @font-size-sm;
+        color: @text-color-secondary;
+      }
+    }
+
+    .ant-pro-page-container-warp {
+      .ant-page-header {
+        background-color: @layout-body-background;
+        margin-bottom: 24px;
+        padding-top: 0;
+        padding-bottom: 0;
+      }
+
+      .ant-page-header-heading {
+        align-items: center;
+
+        .ant-page-header-heading-left {
+          flex-grow: 1;
+          margin: 0;
+
+          .ant-page-header-heading-title {
+            font-weight: @typography-title-font-weight;
+            font-size: @heading-3-size;
+          }
+        }
+
+        .ant-page-header-heading-extra {
+          margin: 0;
+
+          .ant-space {
+            gap: 12px !important;
+          }
+
+          .ant-form-item {
+            margin-bottom: 0;
+          }
+        }
+      }
+    }
+
+    .ant-pro-page-container-children-content {
+      margin-top: 0;
+    }
+
+    .ant-pro-footer-bar {
+      border-top: var(--border-width-base) var(--border-style-base) var(--gray-2);
+      box-shadow: 0px 1px 3px rgba(16, 24, 40, 0.1), 0px 1px 2px rgba(16, 24, 40, 0.06);
+
+      .ant-pro-footer-bar-left {
+        display: none;
+        width: 0;
+      }
+
+      .ant-pro-footer-bar-right {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        width: 100%;
+        padding: var(--padding-lg);
+      }
+    }
+  }
+}

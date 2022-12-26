@@ -23,11 +23,7 @@ const SelectedQuestionsTable: React.FC<IQuestionListProps> = ({
   };
 
   return (
-    <ProCard
-      title={
-        <FormattedMessage id="component.form.createExam.questionsTab.selectedQuestions.title" />
-      }
-    >
+    <>
       {selectedQuestions.map((item) => {
         return (
           <Card key={item.id}>
@@ -54,7 +50,7 @@ const SelectedQuestionsTable: React.FC<IQuestionListProps> = ({
           </Card>
         );
       })}
-    </ProCard>
+    </>
   );
 };
 

@@ -9,27 +9,32 @@ export default {
   // Dashboard
   'menu.dashboard': 'Dashboard',
 
+  'menu.change-password': 'Change Password',
+  
   // Admin - Question Management
   'menu.questions': 'Questions',
-  'menu.questions.questions-list': 'Questions List',
+  'menu.questions.questions-list': 'All Questions',
   'menu.questions.questions-create': 'Create Question',
   'menu.questions.questions-edit': 'Edit Question',
 
   // Admin - Exam Management
-  'menu.exams': 'Exam Templates',
-  'menu.exams.exams-list': 'Exams List',
-  'menu.exams.exams-create': 'Create Exam',
-  'menu.exams.exams-edit': 'Edit Exam',
-  'menu.exams.exams-overview': 'Exam Dashboard',
+  'menu.exams': 'Templates',
+  'menu.exams.exams-list': 'All Templates',
+  'menu.exams.exams-create': 'Create Template',
+  'menu.exams.exams-edit': 'Edit Template',
+  'menu.exams.exams-overview': 'Template Dashboard',
 
   // User Exam
-  'menu.userExams': 'Your Exams',
-  'menu.userExams.user-exams-list': 'Your exams',
+  'menu.userExams': 'Exams',
+  'menu.userExams.user-exams-list': 'All Exams',
   'menu.userExams.user-exams-overview': 'Overview exam',
   'menu.userExams.exams-exam': 'Take exam',
 
   // Group
-  'menu.groups': 'Your Groups',
+  'menu.groups': 'Groups',
+  'menu.groups.groups-list': 'All Groups',
+  'menu.groups.groups-edit': 'Edit Group',
+  'menu.groups.groups-create': 'Create Group',
 
   // exception
   'menu.exception.403': '403',

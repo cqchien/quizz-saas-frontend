@@ -1,0 +1,102 @@
+export default {
+  //color blue
+  'blue-base': '#2E5BFF',
+  'blue-0': '#E0E7FF',
+  'blue-1': '#F0F5FF',
+  'blue-2': '#E6ECFF',
+  'blue-3': '#ADC6FF',
+  'blue-4': '#587CFF',
+  'blue-5': '#436BFF',
+  'blue-6': '@blue-base',
+  'blue-7': '#2952e6',
+  'blue-8': '#2549cc',
+  'blue-9': '#2040b3',
+  'blue-10': '#141736',
+  'blue-11': '#175CD3',
+  'blue-12': '#EFF8FF',
+  'blue-neon': '#02BEFE',
+
+  // color purple
+  'purple-base': '#8C54FF',
+  'purple-1': '#8C54FF1A',
+  'purple-2': '#F0EBFF',
+  'purple-3': '#F6F6FB',
+  'purple-6': '@purple-base',
+
+  // color red
+  'red-base': '#B42318',
+  'red-0': '#FEF3F2',
+  'red-1': '#FFDAD9',
+  'red-2': '#FDF2FA',
+  'red-4': '#C11574',
+  // 'red-2': '',
+  'red-3': '#FE0000',
+  // 'red-4': '',
+  // 'red-5': '',
+  'red-6': '@red-base',
+  // 'red-7': '',
+  // 'red-8': '',
+  // 'red-9': '',
+  // 'red-10': '',
+
+  // gray
+  'gray-base': '#475467',
+  'gray-0': '#F9FAFB',
+  'gray-1': '#8798AD',
+  'gray-2': '#F6F7FC',
+  'gray-5': '#667085',
+  'gray-6': '@gray-base',
+
+  // organ
+  'organ-0': '#FFA600',
+
+  // color green
+  'green-base': '#17904B',
+  'green-0': '#38CB89',
+  'green-1': '#DFF3EC',
+  'green-3': '#38CB89',
+  // 'green-5': '',
+  'gray-7': '#344054',
+  'gray-8': '#F2F4F7',
+  'green-6': '@green-base',
+
+  // Yellow
+  'yellow-base': '#A17523',
+  'yellow-1': '#FFFAEB',
+  'yellow-2': '#FFD66B',
+  'yellow-3': '#FFA600',
+  // 'yellow-4': '',
+  // 'yellow-5': '',
+  'yellow-6': '@yellow-base',
+  'yellow-7': '#A17523',
+  // 'yellow-8': '',
+  // 'yellow-9': '',
+  // 'yellow-10': '',
+
+  // alias of magenta
+  'pink-base': '#EE0869',
+  'pink-1': '#FDE7F2',
+  // 'pink-2': '',
+  'pink-3': '#EE0869',
+  // 'pink-4': '',
+  // 'pink-5': '',
+  'pink-6': '@pink-base',
+  // 'pink-7': '',
+  // 'pink-8': '',
+  // 'pink-9': '',
+  // 'pink-10': '',
+
+  //color blue
+  'orange-base': '#FF7859',
+  // 'orange-0': '#E0E7FF',
+  // 'orange-1': '#F0F5FF',
+  // 'orange-2': '#F0F3FC',
+  // 'orange-3': '#ADC6FF',
+  // 'orange-4': '#587CFF',
+  // 'orange-5': '#436BFF',
+  'orange-6': '@blue-base',
+  // 'orange-7': '#2952e6',
+  // 'orange-8': '#2549cc',
+  // 'orange-9': '#2040b3',
+  // 'orange-10': '#141736',
+};

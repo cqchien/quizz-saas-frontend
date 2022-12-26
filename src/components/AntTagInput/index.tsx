@@ -86,7 +86,7 @@ const AntTagInput: FC<IAntTagInput> = ({ value, handleInputTags }) => {
           <Tag
             className="edit-tag"
             key={tag}
-            color="magenta"
+            color="purple"
             style={{ width: 90 }}
             closable={true}
             onClose={() => handleClose(tag)}

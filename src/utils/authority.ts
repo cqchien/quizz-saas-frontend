@@ -11,5 +11,5 @@ export function setUser(user: API.User) {
 }
 
 export function getUser() {
-  return JSON.parse(localStorage.getItem('user') || '');
+  return JSON.parse(localStorage.getItem('user') as string) || {};
 }

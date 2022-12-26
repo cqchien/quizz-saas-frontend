@@ -14,6 +14,11 @@ declare namespace API {
     user: User;
   };
 
+  type GroupMember = {
+    name: string;
+    email: string;
+  }
+
   type Token = {
     expiresIn: number;
     accessToken: string;
@@ -94,7 +99,7 @@ declare namespace API {
     minusScorePerQuestion: number;
     viewPassQuestion: boolean;
     viewNextQuestion: boolean;
-    showAllQuestion: boolean;
+    showCam: boolean;
     timePerQuestion: number;
     shufflingExams: number;
     hideResult: boolean;

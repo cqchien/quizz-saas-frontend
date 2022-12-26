@@ -8,6 +8,7 @@ import {
   ProFormDigit,
   ProFormDateTimeRangePicker,
   ProFormSelect,
+  ProFormText,
 } from '@ant-design/pro-components';
 import { Form } from 'antd';
 import React from 'react';
@@ -31,14 +32,6 @@ const ModalAddSchedule: React.FC<Props> = ({
 }) => {
   const { formField } = formSchema;
 
-  const handleVisibleChange = (value: boolean) => {
-    if (value) {
-      dispatch({
-        type: DISPATCH_TYPE.GROUPS_FETCH,
-        payload: { params: {} },
-      });
-    }
-  };
 
   const groupListMap = groupList?.map((x) => {
     return { label: x.name, value: x.id };
@@ -55,8 +48,20 @@ const ModalAddSchedule: React.FC<Props> = ({
     dateRange: string[];
   }>();
 
+  const handleVisibleChange = (value: boolean) => {
+    if (value) {
+      dispatch({
+        type: DISPATCH_TYPE.GROUPS_FETCH,
+        payload: { params: {} },
+      });
+    } else {
+      formSchedule.resetFields();
+    }
+  };
+
   const disabledDate = (current: any) => {
-    return current < new Date();
+    const date = new Date();
+    return current < date.setDate(date.getDate() - 1);
   };
 
   return (
@@ -80,6 +85,18 @@ const ModalAddSchedule: React.FC<Props> = ({
       width={'500px'}
       onVisibleChange={handleVisibleChange}
     >
+      <ProFormText
+        width={'lg'}
+        name={formField.code.name}
+        label={formField.code.label}
+        placeholder={formField.code.placeholder}
+        rules={[
+          {
+            required: formField.code.required,
+            message: formField.code.errMsg,
+          },
+        ]}
+      />
       <ProFormRadio.Group
         label={formField.scheduleType.label}
         name={formField.scheduleType.name}
@@ -145,15 +162,10 @@ const ModalAddSchedule: React.FC<Props> = ({
       <ProFormSelect
         width={'lg'}
         options={groupListMap}
-        name={formField.assignedGroup.name}
-        label={formField.assignedGroup.label}
-        placeholder={formField.assignedGroup.placeholder}
-        rules={[
-          {
-            required: formField.assignedGroup.required,
-            message: formField.assignedGroup.errMsg,
-          },
-        ]}
+        allowClear
+        name={formField.assignedGroup?.name}
+        label={formField.assignedGroup?.label}
+        placeholder={formField.assignedGroup?.placeholder}
       />
     </ModalForm>
   );

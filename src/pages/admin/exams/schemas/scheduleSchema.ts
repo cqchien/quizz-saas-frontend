@@ -8,7 +8,7 @@ export default {
       errMsg: 'This field is required',
       required: true,
       placeholder: '',
-      options: [SCHEDULE_TYPE.FIXED], // 'Flexible'
+      options: [SCHEDULE_TYPE.FIXED, SCHEDULE_TYPE.FLEXIBLE], // 'Flexible'
     },
     startAt: {
       name: 'startAt',
@@ -21,7 +21,7 @@ export default {
     },
     period: {
       name: 'period',
-      label: 'Grace Period to Join (Minutes)',
+      label: 'Time (Minutes)',
       errMsg: 'This field is required',
       required: true,
       placeholder: '',
@@ -38,10 +38,17 @@ export default {
     },
     assignedGroup: {
       name: 'assignedGroup',
-      label: 'Schedule to a group',
+      label: 'Group',
+      errMsg: '',
+      required: false,
+      placeholder: '',
+    },
+    code: {
+      name: 'code',
+      label: 'Code',
       errMsg: 'This field is required',
       required: true,
-      placeholder: '',
+      placeholder: 'MIS_2022',
     },
   },
 };

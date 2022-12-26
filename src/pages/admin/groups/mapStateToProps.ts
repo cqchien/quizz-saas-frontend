@@ -8,5 +8,6 @@ export default (state: { groups: any; loading: any }) => {
   return {
     groupList: orderBy(groupList, 'createdAt', 'desc'),
     loading: loading.effects[DISPATCH_TYPE.GROUPS_FETCH],
+    loadingDelete: loading.effects[DISPATCH_TYPE.GROUPS_DELETE],
   };
 };

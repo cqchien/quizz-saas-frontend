@@ -38,12 +38,14 @@ export function prepareScheduleInfo(values: any) {
     startTime = new Date(values.dateRange[0]);
     endTime = new Date(values.dateRange[1]);
   }
+  const difference = endTime.getTime() - startTime.getTime();
+  const time = values.scheduleType === SCHEDULE_TYPE.FIXED ? Number(values.period) : Math.round(difference / 60000);
 
   return {
-    code: `ES${new Date().toISOString().slice(0, 19).replace(/-/g, '').replace(/:/g, '')}`,
+    code: `${values.code}_${new Date().toISOString().slice(11, 17).replace(/-/g, '').replace(/:/g, '')}`,
     startTime: startTime,
     endTime: endTime,
-    time: Number(values.period),
+    time,
     status: SCHEDULE_STATUS.NOT_STARTED,
     assignedGroup: values.assignedGroup,
   };

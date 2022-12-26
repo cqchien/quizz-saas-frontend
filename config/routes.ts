@@ -14,7 +14,28 @@
     component: './auth/register',
   },
   {
+    hideInMenu: true,
+    path: '/users',
+    layout: false,
+    routes: [
+      {
+        path: '/users/change-password',
+        name: 'change-password',
+        component: './admin/changePassword',
+      },
+      {
+        path: '/users',
+        redirect: '/questions/list',
+      }
+    ],
+  },
+  {
     path: '/admin',
+    redirect: '/questions/list',
+  },
+  {
+    path: '/admin',
+    hideInMenu: true,
     name: 'dashboard',
     access: 'admin, user',
     icon: 'dashboard',
@@ -115,7 +136,27 @@
     name: 'groups',
     access: 'admin, user',
     icon: 'group',
-    component: './admin/groups',
+    hideChildrenInMenu: true,
+    routes: [
+      {
+        path: '/groups/list',
+        name: 'groups-list',
+        component: './admin/groups/groups-list',
+      },
+      {
+        path: '/groups/create',
+        name: 'groups-create',
+        component: './admin/groups/groups-create',
+      },
+      {
+        path: '/groups/:id/edit',
+        name: 'groups-edit',
+        component: './admin/groups/groups-edit',
+      },
+      {
+        redirect: '/groups/list',
+      },
+    ],
   },
   {
     path: '/',

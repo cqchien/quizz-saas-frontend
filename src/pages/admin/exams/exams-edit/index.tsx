@@ -1,44 +1,33 @@
+import PageLayout from '@/layout/PageLayout';
 import { DISPATCH_TYPE } from '@/utils/constant';
-import { PageContainer, ProCard } from '@ant-design/pro-components';
-import { useMount } from 'ahooks';
-import { Spin } from 'antd';
-import { connect } from 'dva';
 import type { FC } from 'react';
+import { useEffect } from 'react';
 import ExamForm from '../form-exam';
-interface IExamUpdationPage {
-  id: string;
-  dispatch: any;
-  loadingInfo: boolean;
-  exam: API.Exam;
-}
+import { useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'umi';
 
-const ExamUpdationPage: FC<IExamUpdationPage> = ({ id, dispatch, loadingInfo, exam }) => {
-  useMount(() => {
+const ExamUpdationPage: FC = () => {
+  const { id }: { id: string } = useParams();
+  const dispatch = useDispatch();
+  const loadingInfo = useSelector((state: any) => state.loading?.effects[DISPATCH_TYPE.EXAMS_DETAILS]);
+  const exams = useSelector((state: any) => state.exams?.dictionary);
+
+  const exam = exams[id];
+
+  useEffect(() => {
     dispatch({
       type: DISPATCH_TYPE.EXAMS_DETAILS,
       payload: {
         examId: id,
       },
     });
-  });
+  }, [dispatch, id]);
 
   return (
-    <Spin spinning={loadingInfo}>
-      <PageContainer>
-        <ProCard>
-          <ExamForm exam={exam} />
-        </ProCard>
-      </PageContainer>
-    </Spin>
+    <PageLayout title="Edit Template" loading={loadingInfo}>
+      <ExamForm exam={exam} />
+    </PageLayout>
   );
 };
 
-export default connect(({ loading, exams }: any, { match }: any) => {
-  const { id } = match.params;
-  const { dictionary } = exams;
-  return {
-    id,
-    loadingInfo: loading.effects[DISPATCH_TYPE.EXAMS_DETAILS],
-    exam: dictionary[id] || {},
-  };
-})(ExamUpdationPage);
+export default ExamUpdationPage;

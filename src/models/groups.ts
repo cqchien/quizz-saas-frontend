@@ -64,7 +64,7 @@ const GroupModel: IGroupModel = {
 
     *getDetail({ payload }, { call, put }) {
       try {
-        const { groupId } = payload;
+        const { id: groupId }: { id: string } = payload;
 
         const response = yield call(getById, groupId);
 
@@ -95,11 +95,14 @@ const GroupModel: IGroupModel = {
     },
 
     *delete({ payload }, { call }) {
+      const { groupId, callback } = payload;
       try {
-        const { groupId } = payload;
-
         const response = yield call(deleteById, groupId);
         if (response.success) {
+          notification.success({
+            message: 'Delete group successfully!',
+          });
+
           return true;
         }
 
@@ -114,12 +117,15 @@ const GroupModel: IGroupModel = {
           message: 'Something went wrong',
         });
         return false;
+      } finally {
+        callback();
       }
     },
 
     *create({ payload }, { call, put }) {
+      const { group, callback } = payload;
+
       try {
-        const { group } = payload;
         const response = yield call(createGroup, group);
         if (response.success) {
           const { mapping: dic } = mapBuilder(response.data, 'id');
@@ -148,12 +154,14 @@ const GroupModel: IGroupModel = {
           message: 'Something went wrong',
         });
         return false;
+      } finally {
+        callback();
       }
     },
 
     *update({ payload }, { call, put }) {
+      const { group, groupId, callback } = payload;
       try {
-        const { group, groupId } = payload;
         const response = yield call(updateGroup, group, groupId);
         if (response.success) {
           const { mapping: dic } = mapBuilder(response.data, 'id');
@@ -182,6 +190,8 @@ const GroupModel: IGroupModel = {
           message: 'Something went wrong',
         });
         return false;
+      } finally {
+        callback();
       }
     },
   },

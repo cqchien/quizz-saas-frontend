@@ -1,4 +1,3 @@
-import Footer from '@/components/Footer';
 import { login } from '@/services/auth';
 import { setToken, setUser } from '@/utils/authority';
 import { ROLES } from '@/utils/constant';
@@ -90,95 +89,94 @@ const Login: React.FC = () => {
       {loading ? (
         <PageLoading />
       ) : (
-        <div className={styles.container}>
-          <div className={styles.content}>
-            <LoginForm
-              logo={<img alt="logo" src="/logo.svg" />}
-              title="Knowled"
-              submitter={{
-                render: (props) => {
-                  return (
-                    <Button type="primary" onClick={() => props.submit?.()} block>
-                      Login
-                    </Button>
-                  );
-                },
-              }}
-              subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
-              initialValues={{
-                autoLogin: true,
-              }}
-              actions={[
-                <FormattedMessage key="loginWith" id="pages.login.loginWith" />,
-                <GoogleCircleFilled key="GoogleCircleFilled" className={styles.icon} />,
-              ]}
-              onFinish={async (values) => {
-                await handleSubmit(values as API.LoginParams);
-              }}
-            >
-              <Tabs>
-                <Tabs.TabPane
-                  key="account"
-                  tab={intl.formatMessage({
-                    id: 'pages.login.accountLogin.tab',
-                  })}
-                />
-              </Tabs>
-              <ProFormText
-                name="email"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <UserOutlined className={styles.prefixIcon} />,
-                }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.email.placeholder',
-                })}
-                rules={[
-                  {
-                    required: true,
-                    message: <FormattedMessage id="pages.login.email.required" />,
+          <div className={styles.container}>
+            <div className={styles.content}>
+              <LoginForm
+                logo={<img alt="logo" src="/logo.svg" />}
+                title="Knowled"
+                submitter={{
+                  render: (props) => {
+                    return (
+                      <Button type="primary" onClick={() => props.submit?.()} block>
+                        Login
+                      </Button>
+                    );
                   },
-                ]}
-              />
-              <ProFormText.Password
-                name="password"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined className={styles.prefixIcon} />,
                 }}
-                placeholder={intl.formatMessage({
-                  id: 'pages.login.password.placeholder',
-                })}
-                rules={[
-                  {
-                    required: true,
-                    message: <FormattedMessage id="pages.login.password.required" />,
-                  },
+                subTitle={intl.formatMessage({ id: 'pages.layouts.userLayout.title' })}
+                initialValues={{
+                  autoLogin: true,
+                }}
+                actions={[
+                  <FormattedMessage key="loginWith" id="pages.login.loginWith" />,
+                  <GoogleCircleFilled key="GoogleCircleFilled" className={styles.icon} />,
                 ]}
-              />
-
-              <div
-                style={{
-                  marginBottom: 24,
+                onFinish={async (values) => {
+                  await handleSubmit(values as API.LoginParams);
                 }}
               >
-                <ProFormCheckbox noStyle name="autoLogin">
-                  <FormattedMessage id="pages.login.rememberMe" />
-                </ProFormCheckbox>
-                <Link
-                  to="/register"
-                  style={{
-                    float: 'right',
+                <Tabs>
+                  <Tabs.TabPane
+                    key="account"
+                    tab={intl.formatMessage({
+                      id: 'pages.login.accountLogin.tab',
+                    })}
+                  />
+                </Tabs>
+                <ProFormText
+                  name="email"
+                  fieldProps={{
+                    size: 'large',
+                    prefix: <UserOutlined className={styles.prefixIcon} />,
                   }}
-                  className="font-bold text-dark"
+                  placeholder={intl.formatMessage({
+                    id: 'pages.login.email.placeholder',
+                  })}
+                  rules={[
+                    {
+                      required: true,
+                      message: <FormattedMessage id="pages.login.email.required" />,
+                    },
+                  ]}
+                />
+                <ProFormText.Password
+                  name="password"
+                  fieldProps={{
+                    size: 'large',
+                    prefix: <LockOutlined className={styles.prefixIcon} />,
+                  }}
+                  placeholder={intl.formatMessage({
+                    id: 'pages.login.password.placeholder',
+                  })}
+                  rules={[
+                    {
+                      required: true,
+                      message: <FormattedMessage id="pages.login.password.required" />,
+                    },
+                  ]}
+                />
+
+                <div
+                  style={{
+                    marginBottom: 24,
+                  }}
                 >
-                  <FormattedMessage id="pages.login.registerAccount" />
-                </Link>
-              </div>
-            </LoginForm>
+                  <ProFormCheckbox noStyle name="autoLogin">
+                    <FormattedMessage id="pages.login.rememberMe" />
+                  </ProFormCheckbox>
+                  <Link
+                    to="/register"
+                    style={{
+                      float: 'right',
+                    }}
+                    className="font-bold text-dark"
+                  >
+                    <FormattedMessage id="pages.login.registerAccount" />
+                  </Link>
+                </div>
+              </LoginForm>
+            </div>
           </div>
-          <Footer />
-        </div>
       )}
     </>
   );
