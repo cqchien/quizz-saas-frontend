@@ -9,16 +9,15 @@ const CustomEditor: React.FC<IEditorProps> = ({ handleEditorChange, value }) => 
   const configEditor = {
     height: 300,
     menubar: true,
+    branding: false,
     selector: 'textarea#classic',
-    autosave_ask_before_unload: false,
+    autosave_ask_before_unload: true,
     powerpaste_allow_local_images: true,
     plugins: [
-      'advlist',
       'anchor',
       'autolink',
       'codesample',
       'fullscreen',
-      'help',
       'image',
       'tinydrive',
       'lists',
@@ -27,26 +26,24 @@ const CustomEditor: React.FC<IEditorProps> = ({ handleEditorChange, value }) => 
       'preview',
       'searchreplace',
       'table',
-      'template',
       'visualblocks',
       'wordcount',
     ],
     toolbar:
-      'insertfile a11ycheck undo redo | bold italic | forecolor backcolor | template codesample | alignleft aligncenter alignright alignjustify | bullist numlist | link image',
+      'bold italic | fontfamily fontsize | codesample | alignleft aligncenter alignright alignjustify | bullist numlist | image media table',
     spellchecker_dialog: true,
+    fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 30pt 36pt 48pt 60pt 72pt 96pt',
     spellchecker_ignore_list: ['Ephox', 'Moxiecode'],
-    tinydrive_token_provider: (success: (arg0: { token: string }) => void) => {
-      success({
-        token:
-          'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCIsImtpZCI6IjNiODNjZmRmYSJ9.eyJhdWQiOiI4NWQxYjQxMS0xOGM0LTRjNDMtOWQwOS0yNjcyMzQwNDQ1MmMiLCJleHAiOjE2NjI1MzUxNDgsImlhdCI6MTY2MjQ0ODc0OCwiaXNzIjoiYWNtZS5jb20iLCJzdWIiOiI5ZjZmNDZjMC1mOTA1LTQ0NDUtODdkNy0wMGM4MjgyZjFlYmEiLCJuYW1lIjoiY2hpZW4uY3ErMDBAZ2Vla3VwLnZuIn0.A1fqK2YSFp7q-hyXPbdDOINSrSOIkdk7IDedWFKrC2w',
-      });
-    },
-    content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:16px }',
-    api_key: 'mw7jdzwupqs1iw957lxumd4rv5693cwehz1e79fb3mqn3g7n',
+    tinydrive_token_provider: "https://knowled.tech/auth/jwt",
+    content_style: `
+    .mce-item-table thead tr th {
+      font-weight: unset !important;
+    }`,
   };
   return (
     /* @ts-ignore*/
     <Editor
+      apiKey='rj2relqqq3ge9tw24w0iopt22uq7xf95blew5gyx5hy5u2q0'
       value={value}
       onEditorChange={handleEditorChange}
       /* @ts-ignore*/

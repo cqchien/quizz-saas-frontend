@@ -20,7 +20,12 @@ export default {
 
     heuristicLevel: {
       name: 'heuristicLevel',
-      label: 'Level',
+      label: 'Heuristic Level',
+    },
+
+    level: {
+      name: 'level',
+      label: 'Level Of Difficult',
     },
 
     topic: {

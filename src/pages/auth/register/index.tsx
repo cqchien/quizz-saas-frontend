@@ -3,7 +3,7 @@ import { setToken } from '@/utils/authority';
 import { ROLES } from '@/utils/constant';
 import { UserOutlined, LockOutlined, MailOutlined } from '@ant-design/icons';
 import { LoginForm, PageLoading, ProFormText } from '@ant-design/pro-components';
-import { Button, Form, Checkbox, Tabs, notification } from 'antd';
+import { Button, Tabs, notification } from 'antd';
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FormattedMessage, useIntl, useModel, history } from 'umi';
@@ -12,6 +12,7 @@ import styles from '../login/index.less';
 const Register: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingRegister, setLoadingRegister] = useState<boolean>(false);
 
   const intl = useIntl();
   useEffect(() => {
@@ -35,7 +36,7 @@ const Register: React.FC = () => {
       const { redirect } = query as { redirect: string };
 
       history.push(
-        redirect || (initialState?.currentUser?.role === ROLES.ADMIN ? '/admin' : '/user'),
+        redirect || (initialState?.currentUser?.role === ROLES.ADMIN ? '/admin' : '/users'),
       );
     }
   }, [initialState, setInitialState]);
@@ -46,7 +47,11 @@ const Register: React.FC = () => {
     });
 
     try {
+      setLoadingRegister(true);
+
       const response = await register({ ...values });
+      setLoadingRegister(false);
+
       if (response.success) {
         const defaultRegisterSuccessMessage = intl.formatMessage({
           id: 'pages.register.success',
@@ -70,7 +75,7 @@ const Register: React.FC = () => {
           const { query } = history.location;
           const { redirect } = query as { redirect: string };
 
-          history.push(redirect || (user.role === ROLES.ADMIN ? '/admin' : '/user'));
+          history.push(redirect || (user.role === ROLES.ADMIN ? '/admin' : '/users'));
         }
 
         return;
@@ -100,7 +105,7 @@ const Register: React.FC = () => {
               submitter={{
                 render: (props) => {
                   return (
-                    <Button type="primary" onClick={() => props.submit?.()} block>
+                    <Button type="primary" onClick={() => props.submit?.()} block loading={loadingRegister}>
                       Sign Up
                     </Button>
                   );
@@ -206,14 +211,6 @@ const Register: React.FC = () => {
                   }),
                 ]}
               />
-              <Form.Item name="remember" valuePropName="checked">
-                <Checkbox>
-                  I agree the{' '}
-                  <a href="#pablo" className="font-bold text-dark">
-                    Terms and Conditions
-                  </a>
-                </Checkbox>
-              </Form.Item>
             </LoginForm>
           </div>
         </div>

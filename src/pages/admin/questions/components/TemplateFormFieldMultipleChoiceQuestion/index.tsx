@@ -94,7 +94,7 @@ const TemplateFormFieldMultipleChoiceQuestion: React.FC<Props> = ({
 
   return (
     <Form
-      layout="horizontal"
+      layout="vertical"
       form={formRef}
       onFinish={onSubmit}
       initialValues={initialValues}
@@ -111,44 +111,94 @@ const TemplateFormFieldMultipleChoiceQuestion: React.FC<Props> = ({
             <CustomEditor handleEditorChange={handlechangeQuestionContent} />
           </Form.Item>
         </Col>
-        <Col span={8}>
-          <Row gutter={[24, 8]}>
-            <Col span={12}>
+        <Col span={8} >
+          <Row gutter={40}>
+            <Col sm={24} lg={12}>
               <ProFormSelect
                 name={formField.heuristicLevel.name}
                 label={formField.heuristicLevel.label}
                 options={mapHeuristicLevelOptions}
               />
             </Col>
-            <Col span={12}>
+            <Col sm={24} lg={12}>
               <ProFormSelect
                 name={formField.topic.name}
                 label={formField.topic.label}
                 options={mapTopicOptions}
               />
             </Col>
-            <Col span={12}>
+          </Row>
+          <Row gutter={40}>
+            <Col sm={24} lg={12}>
               <ProFormSelect
                 name={formField.language.name}
                 label={formField.language.label}
                 options={mapLanguageOptions}
               />
             </Col>
-            <Col span={12}>
+            <Col sm={24} lg={12}>
               <ProFormSelect
                 name={formField.status.name}
                 label={formField.status.label}
                 options={mapStatusOptions}
               />
             </Col>
-            <Col span={12}>
+          </Row>
+          <Row gutter={40}>
+            <Col sm={24} lg={12}>
               <ProFormSelect
                 name={formField.mode.name}
                 label={formField.mode.label}
                 options={mapModeOptions}
               />
             </Col>
-            <Col span={24}>
+            <Col sm={24} lg={12}>
+              <ProFormSelect
+                name={formField.level.name}
+                label={formField.level.label}
+                options={[
+                  {
+                    value: 1,
+                    label: 1
+                  },
+                  {
+                    value: 2,
+                    label: 2
+                  },
+                  {
+                    value: 3,
+                    label: 3
+                  },
+                  {
+                    value: 4,
+                    label: 4
+                  },
+                  {
+                    value: 5,
+                    label: 5
+                  },
+                  {
+                    value: 6,
+                    label: 6
+                  },
+                  {
+                    value: 7,
+                    label: 7
+                  },
+                  {
+                    value: 8,
+                    label: 8
+                  },
+                  {
+                    value: 9,
+                    label: 9
+                  },
+                ]}
+              />
+            </Col>
+          </Row>
+          <Row gutter={40}>
+            <Col sm={24} lg={24}>
               <Form.Item name={formField.tags.name} label={formField.tags.label}>
                 <AntTagInput handleInputTags={handleInputTags} />
               </Form.Item>

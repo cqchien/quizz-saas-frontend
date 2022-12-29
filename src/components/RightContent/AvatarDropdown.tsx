@@ -22,12 +22,7 @@ const loginOut = async () => {
   const { redirect } = query;
   // Note: There may be security issues, please note
   if (window.location.pathname !== '/login' && !redirect) {
-    history.replace({
-      pathname: '/login',
-      search: stringify({
-        redirect: pathname + search,
-      }),
-    });
+    history.push('/login')
   }
 };
 

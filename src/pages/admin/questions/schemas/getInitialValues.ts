@@ -3,7 +3,7 @@ import { HEURISTIC_LEVEL } from '@/utils/constant';
 import questionFields from './questionSchema';
 
 const {
-  formField: { question, options, heuristicLevel, topic, status, language, mode, tags },
+  formField: { question, options, heuristicLevel, topic, status, language, mode, tags, level },
 } = questionFields;
 
 export function getInitialValue(questionInfo?: API.Question) {
@@ -16,6 +16,7 @@ export function getInitialValue(questionInfo?: API.Question) {
     [status.name]: (questionInfo && questionInfo[status.name]) || STATUS.ACTIVE,
     [language.name]: (questionInfo && questionInfo[language.name]) || LANGUAGES.ENG,
     [mode.name]: (questionInfo && questionInfo[mode.name]) || MODE.PUBLIC,
+    [level.name]: (questionInfo && questionInfo[level.name]) || 1,
     [tags.name]: (questionInfo && questionInfo[tags.name]) || [],
   };
 }

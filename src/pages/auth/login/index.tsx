@@ -1,8 +1,8 @@
 import { login } from '@/services/auth';
 import { setToken, setUser } from '@/utils/authority';
 import { ROLES } from '@/utils/constant';
-import { GoogleCircleFilled, LockOutlined, UserOutlined } from '@ant-design/icons';
-import { LoginForm, PageLoading, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
+import { LockOutlined, UserOutlined } from '@ant-design/icons';
+import { LoginForm, PageLoading, ProFormText } from '@ant-design/pro-components';
 import { Button, notification, Tabs } from 'antd';
 import React, { useEffect, useState } from 'react';
 import { FormattedMessage, history, Link, useIntl, useModel } from 'umi';
@@ -11,6 +11,7 @@ import styles from './index.less';
 const Login: React.FC = () => {
   const { initialState, setInitialState } = useModel('@@initialState');
   const [loading, setLoading] = useState<boolean>(false);
+  const [loadingLogin, setLoadingLogin] = useState<boolean>(false);
 
   const intl = useIntl();
 
@@ -35,7 +36,7 @@ const Login: React.FC = () => {
       const { redirect } = query as { redirect: string };
 
       history.push(
-        redirect || (initialState?.currentUser?.role === ROLES.ADMIN ? '/admin' : '/user'),
+        redirect || (initialState?.currentUser?.role === ROLES.ADMIN ? '/admin' : '/users'),
       );
     }
   }, [initialState, setInitialState]);
@@ -46,7 +47,11 @@ const Login: React.FC = () => {
     });
 
     try {
+      setLoadingLogin(true);
+
       const response = await login({ ...values });
+      setLoadingLogin(false);
+
       if (response.success) {
         const { token, user } = response.data;
 
@@ -69,7 +74,7 @@ const Login: React.FC = () => {
         const { query } = history.location;
         const { redirect } = query as { redirect: string };
 
-        history.push(redirect || (user.role === ROLES.ADMIN ? '/admin' : '/user'));
+        history.push(redirect || (user.role === ROLES.ADMIN ? '/admin' : '/users'));
         return;
       }
 
@@ -97,7 +102,7 @@ const Login: React.FC = () => {
                 submitter={{
                   render: (props) => {
                     return (
-                      <Button type="primary" onClick={() => props.submit?.()} block>
+                      <Button type="primary" onClick={() => props.submit?.()} block loading={loadingLogin}>
                         Login
                       </Button>
                     );
@@ -107,10 +112,6 @@ const Login: React.FC = () => {
                 initialValues={{
                   autoLogin: true,
                 }}
-                actions={[
-                  <FormattedMessage key="loginWith" id="pages.login.loginWith" />,
-                  <GoogleCircleFilled key="GoogleCircleFilled" className={styles.icon} />,
-                ]}
                 onFinish={async (values) => {
                   await handleSubmit(values as API.LoginParams);
                 }}
@@ -161,9 +162,6 @@ const Login: React.FC = () => {
                     marginBottom: 24,
                   }}
                 >
-                  <ProFormCheckbox noStyle name="autoLogin">
-                    <FormattedMessage id="pages.login.rememberMe" />
-                  </ProFormCheckbox>
                   <Link
                     to="/register"
                     style={{

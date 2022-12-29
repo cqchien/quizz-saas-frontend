@@ -84,6 +84,7 @@ const ModalAddSchedule: React.FC<Props> = ({
       modalProps={{ okText: 'Add', cancelText: 'Cancel' }}
       width={'500px'}
       onVisibleChange={handleVisibleChange}
+      layout="vertical"
     >
       <ProFormText
         width={'lg'}

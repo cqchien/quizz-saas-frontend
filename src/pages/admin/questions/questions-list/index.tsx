@@ -1,23 +1,17 @@
-import { DeleteOutlined, PlusOutlined, SearchOutlined } from '@ant-design/icons';
-import type { ColumnsState, ProColumns } from '@ant-design/pro-components';
-import { PageContainer } from '@ant-design/pro-components';
+import { SearchOutlined } from '@ant-design/icons';
 import type { FC } from 'react';
 import { useEffect } from 'react';
-import { ProTable } from '@ant-design/pro-components';
 import { Button, Divider, Form, Input, Popconfirm, Space, Tag } from 'antd';
-import { useState } from 'react';
-import { FormattedMessage, Link, useIntl } from 'umi';
+import { FormattedMessage, Link } from 'umi';
 import ImportQuestionModal from './components/ImportQuestion';
 import mapStateToProps from '../mapStateToProps';
 import { connect } from 'dva';
-import { EditTwoTone } from '@ant-design/icons';
 import {
   DISPATCH_TYPE,
   MAP_HEURISTIC_LEVEL,
   MAP_QUESTION_TYPE_SHORT,
   MAP_STATUS,
   MAP_TOPIC,
-  NUMBER_OF_QUESTION_PER_PAGE,
   PAGE_LIMIT,
   QUESTION_BANK_TYPE,
   ROLES,
@@ -45,13 +39,6 @@ const QuestionsList: FC<IQuestionListProps> = ({
   pagingParams,
   loading,
 }) => {
-  const intl = useIntl();
-  const [columnsStateMap, setColumnsStateMap] = useState<Record<string, ColumnsState>>({
-    name: {
-      show: false,
-      order: 2,
-    },
-  });
   const { query = {} } = history.location;
   const [searchParams, setSearchParams] = useUrlState({
     ...query,
@@ -68,14 +55,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
 
       payload: { params: { page: searchParams.page, take: PAGE_LIMIT, type: user.role == ROLES.ADMIN ? '' : QUESTION_BANK_TYPE.PERSONAL } },
     });
-  }, [dispatch, searchParams.page, user.role]);
-
-  // const fetchData = (params: any) => {
-  //   const user = getUser();
-  //   dispatch({
-  //     type: DISPATCH_TYPE.QUESTIONS_FETCH,
-  //   });
-  // };
+  }, [dispatch, searchParams.page]);
 
   const handleRemoveQuestion = (questionId: string) => {
     dispatch({
