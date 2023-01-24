@@ -58,9 +58,13 @@ const QuestionsList: FC<IQuestionListProps> = ({
   }, [dispatch, searchParams.page]);
 
   const handleRemoveQuestion = (questionId: string) => {
+    const cb = () => {
+      history.push('/questions/list');
+    };
+
     dispatch({
       type: DISPATCH_TYPE.QUESTIONS_DELETE,
-      payload: { questionId: questionId },
+      payload: { questionId: questionId, cb },
     })
   };
 

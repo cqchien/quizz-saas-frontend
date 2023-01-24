@@ -111,14 +111,14 @@ const QuestionModel: IQuestionModel = {
 
     *delete({ payload }, { call }) {
       try {
-        const { questionId } = payload;
+        const { questionId, cb } = payload;
 
         const response = yield call(deleteById, questionId);
         if (response.success) {
           notification.success({
             message: 'Delete question successfully',
           });
-
+          cb();
           return true;
         }
 
