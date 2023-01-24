@@ -115,6 +115,10 @@ const QuestionModel: IQuestionModel = {
 
         const response = yield call(deleteById, questionId);
         if (response.success) {
+          notification.success({
+            message: 'Delete question successfully',
+          });
+
           return true;
         }
 
@@ -138,6 +142,10 @@ const QuestionModel: IQuestionModel = {
 
         const response = yield call(importListQuestions, data);
         if (Array.isArray(response.data) && response.success) {
+          notification.success({
+            message: `Import  ${response.data?.length} questions successfully!`,
+          });
+
           cb();
           return response.data;
         }
