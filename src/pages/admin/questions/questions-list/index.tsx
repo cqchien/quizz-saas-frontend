@@ -59,7 +59,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
 
   const handleRemoveQuestion = (questionId: string) => {
     const cb = () => {
-      history.push('/questions/list');
+      history.push('/');
     };
 
     dispatch({
@@ -109,17 +109,13 @@ const QuestionsList: FC<IQuestionListProps> = ({
     const uploadedFile = data.file[0];
     const formData = new FormData();
 
-    const cb = () => {
-      history.push('/questions/list');
-    };
-
     formData.append('file', uploadedFile.originFileObj, uploadedFile.name);
 
     return dispatch({
       type: DISPATCH_TYPE.QUESTIONS_IMPORT,
       payload: {
         data: formData,
-        cb,
+        cb: () => history.push('/'),
       },
     });
   };

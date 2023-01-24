@@ -110,15 +110,14 @@ const QuestionModel: IQuestionModel = {
     },
 
     *delete({ payload }, { call }) {
+      const { questionId, cb } = payload;
       try {
-        const { questionId, cb } = payload;
 
         const response = yield call(deleteById, questionId);
         if (response.success) {
           notification.success({
             message: 'Delete question successfully',
           });
-          cb();
           return true;
         }
 
@@ -133,20 +132,20 @@ const QuestionModel: IQuestionModel = {
           message: 'Something went wrong',
         });
         return false;
+      } finally {
+        cb();
       }
     },
 
     *import({ payload }, { call }) {
+      const { data, cb } = payload;
       try {
-        const { data, cb } = payload;
-
         const response = yield call(importListQuestions, data);
         if (Array.isArray(response.data) && response.success) {
           notification.success({
             message: `Import  ${response.data?.length} questions successfully!`,
           });
 
-          cb();
           return response.data;
         }
 
@@ -162,6 +161,8 @@ const QuestionModel: IQuestionModel = {
           message: 'Something went wrong',
         });
         return false;
+      } finally {
+        cb();
       }
     },
 

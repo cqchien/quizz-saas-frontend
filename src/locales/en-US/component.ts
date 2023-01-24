@@ -22,7 +22,7 @@ export default {
   'component.examCard.buttonHint.failedExam': `You have failed this exam`,
   'component.examCard.buttonHint.passedExam': `You have passed this exam`,
   'component.examCard.buttonHint.visitExam': `Click me to do this exam !!!`,
-  'component.examCard.buttonTitle.visitExam': `VISIT EXAM`,
+  'component.examCard.buttonTitle.visitExam': `Take Exam`,
 
   // Modal add schedule
   'component.form.addSchedule.title': 'New schedule',

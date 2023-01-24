@@ -122,14 +122,14 @@ const DetectComponent: React.FC<IProps> = ({ onSubmitExam, setIntervalId }) => {
       const mediaStream = await navigator.mediaDevices.getUserMedia({
         video: true,
       });
-      mediaStream.getTracks()[0].stop();
+      mediaStream.getVideoTracks()[0].stop();
     }
 
     if (numberOfTime >= limitTimeOutOfTheCam) {
-      onSubmitExam();
       turnOffCam();
+      onSubmitExam();
     }
-  }, [numberOfTime, onSubmitExam]);
+  }, [numberOfTime]);
 
   return (
     <div

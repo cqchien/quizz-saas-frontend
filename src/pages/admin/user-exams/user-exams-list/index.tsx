@@ -79,19 +79,6 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
     return null;
   };
 
-  const handleCardOnClick = (
-    userExamStatus: string,
-    scheduleStatus: string,
-    userExamId: string,
-  ) => {
-    if (
-      scheduleStatus == SCHEDULE_STATUS.COMPLETED &&
-      userExamStatus == USER_EXAM_STATUS.SUBMITTED
-    ) {
-      history.push(`/user-exams/${userExamId}/overview`);
-    }
-  };
-
   const handleCardButtonOnClick = (
     userExamStatus: string,
     scheduleStatus: string,
@@ -102,6 +89,8 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
       userExamStatus != USER_EXAM_STATUS.SUBMITTED
     ) {
       history.push(`/user-exams/${userExamId}/take-exam`);
+    } else {
+      history.push(`/user-exams/${userExamId}/overview`);
     }
   };
 
@@ -123,9 +112,6 @@ const UserDashboard: React.FC<IProps> = ({ loading, dispatch, userExamList, pagi
                   key={x.id}
                   bordered
                   hoverable
-                  onClick={() =>
-                    handleCardOnClick(x.status, (thisSchedule as API.Schedule).status, x.id)
-                  }
                 >
                   <Space align="center" direction="vertical" style={{ display: 'flex' }}>
                     <Title level={3}>{x.name}</Title>

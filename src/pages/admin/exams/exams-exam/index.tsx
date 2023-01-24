@@ -86,16 +86,11 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
   };
 
   const onSubmitExam = () => {
-    let latestquestionAnswers;
-    setQuestionAnswers((x) => {
-      latestquestionAnswers = x;
-      return x;
-    });
     dispatch({
       type: DISPATCH_TYPE.USER_EXAMS_SUBMIT_EXAM,
       payload: {
         examSubmit: {
-          answers: latestquestionAnswers,
+          answers: questionAnswers,
         },
         userExamId: id,
       },
@@ -148,16 +143,6 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
   };
 
   const examMainContentActions = [
-    <Button
-      key="viewResult"
-      icon={<CheckOutlined />}
-      size="large"
-      onClick={() => {
-        console.log(questionAnswers);
-      }}
-    >
-      <FormattedMessage id="component.doExam.questionContentCard.action.viewResult.title" />
-    </Button>,
     <Button
       key="previousQuestion"
       icon={<ArrowLeftOutlined />}
