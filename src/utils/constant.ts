@@ -56,11 +56,13 @@ const MAP_LANGUAGES = {
 
 const STATUS = {
   ACTIVE: 'active',
+  PENDING: 'pending',
   DRAFT: 'draft',
 };
 
 const MAP_STATUS = {
   [STATUS.ACTIVE]: 'Active',
+  [STATUS.PENDING]: 'Pending',
   [STATUS.DRAFT]: 'Draft',
 };
 
@@ -104,12 +106,14 @@ const MAP_HEURISTIC_LEVEL = {
 const TOPIC = {
   MATH: 'math',
   MUSIC: 'music',
+  ENGLISH: 'english',
   OTHER: 'other',
 };
 
 const MAP_TOPIC = {
   [TOPIC.MATH]: 'Math',
   [TOPIC.MUSIC]: 'Music',
+  [TOPIC.ENGLISH]: 'English',
   [TOPIC.OTHER]: 'Other',
 };
 
