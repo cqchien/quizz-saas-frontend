@@ -33,10 +33,7 @@ const MultipleChoiceQuestionForm: FC<IMultipleChoiceQuestionForm> = ({ question 
     const cb = (id: string) => {
       form.resetFields();
 
-      if (question) {
-        return handleConfirmCancel();
-      }
-      return handleViewQuestion(id);
+      return handleConfirmCancel();
     };
 
     const questionInfo: API.Question = {

@@ -55,9 +55,9 @@ const ExamSummary: React.FC<Props> = ({
             <Space align="center" direction="vertical" style={{ display: 'flex' }}>
               <Title>
                 Result :{' '}
-                {(questionAnswers.filter((x) => x.answerValue === true).length /
+                {Math.round((questionAnswers.filter((x) => x.answerValue === true).length /
                   questionAnswers.length) *
-                  100}
+                  100)}
                 %
               </Title>
             </Space>

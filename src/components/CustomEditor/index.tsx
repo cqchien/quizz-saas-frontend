@@ -19,7 +19,6 @@ const CustomEditor: React.FC<IEditorProps> = ({ handleEditorChange, value }) => 
       'codesample',
       'fullscreen',
       'image',
-      'tinydrive',
       'lists',
       'link',
       'media',
@@ -30,11 +29,9 @@ const CustomEditor: React.FC<IEditorProps> = ({ handleEditorChange, value }) => 
       'wordcount',
     ],
     toolbar:
-      'bold italic | fontfamily fontsize | codesample | alignleft aligncenter alignright alignjustify | bullist numlist | image media table',
-    spellchecker_dialog: true,
+      'bold italic | fontfamily fontsize | codesample | alignleft aligncenter alignright alignjustify | bullist numlist | table',
     fontsize_formats: '8pt 9pt 10pt 11pt 12pt 14pt 18pt 24pt 30pt 36pt 48pt 60pt 72pt 96pt',
     spellchecker_ignore_list: ['Ephox', 'Moxiecode'],
-    tinydrive_token_provider: "https://knowled.tech/auth/jwt",
     content_style: `
     .mce-item-table thead tr th {
       font-weight: unset !important;
