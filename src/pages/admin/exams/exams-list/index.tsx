@@ -159,7 +159,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
               <Button key={`edit_${record.id}`} type="link" icon={<Edit />} />
             </Tooltip>
           </Link>
-          <Divider type="vertical" />
+          {/* <Divider type="vertical" /> */}
           {/* <Popconfirm
             key={`pop_${record.id}`}
             title={
