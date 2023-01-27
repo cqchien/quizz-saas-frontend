@@ -201,7 +201,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
           <Link to={`/questions/${record.id}/edit`} key={`link_${record.id}`}>
             <Button key={`edit_${record.id}`} type="link" icon={<Edit />} />
           </Link>
-          <Divider type="vertical" />
+          {/* <Divider type="vertical" />
           <Popconfirm
             key={`pop_${record.id}`}
             title={
@@ -214,7 +214,7 @@ const QuestionsList: FC<IQuestionListProps> = ({
             cancelText="No"
           >
             <Button key={`delete_${record.id}`} type="link" icon={<TrashIcon />} />
-          </Popconfirm>
+          </Popconfirm> */}
         </div>,
       ],
     },
