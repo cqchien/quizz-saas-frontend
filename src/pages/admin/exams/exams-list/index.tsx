@@ -160,7 +160,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
             </Tooltip>
           </Link>
           <Divider type="vertical" />
-          <Popconfirm
+          {/* <Popconfirm
             key={`pop_${record.id}`}
             title={
               <FormattedMessage id="pages.examsTable.column.action.confirmDeleteExamMessage" />
@@ -177,7 +177,7 @@ const ExamList: FC<IProps> = ({ dispatch, examList, pagingParams, loading }) => 
               <Button key={`delete_${record.id}`} type="link" icon={<TrashIcon />} />
 
             </Tooltip>
-          </Popconfirm>
+          </Popconfirm> */}
         </div>,
       ],
     },
