@@ -1,3 +1,4 @@
+import { MAP_HEURISTIC_LEVEL } from '@/utils/constant';
 import { ProCard } from '@ant-design/pro-components';
 import { Editor } from '@tinymce/tinymce-react';
 import { Row, Radio, Space, Col } from 'antd';
@@ -10,6 +11,7 @@ interface Props {
   currentIndex: number;
   proCardStyle?: any;
   proCardActions?: any;
+  showResult?: boolean;
 }
 
 const QuestionContent: React.FC<Props> = ({
@@ -19,6 +21,7 @@ const QuestionContent: React.FC<Props> = ({
   currentIndex,
   proCardStyle,
   proCardActions,
+  showResult,
 }) => {
   const [selectedValue, setSelectedValue] = useState<number | undefined>();
 
@@ -33,6 +36,10 @@ const QuestionContent: React.FC<Props> = ({
     }
   }, [currentQuestion, questionAnswers]);
 
+  const getAnswers = (question: API.Question) => {
+    return (currentQuestion?.options || []).filter((option) => option.value);
+  }
+
   return (
     <ProCard
       className="circlebox"
@@ -41,8 +48,9 @@ const QuestionContent: React.FC<Props> = ({
       title={`Question ${currentIndex + 1}`}
     >
       {currentQuestion && (
-        <Row gutter={[0, 8]}>
+        <Row>
           <Col span={24}>
+            <p>Level: <b>{MAP_HEURISTIC_LEVEL[currentQuestion.heuristicLevel]}</b></p>
             <Editor
               value={currentQuestion.question}
               init={{
@@ -70,9 +78,27 @@ const QuestionContent: React.FC<Props> = ({
               </Space>
             </Radio.Group>
           </Col>
+          {showResult && !getAnswers(currentQuestion).map(option => option.order).includes(selectedValue as number) && (
+            <Col span={24}>
+              <b>Correct Answers:</b>
+              {getAnswers(currentQuestion).map((option) => (
+                <i key={option.order}>
+                  <Editor
+                    value={option.option}
+                    init={{
+                      inline: true,
+                      readonly: true,
+                    }}
+                    disabled={true}
+                  />
+                </i>
+              ))}
+            </Col>
+          )}
         </Row>
-      )}
-    </ProCard>
+      )
+      }
+    </ProCard >
   );
 };
 

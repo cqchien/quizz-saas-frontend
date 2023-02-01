@@ -8,16 +8,10 @@ const ACCEPT_EXCEL_FILE =
 
 const QUESTION_TYPE = {
   MULTIPLE_CHOICE_QUESTION: 'multiple_choice_question',
-  FILL_IN_BLANK: 'fill_in_blank',
-  MATCH_THE_FOLLOWING: 'match_the_following',
-  ORDERING_SEQUENCE: 'ordering_sequence',
 };
 
 const QUESTION_TYPE_STRING = {
   MULTIPLE_CHOICE_QUESTION: 'Multiple Choice Question',
-  FILL_IN_BLANK: 'Fill In Blank Question',
-  MATCH_THE_FOLLOWING: 'Match The Following Question',
-  ORDERING_SEQUENCE: 'Ordering Sequence Question',
 };
 
 export const DATE_FORMAT = 'DD-MM-YYYY';
@@ -32,16 +26,10 @@ export const SORT_DIRECTIONS = { ascend: '+', descend: '-' };
 
 const MAP_QUESTION_TYPE = {
   [QUESTION_TYPE.MULTIPLE_CHOICE_QUESTION]: 'Multiple Choice Question (MCQ)',
-  [QUESTION_TYPE.FILL_IN_BLANK]: 'Fill In Blank Question (FIB)',
-  [QUESTION_TYPE.MATCH_THE_FOLLOWING]: 'Match The Following Question (MTF)',
-  [QUESTION_TYPE.ORDERING_SEQUENCE]: 'Ordering Sequence Question (ORD)',
 };
 
 const MAP_QUESTION_TYPE_SHORT = {
   [QUESTION_TYPE.MULTIPLE_CHOICE_QUESTION]: 'MCQ',
-  [QUESTION_TYPE.FILL_IN_BLANK]: 'FIB',
-  [QUESTION_TYPE.MATCH_THE_FOLLOWING]: 'MTF',
-  [QUESTION_TYPE.ORDERING_SEQUENCE]: 'ORD',
 };
 
 const LANGUAGES = {
@@ -105,26 +93,24 @@ const MAP_HEURISTIC_LEVEL = {
 
 const TOPIC = {
   MATH: 'math',
-  MUSIC: 'music',
   ENGLISH: 'english',
   OTHER: 'other',
 };
 
 const MAP_TOPIC = {
   [TOPIC.MATH]: 'Math',
-  [TOPIC.MUSIC]: 'Music',
   [TOPIC.ENGLISH]: 'English',
   [TOPIC.OTHER]: 'Other',
 };
 
 const EXAM_TYPE = {
   EXAM: 'exam',
-  QUIZZ: 'quizz',
+  QUIZ: 'quiz',
 };
 
 const MAP_EXAM_TYPE = {
   [EXAM_TYPE.EXAM]: 'Exam',
-  [EXAM_TYPE.QUIZZ]: 'Quizz',
+  [EXAM_TYPE.QUIZ]: 'Quiz',
 };
 
 const QUESTION_BANK_TYPE = {

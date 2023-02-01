@@ -100,9 +100,10 @@ const UserExamOverview: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
                   <QuestionContent
                     currentIndex={currentIndex}
                     proCardActions={examMainContentActions}
-                    proCardStyle={{ height: '400px', overflow: 'auto' }}
+                    proCardStyle={{ height: 'auto', overflow: 'auto' }}
                     currentQuestion={currentQuestion as API.Question}
                     questionAnswers={questionAnswers}
+                    showResult={!userExamResult.setting.hideResult}
                   />
                 </Col>
                 <Col span={7} className="do-exam-wrapper">
