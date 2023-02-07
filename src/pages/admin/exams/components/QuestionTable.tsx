@@ -7,6 +7,7 @@ import { connect, FormattedMessage, useIntl } from 'umi';
 import mapStateToProps from '../../questions/mapStateToProps';
 import {
   DISPATCH_TYPE,
+  HEURISTIC_LEVEL,
   HEURISTIC_LEVEL_STRING,
   MAP_HEURISTIC_LEVEL,
   MAP_QUESTION_BANK_TYPE,
@@ -96,20 +97,7 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       dataIndex: 'type',
       key: 'type',
       initialValue: 'all',
-      filters: true,
-      onFilter: true,
       valueType: 'select',
-      valueEnum: {
-        all: { text: 'All' },
-        [QUESTION_TYPE.MULTIPLE_CHOICE_QUESTION]: {
-          text: QUESTION_TYPE_STRING.MULTIPLE_CHOICE_QUESTION,
-        },
-        [QUESTION_TYPE.FILL_IN_BLANK]: { text: QUESTION_TYPE_STRING.FILL_IN_BLANK },
-        [QUESTION_TYPE.MATCH_THE_FOLLOWING]: {
-          text: QUESTION_TYPE_STRING.MATCH_THE_FOLLOWING,
-        },
-        [QUESTION_TYPE.ORDERING_SEQUENCE]: { text: QUESTION_TYPE_STRING.ORDERING_SEQUENCE },
-      },
       render: (_, record) => MAP_QUESTION_TYPE_SHORT[record.type],
     },
     {
@@ -146,12 +134,12 @@ const QuestionTable: React.FC<IQuestionListProps> = ({
       valueType: 'select',
       valueEnum: {
         all: { text: 'All' },
-        [HEURISTIC_LEVEL_STRING.KNOWLEDGE]: { text: HEURISTIC_LEVEL_STRING.KNOWLEDGE },
-        [HEURISTIC_LEVEL_STRING.COMPREHENSION]: { text: HEURISTIC_LEVEL_STRING.COMPREHENSION },
-        [HEURISTIC_LEVEL_STRING.APPLICATION]: { text: HEURISTIC_LEVEL_STRING.APPLICATION },
-        [HEURISTIC_LEVEL_STRING.ANALYSIS]: { text: HEURISTIC_LEVEL_STRING.ANALYSIS },
-        [HEURISTIC_LEVEL_STRING.SYNTHESIS]: { text: HEURISTIC_LEVEL_STRING.SYNTHESIS },
-        [HEURISTIC_LEVEL_STRING.EVALUATION]: { text: HEURISTIC_LEVEL_STRING.EVALUATION },
+        [HEURISTIC_LEVEL.KNOWLEDGE]: { text: HEURISTIC_LEVEL_STRING.KNOWLEDGE },
+        [HEURISTIC_LEVEL.COMPREHENSION]: { text: HEURISTIC_LEVEL_STRING.COMPREHENSION },
+        [HEURISTIC_LEVEL.APPLICATION]: { text: HEURISTIC_LEVEL_STRING.APPLICATION },
+        [HEURISTIC_LEVEL.ANALYSIS]: { text: HEURISTIC_LEVEL_STRING.ANALYSIS },
+        [HEURISTIC_LEVEL.SYNTHESIS]: { text: HEURISTIC_LEVEL_STRING.SYNTHESIS },
+        [HEURISTIC_LEVEL.EVALUATION]: { text: HEURISTIC_LEVEL_STRING.EVALUATION },
       },
       render: (_, record) => MAP_HEURISTIC_LEVEL[record.heuristicLevel],
     },

@@ -85,7 +85,7 @@ const ExamOverviewPage: React.FC<IProps> = ({ id, dispatch, loadingInfo }) => {
     const numberUserTake = examInfo?.userExams?.map(
       (x) => x.resultStatus in [USER_EXAM_RESULT.FAILED, USER_EXAM_RESULT.PASSED],
     );
-    const passPercentage = (numberUserPass.length / numberUserTake.length) * 100.0;
+    const passPercentage = Math.round((numberUserPass.length / numberUserTake.length)) * 100.0;
     return {
       totalQuestions: examInfo?.defaultQuestionNumber,
       totalSchedules: examInfo?.schedules.length,

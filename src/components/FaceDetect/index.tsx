@@ -2,6 +2,7 @@ import React, { useRef, useState } from 'react';
 import * as faceapi from 'face-api.js';
 import { useEffect } from 'react';
 import { notification } from 'antd';
+import './index.less';
 
 interface IProps {
   onSubmitExam: any;
@@ -118,15 +119,7 @@ const DetectComponent: React.FC<IProps> = ({ onSubmitExam, setIntervalId }) => {
   }, [videoRef]);
 
   useEffect(() => {
-    const turnOffCam = async () => {
-      const mediaStream = await navigator.mediaDevices.getUserMedia({
-        video: true,
-      });
-      mediaStream.getVideoTracks()[0].stop();
-    }
-
     if (numberOfTime >= limitTimeOutOfTheCam) {
-      turnOffCam();
       onSubmitExam();
     }
   }, [numberOfTime]);

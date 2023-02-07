@@ -17,7 +17,6 @@ import { connect, FormattedMessage, useHistory } from 'umi';
 import ExamHeading from './components/ExamHeading';
 import ExamSummary from './components/ExamSummary';
 import QuestionContent from './components/QuestionContent';
-
 interface IProps {
   id: string;
   dispatch: any;
@@ -100,7 +99,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
           ? {
             icon: 'error',
             title: 'Sorry, you failed',
-            text: `You have ${(result?.numberOfCorrectAnswer / result?.questions.length) * 100
+            text: `You have ${Math.round((result?.numberOfCorrectAnswer / result?.questions.length)) * 100
               }/100 point`,
             width: 600,
             padding: '3em',
@@ -119,7 +118,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
           : {
             icon: 'success',
             title: 'Congratulations, you passed',
-            text: `You have ${(result?.numberOfCorrectAnswer / result?.questions.length) * 100
+            text: `You have ${Math.round((result?.numberOfCorrectAnswer / result?.questions.length)) * 100
               }/100 point`,
             width: 600,
             padding: '3em',
@@ -175,7 +174,7 @@ const DoExam: React.FC<IProps> = ({ id, dispatch, userExam }) => {
               <QuestionContent
                 currentIndex={currentIndex}
                 proCardActions={examMainContentActions}
-                proCardStyle={{ height: '400px', overflow: 'auto' }}
+                proCardStyle={{ height: 'auto', overflow: 'auto' }}
                 currentQuestion={currentQuestion as API.Question}
                 onSelectOption={onSelectOption}
                 questionAnswers={questionAnswers}

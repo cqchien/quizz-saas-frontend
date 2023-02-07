@@ -56,12 +56,12 @@ export function getInitialValue(objectInfo?: API.Exam) {
       [percentageToPass.name]:
         (objectInfo && objectInfo[setting.name][percentageToPass.name]) || 50,
       [viewPassQuestion.name]:
-        (objectInfo && objectInfo[setting.name][viewPassQuestion.name]) || true,
+        (objectInfo && objectInfo[setting.name][viewPassQuestion.name]) || false,
       [viewNextQuestion.name]:
-        (objectInfo && objectInfo[setting.name][viewNextQuestion.name]) || true,
+        (objectInfo && objectInfo[setting.name][viewNextQuestion.name]) || false,
       [showCam.name]:
         (objectInfo && objectInfo[setting.name][showCam.name]) || false,
-      [hideResult.name]: (objectInfo && objectInfo[setting.name][hideResult.name]) || true,
+      [hideResult.name]: (objectInfo && objectInfo[setting.name][hideResult.name]) || false,
     },
   };
 }

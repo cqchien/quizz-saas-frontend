@@ -23,7 +23,7 @@ const ModalListUser: React.FC<IProps> = ({ isModalOpen, setIsModalOpen, userExam
       <div
         id="scrollableDiv"
         style={{
-          maxHeight: 400,
+          maxHeight: 'auto',
           overflow: 'auto',
         }}
       >
